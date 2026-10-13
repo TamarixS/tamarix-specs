@@ -1,0 +1,249 @@
+{
+  "format_version": 1,
+  "change": "t-1-container-definition",
+  "schema": "spec-driven",
+  "store": "tamarix-specs",
+  "archive_date": "2026-10-13",
+  "timezone": "Europe/Moscow",
+  "source_change_root": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/changes/t-1-container-definition",
+  "archive_root": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-13-t-1-container-definition",
+  "task_progress": {
+    "complete": 31,
+    "total": 31
+  },
+  "spec_sync": {
+    "verified": true,
+    "requirements": 29,
+    "scenarios": 91,
+    "comparison": [
+      {
+        "capability": "authorization/access-check",
+        "requirements": 11,
+        "scenarios": 39,
+        "state": "already_synced",
+        "structure": "canonical",
+        "purpose": "preserved"
+      },
+      {
+        "capability": "containers",
+        "requirements": 14,
+        "scenarios": 42,
+        "state": "already_synced",
+        "structure": "canonical",
+        "purpose": "preserved"
+      },
+      {
+        "capability": "entities/objects",
+        "requirements": 2,
+        "scenarios": 5,
+        "state": "already_synced",
+        "structure": "canonical",
+        "purpose": "preserved"
+      },
+      {
+        "capability": "entities/subjects",
+        "requirements": 2,
+        "scenarios": 5,
+        "state": "already_synced",
+        "structure": "canonical",
+        "purpose": "preserved"
+      }
+    ],
+    "main_specs_sha256": {
+      "authorization/access-check": "e77997e8c475fde6e55ba4329b1456f54f41e1f4fe3076e3138a9556fb4d28fa",
+      "containers": "c717caf71e6897121801e75ef429c1e08732d7b1b340dc83a1d84ad66cfc1ed0",
+      "entities/objects": "233ad44e8b3386c326decd4d412d094d3917cb5dc3aa2c83b08c2a1bb120ec5c",
+      "entities/subjects": "02c30c9b72a515ce9c15f7af4b3d6d5512406cda89e325b613dc716bef8ffd77"
+    }
+  },
+  "archive_files_before_link_relocation_sha256": {
+    ".DS_Store": "08293df5aff3f8b2c9fb8653976fe0a0dc85424e8da97e8e273b9b23c31c9662",
+    ".openspec.yaml": "e135a8c7343f63382dc29c9fc9c847e331b1bb798358c6bbadf0565960d37c3a",
+    "README.md": "f19c0dd131f118fe462b328dcf7e386e0c6e58f74146915a899b27b23a75bc82",
+    "design.md": "67f6d0f7bfb90b9d22589142cbd385489233a701915fd992450bbcd3f6691c6a",
+    "logical-contracts.md": "6eab4fec148525bba1b26dded6bb7ed129aff89f5c2668e03651763fdfa39a8a",
+    "proposal.md": "3f7b7541fb804e361d598c37fff9a59fee12d8cc4b7ea915749859675532212c",
+    "python-environment.md": "edaca0216650e193586b4c247b7968316d35ad703c89c85467b2e04d8ccda430",
+    "requirements.md": "3b98ae6fb58d88ef566b685b1b97b089182ca79c415e679faec6cd86f42edc17",
+    "specs/authorization/access-check/spec.md": "104bc031b30bf2b3371b6ba853c00c8c3f133d80919de7a923cc99857a7f8226",
+    "specs/containers/spec.md": "6ce33df56368acac2d1cb472abeedd793977647ae1e4a9697f16fb0383eb5a6b",
+    "specs/entities/objects/spec.md": "fe4be9ec2758d33b01cb38bfd79e24da157be7c4749e35cf7435437b8ee73687",
+    "specs/entities/subjects/spec.md": "1527f9c8af2f3d90684b6d6e34028d43af7e8bbaff2c8e80a321759930732a48",
+    "tasks.md": "8636d1c812cf9b4df3aea4e005a932b24fce7a1fbdaa747237d934a67df1b485",
+    "test-evidence.json": "4b91530b6e4ea45ddf96b63ba33b176068fca1e25ad44f0c96b55c852ef89a7e",
+    "verification-2026-10-13.md": "b6e50e22d13c9840b37de3d73a18714362b45143c469c7e5bcacad4a83e5faef",
+    "verification-evidence-2026-10-13.json": "8bfc62276bcb8fac8849fd77cf6c7a0c44348cfb5e7e0fe88e932a592466f89a",
+    "verification.md": "3cd62df5b50b6a8c07ab212663a77b258a7a410dea80fa7dc64b3be43c3d12c4"
+  },
+  "archive_files_after_link_relocation_sha256": {
+    ".DS_Store": "08293df5aff3f8b2c9fb8653976fe0a0dc85424e8da97e8e273b9b23c31c9662",
+    ".openspec.yaml": "e135a8c7343f63382dc29c9fc9c847e331b1bb798358c6bbadf0565960d37c3a",
+    "README.md": "f19c0dd131f118fe462b328dcf7e386e0c6e58f74146915a899b27b23a75bc82",
+    "design.md": "fae89ad64b8b87310adc955d1b7f82fd4583694aee4fde3a2c18539b59334c2a",
+    "logical-contracts.md": "6eab4fec148525bba1b26dded6bb7ed129aff89f5c2668e03651763fdfa39a8a",
+    "proposal.md": "282629bc433f37b0c01d257194b987d651a62a6e07275dcfaba0d2d0f8abdc3e",
+    "python-environment.md": "edaca0216650e193586b4c247b7968316d35ad703c89c85467b2e04d8ccda430",
+    "requirements.md": "3b98ae6fb58d88ef566b685b1b97b089182ca79c415e679faec6cd86f42edc17",
+    "specs/authorization/access-check/spec.md": "104bc031b30bf2b3371b6ba853c00c8c3f133d80919de7a923cc99857a7f8226",
+    "specs/containers/spec.md": "6ce33df56368acac2d1cb472abeedd793977647ae1e4a9697f16fb0383eb5a6b",
+    "specs/entities/objects/spec.md": "fe4be9ec2758d33b01cb38bfd79e24da157be7c4749e35cf7435437b8ee73687",
+    "specs/entities/subjects/spec.md": "1527f9c8af2f3d90684b6d6e34028d43af7e8bbaff2c8e80a321759930732a48",
+    "tasks.md": "73aad534ac9015a8fbed35170c70951e49a77e00e8d9ae5f6941718015b59469",
+    "test-evidence.json": "4b91530b6e4ea45ddf96b63ba33b176068fca1e25ad44f0c96b55c852ef89a7e",
+    "verification-2026-10-13.md": "b6e50e22d13c9840b37de3d73a18714362b45143c469c7e5bcacad4a83e5faef",
+    "verification-evidence-2026-10-13.json": "8bfc62276bcb8fac8849fd77cf6c7a0c44348cfb5e7e0fe88e932a592466f89a",
+    "verification.md": "3cd62df5b50b6a8c07ab212663a77b258a7a410dea80fa7dc64b3be43c3d12c4"
+  },
+  "archived_files_with_link_changes": [
+    "design.md",
+    "proposal.md",
+    "tasks.md"
+  ],
+  "documentation_changes": [
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-13-t-1-container-definition/design.md",
+      "before_sha256": "67f6d0f7bfb90b9d22589142cbd385489233a701915fd992450bbcd3f6691c6a",
+      "after_sha256": "fae89ad64b8b87310adc955d1b7f82fd4583694aee4fde3a2c18539b59334c2a",
+      "rebased_links": 12,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-13-t-1-container-definition/proposal.md",
+      "before_sha256": "3f7b7541fb804e361d598c37fff9a59fee12d8cc4b7ea915749859675532212c",
+      "after_sha256": "282629bc433f37b0c01d257194b987d651a62a6e07275dcfaba0d2d0f8abdc3e",
+      "rebased_links": 2,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-13-t-1-container-definition/tasks.md",
+      "before_sha256": "8636d1c812cf9b4df3aea4e005a932b24fce7a1fbdaa747237d934a67df1b485",
+      "after_sha256": "73aad534ac9015a8fbed35170c70951e49a77e00e8d9ae5f6941718015b59469",
+      "rebased_links": 2,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/README.md",
+      "before_sha256": "27327aad8012abb40432c6722024554e95af01832359497c363dcff0a8061d32",
+      "after_sha256": "2148df76ceff9fff1c15a7c0be932f42c3a0c7f2cf5372cbfd3b78b7dda16684",
+      "rebased_links": 6,
+      "reason": "Archive link relocation; capability status refreshed"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/adr/0001-t1-service-boundaries-and-admission.md",
+      "before_sha256": "6537c6e7807fbfe02ead179c3ed4f0d721dadd6a6713fdb5b0ff41cb13794b3e",
+      "after_sha256": "f915c90c3a8f82e664a19eef4fc3316f0a300109598025947a542f76ac3d8e80",
+      "rebased_links": 9,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/adr/0002-t1-logical-core.md",
+      "before_sha256": "542aa9200c1f6a27cb00a3a6f00563ac49c4ac1ef3f47c7edc4813b41cf6785b",
+      "after_sha256": "84bc660a9f2cc9eb3c34c917c690783f5a18d55b069f1e7d2c694e78076d9a88",
+      "rebased_links": 3,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/adr/0003-t1-python-environment-and-contracts.md",
+      "before_sha256": "1baf9c9011503146b9972ade45f4f83500f55833203a6b6ecd5a5e45b80e4c52",
+      "after_sha256": "7ee966712b191df4fb6716547e14730c4e79e721f8498d1f0e9ce0aea949f77a",
+      "rebased_links": 6,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/adr/README.md",
+      "before_sha256": "9baedc1d71406a5e9beac7ec6b1a2bf08240c43dc9eb359d2521e43365088d2c",
+      "after_sha256": "2479245a96f4b3bfd28b97eb1ce5d98abace8c18f82a88d70a06eadd1393b73d",
+      "rebased_links": 3,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/api-guidelines.md",
+      "before_sha256": "97d8811f2bc90a95baf2df3e95fedb57f01b967bc66637c7ed92150b872df4f8",
+      "after_sha256": "de8945cde5398593f83faa1165ca114897960bf17c7e1fbc56e8be87f5b12da7",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/data-architecture.md",
+      "before_sha256": "eb74e09a84188633d29925cd81d6660b29a46b4c1c331bec9dd8175ff774c5b2",
+      "after_sha256": "5ea595c331a5dac3daeeda18489cbb70bf3b3e1b85a348213dbfe4105dbac9ad",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/patterns.md",
+      "before_sha256": "dc9d4f7057ad3fe59ab6dea622e14e56f2e92c26b8b8aa4a3c0e6be7afccb557",
+      "after_sha256": "f891542858476b9b18dd3a38324d00c66f7cec2d5e15d5204bbec6d16a546cbe",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/security.md",
+      "before_sha256": "4152dc93e13ec3b610dd76b6b55b5b6a6019e97ed38f1c60bdcf04c944fdf592",
+      "after_sha256": "067b6419d258c0088af19fe389e07836f96a67af822a00d7e240fc4e8560d664",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/service-architecture.md",
+      "before_sha256": "b71b5bad9b9f584fadbc44a0002e1b6b5c5b3e01d50d4c9717661ed6f4c6f049",
+      "after_sha256": "0ca3b3c3d57d8dbd5db3d6139c553e2faa2fbf1afd4722cd90bf28595672bf2e",
+      "rebased_links": 3,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/tamarix-specs/openspec/context/technology-stack.md",
+      "before_sha256": "ee2c2347036b8db418259927c226a01627ceeaa61ff502310cf210dd8380ce44",
+      "after_sha256": "df3bd5a28e1d2d45b7e3e54cc2019b5537aae69db7d6db9eb0edb0d78c2dd74b",
+      "rebased_links": 3,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/container-adm-api/README.md",
+      "before_sha256": "85359a15c899bbad1725ebda822681119d94bff74d925859b7b4cd808a1a59cd",
+      "after_sha256": "cefd5ad2f7a04f05e502d101509d8d3d5d109164aa7dca69e6fe15baca5a913d",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/entity-subject-adm-api/README.md",
+      "before_sha256": "0653d2c3f08d72f94524132b2391893f944da8f8b17211aa4a423d302acdb817",
+      "after_sha256": "9a2bda1537673982c6f0a836b9860a22c86e60e77b76d9ed424a1bb3ca8f0c0c",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/entity-object-adm-api/README.md",
+      "before_sha256": "7e17720e3c943d5d4f92e57c7961db4b1b6d0681d502061fd077bb4d67a7ec5f",
+      "after_sha256": "0d663d0ff12cfe636d3ff55dcc45ee8b6fb66849302bcd5de2433df8794b69a7",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/policy-adm-api/README.md",
+      "before_sha256": "48ac54692b7050765f6436dd1e5233f19e94e3d7db31b6350ee10409d18c55e9",
+      "after_sha256": "250d690a29120931ee25950a87237b184e58a2099597b2ccef215588db87c163",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/Tamarix/policy-decision-api/README.md",
+      "before_sha256": "fbba5045808d1bfda59316abbbf018d091c8ee732af1bacd9b1eb7e58c61f4d9",
+      "after_sha256": "b48a81827702db4b916e713f4e2dd22ac9d13a5c1e90b5d97a743e6624c92b8d",
+      "rebased_links": 1,
+      "reason": "Archive link relocation"
+    }
+  ],
+  "link_checks": {
+    "rebased_hrefs": 58,
+    "checked_local_targets": 330,
+    "broken_targets": []
+  },
+  "preservation": {
+    "openspec_yaml_unchanged": true,
+    "historical_json_evidence_unchanged": true,
+    "git_indices_unchanged": true,
+    "code_unchanged": true
+  },
+  "evidence_note": "Verification JSON snapshots retain their recorded pre-archive paths and hashes. Archive-relative href changes in three planning documents are recorded separately here; normative requirements, tasks and historical test results are unchanged."
+}
