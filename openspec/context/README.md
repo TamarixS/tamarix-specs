@@ -25,6 +25,11 @@ SDD-разработки Tamarix. Он помогает проектироват
 - Идентификатор store: `tamarix-specs`; источник — [.openspec-store/store.yaml](../../.openspec-store/store.yaml).
 - Схема workflow: `spec-driven`; существующие пользовательские правила —
   [openspec/config.yaml](../config.yaml).
+- Пользователь 2026-10-14 принял добавление процесса отдельных integration/e2e
+  тестов в `TamarixTests` и их включения в регресс перед архивированием.
+  Размещение, traceability, evidence и границы CD определены в
+  [testing.md](testing.md) и [ADR 0004](adr/0004-testing-regression-lifecycle.md).
+  Это принятый процесс; тестовая репа, runner и CI gate ещё не реализованы.
 - Предметная область — авторизация и модели RBAC, ABAC, ReBAC. Это направление
   продукта, а не подтверждение уже реализованной поддержки всех моделей.
 - Утверждённый стек: Python, PostgreSQL, FastAPI для REST API, Pydantic,
@@ -130,6 +135,7 @@ SDD-разработки Tamarix. Он помогает проектироват
 | [data-architecture.md](data-architecture.md) | Данные, DDL, миграции, отношения, консистентность |
 | [api-guidelines.md](api-guidelines.md) | Внешние и межсервисные контракты, AuthZEN |
 | [security.md](security.md) | Авторизация, административные операции, доверие, аудит |
+| [testing.md](testing.md) | Design/tasks, integration/e2e, traceability, регресс и предметное архивирование |
 | [Реестр ADR](adr/README.md) | Любое архитектурное решение; проверять статус и область действия |
 
 OpenSpec не автозагружает произвольные файлы этого каталога. `context` и `rules`
@@ -141,7 +147,8 @@ OpenSpec не автозагружает произвольные файлы э�
 
 ## Основные TBD
 
-Pins и упаковка/runtime-среда остального стека, интеграционная тестовая среда;
+Pins и упаковка/runtime-среда остального стека, конкретная integration/e2e среда
+и реализация runner/CI gate по принятому [процессу тестирования](testing.md);
 обязанности вне T-1 и механизмы runtime-взаимодействия;
 форматы/сравнение идентификаторов, физическая модель и размещение хранилищ;
 порядок запуска Alembic-миграций в `db-control`; контракты API и профиль AuthZEN;
