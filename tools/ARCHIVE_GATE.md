@@ -32,9 +32,12 @@ base, включая Git rename и удаление только evidence. Вы�
 ```
 
 Workflow `.github/workflows/archive-evidence.yml` не запускает предметные тесты.
-Job `archive-evidence` нужно сделать обязательным для main в реальных settings
-GitHub. Наличие workflow не подтверждает доступность branch protection или
-установленный required check; состояние записывается отдельным evidence.
+Для публичного `TamarixS/tamarix-specs` job `archive-evidence` установлен как
+required check main от GitHub Actions app 15368, strict/enforce_admins включены.
+Проваленный check блокирует merge; отрицательная проверка и API-настройки — в
+[evidence T-2](../openspec/changes/t-2-e2e-tests/github-required-check-evidence.json).
+При переносе в другой remote эту policy нужно настроить и подтвердить отдельно;
+сам файл workflow не устанавливает branch protection.
 
 Изменение существующих архивов до введения evidence требует отдельного review;
 старые архивы этим внедрением не изменяются. Сам `t-2-e2e-tests` архивируется

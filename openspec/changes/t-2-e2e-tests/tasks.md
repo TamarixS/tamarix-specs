@@ -35,34 +35,35 @@
 ## 3. Начальный набор и контракт CD
 
 - [x] 3.1 `tamarix-specs`: составить test-plan начального набора по действующим specs с точными Requirement/Scenario/критериями, test ID и планируемыми node ID; проверить, что in-memory интеграция обозначена как integration, а недоступные бизнес HTTP e2e не представлены выполненными. Исторические архивы не редактировать.
-- [ ] 3.2 `TamarixTests`: реализовать выбранные межсервисные integration случаи через установленные реальные пакеты и явные тестовые адаптеры с изоляцией данных; проверить русские docstrings/description и пояснения каждого параметризованного случая, собрать node ID, запустить случаи и заменить плановые ссылки фактическими в test-plan/registry с evidence версий. Не считать это подтверждением HTTP/PKI/storage.
-- [ ] 3.3 `tamarix-specs`: получить ссылку и evidence отдельного локального change TamarixCD, предоставляющего согласованные manifest/readiness и внешний прогон runner; проверить состав версий/адресов, изоляцию и связь результата с manifest. Разработку CD runtime/CI не планировать и не выполнять в этом центральном tasks.md.
+- [x] 3.2 `TamarixTests`: реализовать выбранные межсервисные integration случаи через установленные реальные пакеты и явные тестовые адаптеры с изоляцией данных; проверить русские docstrings/description и пояснения каждого параметризованного случая, собрать node ID, запустить случаи и заменить плановые ссылки фактическими в test-plan/registry с evidence версий. Не считать это подтверждением HTTP/PKI/storage.
+- [x] 3.3 `tamarix-specs`: получить ссылку и evidence отдельного локального change TamarixCD, предоставляющего согласованные manifest/readiness и внешний прогон runner; проверить состав версий/адресов, изоляцию и связь результата с manifest. Разработку CD runtime/CI не планировать и не выполнять в этом центральном tasks.md.
 
 ## 4. Проверяемый допуск archive
 
 - [x] 4.1 `tamarix-specs`: реализовать обёртку archive, сверяющую traceability, collection, предоставленный отчёт/полный набор и revisions, зафиксированный promotion и актуальность specs; добавить тесты отказов до вызова archive при отсутствующем/неполном/выборочном отчёте или другом tests commit, отсутствия неявного запуска тестов и повторного запуска после partial promotion; проверить активность change при отказе и документировать команды.
 - [x] 4.2 `tamarix-specs`: реализовать CI-проверку commits с архивированием, сопоставляющую целевые specs, registry promotion и evidence; проверить отказ при прямом archive без evidence, устаревших hashes/revisions или незавершённых критериях, а также успешный согласованный archive.
-- [ ] 4.3 `tamarix-specs`: закрепить эту CI-проверку как обязательную в реально используемой CI/merge-политике; подтвердить блокировку принятия archive с проваленным check и записать настройки. До появления remote/CI задача остаётся открытой; YAML файл сам по себе её не закрывает.
+- [x] 4.3 `tamarix-specs`: закрепить эту CI-проверку как обязательную в реально используемой CI/merge-политике; подтвердить блокировку принятия archive с проваленным check и записать настройки. До появления remote/CI задача остаётся открытой; YAML файл сам по себе её не закрывает.
 
 ## 5. Сквозная проверка процесса
 
-- [ ] 5.1 `tamarix-specs` + `TamarixTests`: на изолированных временных репах проверить полный цикл candidate → PASS → promotion → повторный PASS окончательного tests commit → archive, отказ после promotion и безопасное продолжение, MODIFIED/RENAMED/REMOVED; сохранить manifest, команды и evidence. Это проверка tooling-процесса, не предметный HTTP e2e Tamarix.
+- [x] 5.1 `tamarix-specs` + `TamarixTests`: на изолированных временных репах проверить полный цикл candidate → PASS → promotion → повторный PASS окончательного tests commit → archive, отказ после promotion и безопасное продолжение, MODIFIED/RENAMED/REMOVED; сохранить manifest, команды и evidence. Это проверка tooling-процесса, не предметный HTTP e2e Tamarix.
 
-## Планируемые проверки процесса
+## Фактические проверки процесса
 
-Пути и имена ниже — будущие проверки инфраструктуры, сейчас файлов нет;
-при выполнении соответствующих задач заменить фактическими collected node ID.
+Пути ниже существуют; фактические collected случаи и результаты — в отчёте
+143 проверок реализации, связанном из verification/evidence. Параметризованные
+проверки содержат русские пояснения каждого различающегося входа.
 
-| Проверяемое условие | Плановый автоматизированный тест |
+| Проверяемое условие | Автоматизированный тест |
 | --- | --- |
 | Отсутствующее/пустое русское описание | `TamarixTests/tests/unit/test_registry.py::test_missing_description_rejected`, `::test_empty_description_rejected`; качество текста проверяется review |
 | Ссылки и уникальные test ID | `TamarixTests/tests/unit/test_registry.py::test_duplicate_id_rejected`, `::test_missing_node_rejected` |
 | Отсутствующий/проваленный обязательный случай | `TamarixTests/tests/unit/test_runner.py::test_required_case_must_pass` с именованными missing/fail/skip/xfail/empty случаями |
 | Отчёт любого исхода и сохранение истории | `TamarixTests/tests/unit/test_reports.py::test_run_report` с success/fail/collection-error/environment-error/cancel/incomplete случаями; `::test_repeated_run_preserves_previous_report` |
-| Archive не запускает отсутствующие тесты | `tamarix-specs/tests/test_archive_gate.py::test_missing_report_does_not_trigger_tests` |
-| Устаревшие версии/evidence | `tamarix-specs/tests/test_archive_gate.py::test_revision_mismatch_blocks_archive` |
-| Отказ до изменения specs/archive | `tamarix-specs/tests/test_archive_gate.py::test_failed_gate_preserves_active_change` |
-| Возобновление и прямой обход | `tamarix-specs/tests/test_archive_gate.py::test_resume_after_promotion`, `::test_direct_archive_without_evidence_rejected` |
+| Archive не запускает отсутствующие тесты | `tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution` |
+| Устаревшие версии/evidence | `tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate` |
+| Отказ до изменения specs/archive | `tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution` |
+| Возобновление и прямой обход | `tamarix-specs/tests/test_archive_gate.py::test_partial_operation_resumes_and_completed_is_idempotent`, `::test_direct_archive_without_evidence_is_rejected` |
 
 Unit-тесты самого runner находятся в тестовой репе; предметные unit/component
 тесты продолжают принадлежать сервисам. Бизнес e2e и соответствующие изменения

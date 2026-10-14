@@ -131,3 +131,9 @@ API/adapters/PKI/storage и реальной среды с публичными 
 Русские docstrings, описания параметров и соответствующие registry description
 проверены при реализации. Полный отчёт runner с manifest/revisions, promotion
 и прогон окончательного commit отслеживаются отдельно в tasks/verification.
+
+Окончательное состояние всех 20 случаев — `regression`, promotion commit
+`b51f49486db1a13be64f0f03a5034846f8114e61`. Реальный полный повторный
+прогон этого commit и отдельный `--regression` прогон дали 20/20 PASS;
+manifest, версии, paths и hashes — в [verification.md](verification.md) и
+[implementation-evidence.json](implementation-evidence.json).
