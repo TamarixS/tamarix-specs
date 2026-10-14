@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "repository": "TamarixS/tamarix-specs",
+  "visibility": "public",
+  "visibility_change_authorization": "Пользователь: «Сделай публичным»",
+  "initial_blocker": {
+    "visibility": "private",
+    "branch_protection_status": 403,
+    "message": "Upgrade to GitHub Pro or make this repository public to enable this feature."
+  },
+  "protection_update_status": 200,
+  "branch": "main",
+  "required_status_checks": {
+    "strict": true,
+    "checks": [
+      {
+        "context": "archive-evidence",
+        "app_id": 15368
+      }
+    ]
+  },
+  "enforce_admins": true,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
+  "implementation_pr": {
+    "url": "https://github.com/TamarixS/tamarix-specs/pull/1",
+    "tested_head": "af97e100fa1222e12279a14ced6ea63433c81fa3",
+    "check": "archive-evidence",
+    "conclusion": "success",
+    "job": "https://github.com/TamarixS/tamarix-specs/actions/runs/38585140683/job/115924989511"
+  },
+  "negative_archive_pr": {
+    "url": "https://github.com/TamarixS/tamarix-specs/pull/2",
+    "head": "3beecb87419a9e742e8b5bc6b1a5e75e9b388b84",
+    "check": "archive-evidence",
+    "conclusion": "failure",
+    "app_id": 15368,
+    "job": "https://github.com/TamarixS/tamarix-specs/actions/runs/38586525692/job/115929876958",
+    "failure_step": "Validate submitted archive evidence without running tests",
+    "gate_error": "Прямой archive без evidence: openspec/changes/archive/2026-10-14-ci-gate-rejection-fixture",
+    "gate_exit_code": 1,
+    "draft": false,
+    "mergeable": true,
+    "mergeable_state": "blocked",
+    "merged": false,
+    "merge_attempted": false,
+    "cleanup": "Closed without merge; temporary remote branch deleted"
+  },
+  "block_confirmation": "GitHub при failed required archive-evidence сообщает mergeable_state=blocked для неконфликтного, не draft PR; enforce_admins=true."
+}

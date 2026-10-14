@@ -29,7 +29,8 @@ SDD-разработки Tamarix. Он помогает проектироват
   тестов в `TamarixTests` и их включения в регресс перед архивированием.
   Размещение, traceability, evidence и границы CD определены в
   [testing.md](testing.md) и [ADR 0004](adr/0004-testing-regression-lifecycle.md).
-  Это принятый процесс; тестовая репа, runner и CI gate ещё не реализованы.
+  Реализованные runner/registry и archive gate описаны в testing.md;
+  фактические прогоны и required CI policy подтверждаются evidence T-2.
 - Предметная область — авторизация и модели RBAC, ABAC, ReBAC. Это направление
   продукта, а не подтверждение уже реализованной поддержки всех моделей.
 - Утверждённый стек: Python, PostgreSQL, FastAPI для REST API, Pydantic,
