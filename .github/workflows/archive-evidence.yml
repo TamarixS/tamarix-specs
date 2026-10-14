@@ -1,0 +1,39 @@
+name: Archive evidence
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: "Git revision до архивирования"
+        required: true
+        default: "HEAD~1"
+
+permissions:
+  contents: read
+
+jobs:
+  archive-evidence:
+    name: archive-evidence
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout store and complete history
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Prepare report validator
+        run: |
+          python3 -m venv .gate-venv
+          .gate-venv/bin/python -m pip install 'PyYAML==6.0.3'
+      - name: Validate submitted archive evidence without running tests
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || inputs.base_ref }}
+        run: |
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            BASE_SHA=$(git rev-list --max-parents=0 HEAD)
+          fi
+          .gate-venv/bin/python tools/archive_gate.py validate-archives --base "$BASE_SHA" --head HEAD
