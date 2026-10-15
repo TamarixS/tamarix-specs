@@ -1,5 +1,14 @@
 # Архитектура данных и review DDL
 
+> Актуализация 2026-10-15: T-3 реализует PostgreSQL схемы, roles/views/routines,
+> Alembic revisions 0001–0003, CAS/revision, SERIALIZABLE commands и единый
+> read-only REPEATABLE READ snapshot. Полная фактическая модель с примерами,
+> constraints/indexes/locks — в [docs/database.md](../../docs/database.md),
+> основание и scope — в [архиве T-3](../changes/archive/2026-10-15-t-3-persistent/README.md).
+> Исторические пункты ниже о ненайденном DDL и TBD физической модели относятся
+> к состоянию до T-3; их нельзя применять как утверждение об отсутствии кода.
+> Production HA/backup/SLO и persistent содержимое/refs моделей остаются открыты.
+
 Документ задает вопросы для проектирования и проверки изменений данных.
 Он не является утвержденной схемой БД; согласованные инструмент и владение
 миграциями указаны ниже.

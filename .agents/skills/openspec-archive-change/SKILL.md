@@ -1,16 +1,43 @@
 ---
 name: openspec-archive-change
 description: Archive a completed OpenSpec change in the experimental workflow. Use when the user wants to finalize and archive a change after implementation is complete. Also use when the user says "openspec archive" or "opsx archive".
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(openspec:*) Bash(python3:*) Bash(python:*)
 license: MIT
-compatibility: Requires openspec CLI.
 metadata:
+  compatibility: Requires openspec CLI and the Tamarix project Python archive gate.
   author: openspec
   version: "1.0"
   generatedBy: "1.14.1"
 ---
 
 Archive a completed change in the experimental workflow.
+
+## Tamarix project archive contract
+
+When the selected store is `tamarix-specs`, read its `AGENTS.md`,
+`docs/development.md` and `tools/ARCHIVE_GATE.md` before sync or archive.
+This project contract overrides the generic move-only archive in step 5:
+
+- Update the affected `docs/` pages from the completed implementation, review
+  all eight sections and maintain Mermaid diagrams, API/data examples and links.
+  Keep implemented facts, recommendations and TBD distinct. Do this as part of
+  the archive request without asking the user to separately request docs updates.
+- Preserve the Git baseline from before documentation edits. Prepare and complete
+  `docs-review.json` and its content snapshot using `tools/docs_check.py` as
+  described in `tools/ARCHIVE_GATE.md`. Run documentation review validation.
+  Any further change/docs edits require refreshed evidence and a new review.
+- Before the first main-spec write or move, run the project archive gate `check`
+  with the existing final regression report. Missing/stale docs or test evidence
+  blocks archive and leaves the change active. Archive never starts tests implicitly.
+- Perform archive through `tools/archive_gate.py archive` with the same selected
+  store, tests checkout, report and an operation ID. Do not use raw `mv` or direct
+  `openspec archive` as a substitute. The wrapper handles OpenSpec sync/move and
+  its verification; preserve all generic artifact, task and delta checks above it.
+- Report updated/reviewed docs, gate result and archive location. Historical
+  archives remain snapshots; do not backfill them with new documentation evidence.
+
+The detailed CLI and evidence schema live in `tools/ARCHIVE_GATE.md` in the
+selected store. Other stores continue to use the generic workflow below.
 
 **Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `schemas`, `view`). Once selected, treat `--store <id>` as sticky for the rest of the workflow. Every unscoped example of those commands below is shorthand: before running it, append the flag. For example, run `openspec status --change "<name>" --json --store "<id>"`, not the unscoped form shown below. Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
@@ -110,6 +137,10 @@ In both branches, never create the root as a side effect: do not run `openspec i
 
 4. **Assess delta spec sync state**
 
+   For `tamarix-specs`, perform the read-only assessment and record the sync
+   decision, then let the checked project wrapper perform the writes in step 5.
+   Do not separately invoke the inline sync below before the project gate.
+
    Use `artifactPaths.specs.existingOutputPaths` from status JSON as the only
    delta-spec source. If the `specs` entry is missing or
    `existingOutputPaths` is empty, proceed without a sync prompt and do not infer
@@ -167,6 +198,11 @@ In both branches, never create the root as a side effect: do not run `openspec i
    If the sync failed, or any capability does not match, report what differs and stop — do not archive. Nothing has moved and `changeRoot` is intact, so the user can fix the mismatch or re-run the sync and start the archive again.
 
 5. **Perform the archive**
+
+   For `tamarix-specs`, use the project wrapper described above and stop this
+   step after it succeeds. On a gate failure, leave the change active and report
+   the concrete failing condition. The raw filesystem instructions below apply
+   only to other stores.
 
    Create an `archive` directory under `planningHome.changesDir` if it doesn't exist:
    ```bash

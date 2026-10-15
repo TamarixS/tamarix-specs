@@ -6,8 +6,20 @@ context: |
   репозитории tamarix-specs; кодовые репозитории содержат только openspec/config.yaml
   с указателем store: tamarix-specs, без локальных openspec/specs и openspec/changes.
 
-  Каталог openspec/context/ от корня tamarix-specs предназначен для
-  пользовательской документации. OpenSpec не загружает его содержимое
+  Полное актуальное руководство проекта находится в docs/ от корня tamarix-specs:
+  README, architecture, domains, services, api, database, operations, development.
+  Оно объясняет фактическую реализацию с Mermaid-схемами. Перед каждым новым
+  archive, включая tooling/docs-only и bulk, агент MUST обновить затронутые docs,
+  проверить весь комплект и подготовить docs-review.json с baseline, SHA-256
+  change/docs и updated/reviewed с русскими причинами по каждому разделу.
+  Команды и evidence: tools/ARCHIVE_GATE.md и docs/development.md. Исполняемый
+  docs gate входит в tools/archive_gate.py и CI новых архивов. Сам openspec CLI
+  не генерирует документацию; использовать проектную обёртку до sync/move.
+  Исторические архивы не заполнять новым evidence задним числом. Тесты от archive
+  не запускать: существующий gate проверяет уже готовый regression report.
+
+  Каталог openspec/context/ от корня tamarix-specs хранит правила проектирования,
+  принятые решения и датированный контекст. OpenSpec не загружает его содержимое
   автоматически. Перед подготовкой и реализацией изменений AI-агент должен
   проверять наличие этого каталога и явно читать существующие документы,
   относящиеся к задаче. Если каталога или нужных документов нет, отметить
@@ -53,9 +65,10 @@ context: |
   включая неуспех/отмену. Archive gate проверяет отчёт и не запускает тесты неявно.
 
   Спецификации организуются по доменам и capabilities, а не по сервисам.
-  Согласованное дерево: entities/subjects, entities/objects, containers, access-model.
-  containers — capability без второго уровня; access-model пока только
-  группирующий домен без определённых capabilities. Не создавать spec.md
+  Согласованное дерево: entities/subjects, entities/objects, containers, attributes,
+  access-model/models, authorization/access-check. containers — capability без
+  второго уровня; access-model — группирующий домен, models добавлена T-3.
+  Не создавать spec.md
   для заполнения этих каталогов и не придумывать поддомены. entities — родительский домен,
   спецификации его capabilities находятся в entities/subjects и entities/objects.
   Заготовки spec.md не являются утверждёнными требованиями.
@@ -76,7 +89,10 @@ context: |
   Репозиторий db-control — единственный владелец DDL и Alembic-миграций PostgreSQL.
   Остальные сервисы не создают собственных миграций и не управляют схемой
   самостоятельно. Владельцы предметных данных, топология БД, runtime-доступ
-  и порядок исполнения миграций остаются отдельными открытыми решениями.
+  и порядок исполнения миграций вне реализованного T-3 scope остаются отдельными
+  решениями. Фактические T-3 схемы, роли, транзакции и deployment CLI описаны
+  в docs/database.md и docs/architecture.md; исторические TBD context читать
+  с учётом этого актуального среза.
 
   Постоянный архитектурно-технологический контекст находится в openspec/context/.
   Начинать с openspec/context/README.md и корневого AGENTS.md центрального store.
@@ -112,6 +128,7 @@ rules:
     - "Перед tasks.md явно прочитать openspec/context/README.md, architecture-principles.md, technology-stack.md, service-architecture.md и применимые ADR из openspec/context/adr/README.md, затем согласованный design и specs изменения."
     - "Прочитать data-architecture.md для данных/DDL/миграций, api-guidelines.md для контрактов, security.md для авторизации/доверия/аудита, patterns.md для паттернов — все в openspec/context/. Задачи, зависящие от TBD, начинать с явного принятия решения, не скрывать его в реализации."
     - "Использовать нумерованные разделы и чекбоксы - [ ]; формулировать небольшие проверяемые задачи."
+    - "Включать обновление затронутых docs/ по итоговому результату, обзор всех восьми разделов, Mermaid и docs-review.json перед archive; критерии актуальности и команды — tools/ARCHIVE_GATE.md."
     - "Указывать репозиторий каждой задачи и выполнять задачи в порядке их зависимостей."
     - "Для зависимостей предусматривать согласованное обновление pyproject.toml, uv.lock и .python-version в кодовых репозиториях, проверку uv lock --check, воспроизводимую установку uv sync --frozen и тесты; не обновлять версии автоматически из-за политики latest stable."
     - "Задачи DDL/Alembic-миграций относить к db-control; задачи других сервисов не должны создавать собственные миграции или самостоятельно управлять схемой PostgreSQL."
@@ -126,11 +143,13 @@ rules:
 operations:
   apply:
     guidance:
+      - "В ходе реализации поддерживать затронутые docs/ по фактическому коду и контрактам; сохранять Mermaid, примеры, навигацию, явные границы готовности/TBD."
       - "Для задач тестирования явно читать openspec/context/testing.md; сохранять ownership TamarixTests, сервисов, TamarixCD и db-control. Фактическое состояние runner/gate и required CI policy проверять по реализации и evidence."
       - "У каждого теста проверить русское описание: что он проверяет, ожидаемый результат и для чего применяется, включая параметризованные случаи. Техническое имя теста не заменяет описание."
       - "Выполнять тесты по явному требованию или согласованной задаче проверки и сохранять отчёт каждого прогона, включая неуспех/отмену. Не добавлять незаказанные автоматические триггеры или расписание."
   archive:
     guidance:
+      - "До sync/move каждого нового change обновить docs/ и проверить весь комплект по docs/development.md. Подготовить docs-review.json и завершить review каждого раздела; tools/docs_check.py проверяет baseline/hashes/links/Mermaid. Использовать только проектную обёртку tools/archive_gate.py; при отсутствующем/устаревшем docs evidence change остаётся активным. Для bulk повторять последовательно по каждому change, сохраняя исторические snapshots."
       - "Для предметного change явно читать openspec/context/testing.md; проверить traceability/коллекцию, новые тесты и текущий регресс, фиксированные версии и evidence, зафиксированный candidate -> regression. Использовать tools/archive_gate.py и готовый полный отчёт; обязательный CI check проверяет archive-артефакты. Не архивировать непроверенные критерии."
       - "Сохранять исходники тестов в TamarixTests, проверять актуальные specs и историю MODIFIED/RENAMED/REMOVED. Указания archive являются advisory и не исполняются самим openspec archive."
       - "До включения тестов в регресс проверить содержательные русские описания в docstrings, registry и отчётах; отсутствие описаний не считать завершённой работой."

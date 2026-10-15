@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "source": "Installed Obsidian Mermaid bundle; HTML sanitizer stub for Node-only grammar validation",
+  "results": [
+    {
+      "id": "README.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "architecture.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "architecture.md:2",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "architecture.md:3",
+      "status": "PASS",
+      "diagramType": "sequence"
+    },
+    {
+      "id": "database.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "database.md:2",
+      "status": "PASS",
+      "diagramType": "er"
+    },
+    {
+      "id": "database.md:3",
+      "status": "PASS",
+      "diagramType": "er"
+    },
+    {
+      "id": "database.md:4",
+      "status": "PASS",
+      "diagramType": "sequence"
+    },
+    {
+      "id": "development.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "domains.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "operations.md:1",
+      "status": "PASS",
+      "diagramType": "stateDiagram"
+    },
+    {
+      "id": "services.md:1",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "services.md:2",
+      "status": "PASS",
+      "diagramType": "flowchart-v2"
+    },
+    {
+      "id": "services.md:3",
+      "status": "PASS",
+      "diagramType": "sequence"
+    },
+    {
+      "id": "services.md:4",
+      "status": "PASS",
+      "diagramType": "sequence"
+    }
+  ]
+}

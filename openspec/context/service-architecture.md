@@ -1,5 +1,13 @@
 # Границы сервисов
 
+> Актуальный срез после T-3 от 2026-10-15: [docs/services.md](../../docs/services.md)
+> и [docs/architecture.md](../../docs/architecture.md). Пять пакетов имеют
+> PostgreSQL adapters; db-control — deployment CLI и единственный владелец DDL.
+> T-3 snapshot reader читает metadata, но не выполняет persistent PDP.
+> Development HTTP предоставляет только `/health`, PKI не подключена.
+> Ниже сохранены датированные решения/наблюдения T-1; их TBD хранения
+> не отменяют последующую реализацию в [архиве T-3](../changes/archive/2026-10-15-t-3-persistent/README.md).
+
 Статусы — в [README](README.md). Установлен состав сервисов и размещение
 планирования, а также единственное владение DDL/Alembic-миграциями PostgreSQL в
 `db-control`. Предметные границы T-1 приняты пользователем 2026-10-09 в

@@ -29,10 +29,11 @@ jobs:
         run: |
           python3 -m venv .gate-venv
           .gate-venv/bin/python -m pip install 'PyYAML==6.0.3'
-      - name: Validate submitted archive evidence without running tests
+      - name: Validate documentation and submitted archive evidence without running tests
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || inputs.base_ref }}
         run: |
+          .gate-venv/bin/python tools/docs_check.py check
           if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
             BASE_SHA=$(git rev-list --max-parents=0 HEAD)
           fi
