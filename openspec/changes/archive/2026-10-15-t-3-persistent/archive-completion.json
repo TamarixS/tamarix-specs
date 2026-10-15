@@ -141,5 +141,21 @@
       "registry_links": 105,
       "all_links_resolve_in_main_without_delta": true
     }
+  },
+  "related_cd_archive": "/Users/mfedotenko/Projects/TamarixS/TamarixCD/openspec/changes/archive/2026-10-15-postgresql-integration",
+  "related_cd_link_relocations": {
+    "dependency-baseline.md": [
+      {
+        "before": "../../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md",
+        "after": "../../../../../../TamarixCD/openspec/changes/archive/2026-10-15-postgresql-integration/proposal.md"
+      },
+      {
+        "before": "../../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md",
+        "after": "../../../../../../TamarixCD/openspec/changes/archive/2026-10-15-postgresql-integration/design.md"
+      }
+    ]
+  },
+  "snapshot_link_aliases": {
+    "results.json": "run-results.json"
   }
 }

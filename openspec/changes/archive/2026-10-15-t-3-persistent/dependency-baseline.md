@@ -19,8 +19,8 @@ disposable downgrade-upgrade и ограничения runtime roles прошл�
   libpq 180006; Alembic 1.20.0 в db-control. `pyproject.toml`, `uv.lock`,
   `.python-version` согласованы, прежние Python/uv/pytest pins сохранены.
 - Локальный CD change создан и реализуется по отдельному явному разрешению
-  пользователя: [postgresql-integration](../../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md),
-  [контракт executor/readiness](../../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md).
+  пользователя: [postgresql-integration](../../../../../../TamarixCD/openspec/changes/archive/2026-10-15-postgresql-integration/proposal.md),
+  [контракт executor/readiness](../../../../../../TamarixCD/openspec/changes/archive/2026-10-15-postgresql-integration/design.md).
   Его незавершённые задачи не объявляются завершёнными центральным change.
 - Реальная среда `f263aaf8dce94140aeda313a6a39437b`: отдельный Compose project
   `tamarix-pg-f263aaf8dce94140aeda313a6a39437b`, БД
