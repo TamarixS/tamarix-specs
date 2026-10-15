@@ -1,6 +1,6 @@
 # Verification — t-3-persistent
 
-**Полный candidate: 101/101 PASS. Promotion выполнен. Окончательный post-promotion прогон и archive gate ещё ожидаются.**
+**T-3 завершён: окончательный post-promotion прогон 101/101 PASS; archive gate PASS.**
 
 ## Граница foundation
 
@@ -17,7 +17,7 @@ Run ID `20261015T141541-f0b56743d607`, complete=true, FAIL/ERROR/SKIP/XFAIL/XPAS
 
 [Promotion report](/private/tmp/tamarix-t3-promotion/b8056ba31b384298ab0ee85bb0945fa9/results.json) имеет PASS/complete=true: 81 candidate переведены в regression без перемещения исходников. Tests promotion commit: `85d5b492f18b30501c42ba0915251d3c22e00eff`. Сейчас [registry.yaml](/Users/mfedotenko/Projects/TamarixS/TamarixTests/registry.yaml) содержит 101 regression case; SHA256 `064e31fcf452a9a07f98fd57c02602fd22e1f4a6b32426d604874f9bfca609a3`. Все 81 новых ID/node ID и состояния перечислены в evidence; группы: containers30, subjects12, objects8, attributes20, models6, facts5.
 
-CD change завершён 6/6; commit `1fa3c718bdbd29293eb4e7e4159ec83b653e42d7`. По handoff root центральные задачи завершены 52/54; этим обновлением tasks.md не менялся.
+CD change завершён 6/6; commit `1fa3c718bdbd29293eb4e7e4159ec83b653e42d7`. Центральные задачи реализации и проверки выполнены; состояние зафиксировано в tasks.md.
 
 ## Финальные локальные unit/component наборы
 
@@ -32,22 +32,19 @@ CD change завершён 6/6; commit `1fa3c718bdbd29293eb4e7e4159ec83b653e42d7
 | TamarixTests unit/component | 83 | [10e1b3989c344ace84f9979577609f63](/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/10e1b3989c344ace84f9979577609f63/results.json) |
 | CD tooling | 42 | [559ce1ed771e42f4aef864c381eb4baa](/private/tmp/tamarix-cd-test-runs/559ce1ed771e42f4aef864c381eb4baa/results.json) |
 
-Четыре management scope suites дают 599 PASS (198+123+116+162), PDP — 139. JSON evidence хранит точные selectors, timestamps, версии и report/summary/log/JUnit hashes. Локальные wrapper reports сами не связывают source commits; immutable source binding полного candidate фиксирует отдельный manifest. Эти результаты не объявляются проверкой ещё не выполненного post-promotion commit.
+Четыре management scope suites дают 599 PASS (198+123+116+162), PDP — 139. JSON evidence хранит точные selectors, timestamps, версии и report/summary/log/JUnit hashes. Локальные wrapper reports сами не связывают source commits; immutable source binding полного candidate фиксирует отдельный manifest. Source binding окончательного promotion commit подтверждён отдельным полным integration-прогоном ниже.
 
-## Оставшаяся проверка
+## Окончательная проверка после promotion
 
-Нужен новый полный run `--change t-3-persistent` с final manifest окончательного Tests promotion commit и нового store checkpoint; старый candidate report не подтверждает изменившийся registry hash. Final report и gate result пока null/NOT_RUN в evidence. Archive-ready=false.
+[Итоговый отчёт 101/101 PASS](/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/results.json) · [русская сводка](/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/summary.md) · [manifest](/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/manifest.json) · [JUnit](/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/junit.xml).
 
-Из TamarixTests после подготовки final manifest:
+Run ID `20261015T142314-ee85d1c224a3`, complete=true, errors=[], все 101 requested/collected/executed IDs совпадают, FAIL/ERROR/SKIP/XFAIL/XPASS/NOT_RUN=0.
+Tests commit `85d5b492f18b30501c42ba0915251d3c22e00eff`; tested store commit `8b3066d6e604e4670b9fc5dda46ded3fc2b63514`. Последующие изменения store касаются только tasks/evidence; основные и delta specs не изменялись.
+Results SHA256 `d9f83196ed2140d6ccae53f94e6ce05c5785cd6d31a68eff91929e866bee268c`.
+Manifest SHA256 `ea0580d0db13f9187bebec24e0b2c1ae6b7fc37bda0be9f2dbc4f722053a95d7`.
 
-```sh
-.venv/bin/python -m tamarix_tests run --store ../Tamarix/tamarix-specs --manifest "$TAMARIX_FINAL_MANIFEST" --change t-3-persistent --output-dir reports --junit
-```
+Полная команда CD совпадает с candidate run, но output-dir — `/private/tmp/tamarix-t3-final-runs`; manifest создан заново из чистых окончательных commits. PostgreSQL 18.6, head `20261015_0003`, версия Python 3.15.0, image digest и migration resource fingerprint повторно проверены producer/consumer. Все 81 новых случая и 20 T-2 regression имеют PASS.
 
-Затем из tamarix-specs:
+[Archive gate check](archive-gate-check.json) вернул PASS для этого окончательного отчёта. Gate не запускает тесты: он проверил hashes, полноту набора, promoted registry, source revisions и criterion links. Все commits локальные; изменения не отправлены в remote.
 
-```sh
-../../TamarixTests/.venv/bin/python tools/archive_gate.py check --tests ../../TamarixTests --change t-3-persistent --report "$TAMARIX_FINAL_REPORT"
-```
-
-Gate не запускает тесты и не читает этот supplemental evidence.json: он проверяет финальные results/manifest/summary, hashes, весь набор, promoted registry, source revisions и criterion links. Только отдельная archive операция создаёт regression-evidence.json с schema_version/operation_id/change/run_id/report_sha256/registry_sha256/tested_store_commit. Подготовка документа не запускала tests, gate или archive.
+T-3 и локальный CD change готовы к отдельному review/archive. Архивирование этой реализацией не выполнялось; gate-generated `regression-evidence.json` создаёт только отдельная archive операция. Предыдущие неуспешные отчёты сохранены. Одноразовая CD PostgreSQL среда оставлена доступной для воспроизведения; отдельные case DB очищены fixtures.
