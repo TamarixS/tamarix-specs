@@ -12,9 +12,8 @@
 не создаёт временные reference tables, payload или тестовый evaluator для
 имитации завершённого PDP. Область исходных 36 требований разобрана в разделе 12.
 
-Пути файлов тестов и pytest node IDs ниже **планируемые**, а не существующие
-или прошедшие проверки. Перед закрытием задач их нужно подтвердить фактической
-коллекцией. Все test ID из раздела 13 стабильны: добавление или перестановка
+Пути файлов и pytest node IDs раздела 13 подтверждены фактической коллекцией
+и полным integration-прогоном 101/101 PASS; конкретные отчёты приведены ниже. Все test ID из раздела 13 стабильны: добавление или перестановка
 сценариев не разрешает перенумеровывать существующие ID.
 
 ## 1. Принятие технического решения и контрактов
@@ -37,28 +36,28 @@
 
 - [x] 3.1 [db-control; зависимость: 1.2, 2.2] Добавить ограничения parent/type, частичные root/sibling CI unique indexes, ASCII key checks, запрет изменения ID/type/parent и parent RESTRICT; full path не хранить. Проверка: tests/component/test_containers.py проверяет матрицу типов, независимые корни, длины 1/255/0/256, одинаковый key разных типов, регистровый дубль и обход прямым SQL.
 - [x] 3.2 [container-adm-api; зависимость: 1.2, 3.1] Реализовать локальный type-aware адрес и PostgreSQL tree adapter: повторённые JSON member names выявляются до mapping, порядок членов несущественен, существующий уровень нельзя пропустить; rename сохраняет ID и меняет вычисляемые адреса потомков. Проверка: tests/test_t1_keys.py и новые tests/component/test_persistence_containers.py покрывают новый контракт и структурное отношение предка без key-only индекса.
-- [ ] 3.3 [пять сервисов + TamarixTests; зависимость: 3.2] Согласованно обновить локальные consumer DTO/test adapters старого tuple-only адреса, сохраняя source ownership, complete/unknown и отсутствие общего пакета внутренних типов. Проверка: контрактные тесты пяти пакетов и прежние T-2 tests используют новый адрес без склейки типов/деревьев; migration notes описывают breaking переход.
-- [ ] 3.4 [TamarixTests; зависимость: 2.4–2.5, 3.1–3.3] Реализовать tests/integration/persistence/test_containers.py::test_contract[c01]…[c14], [c22], [c23], зарегистрировать persistent-containers-c01…c14/c22/c23 как candidate и выполнить этот набор по согласованной apply-задаче. Проверка: реальные DB constraints и adapter сохраняют все критерии раздела 13.1; регистрация содержит точные links и русские описания; отчёт не заявляет HTTP/PKI.
+- [x] 3.3 [пять сервисов + TamarixTests; зависимость: 3.2] Согласованно обновить локальные consumer DTO/test adapters старого tuple-only адреса, сохраняя source ownership, complete/unknown и отсутствие общего пакета внутренних типов. Проверка: контрактные тесты пяти пакетов и прежние T-2 tests используют новый адрес без склейки типов/деревьев; migration notes описывают breaking переход.
+- [x] 3.4 [TamarixTests; зависимость: 2.4–2.5, 3.1–3.3] Реализовать tests/integration/persistence/test_containers.py::test_contract[c01]…[c14], [c22], [c23], зарегистрировать persistent-containers-c01…c14/c22/c23 как candidate и выполнить этот набор по согласованной apply-задаче. Проверка: реальные DB constraints и adapter сохраняют все критерии раздела 13.1; регистрация содержит точные links и русские описания; отчёт не заявляет HTTP/PKI.
 
 ## 4. Каталог типов и идентичность субъектов
 
 - [x] 4.1 [db-control; зависимость: 1.1, 2.2, 3.1] Добавить глобальный каталог subject types и ограниченные registration routines; обеспечить key 1–512 ASCII CI/immutable и FK subject type. Проверка: tests/component/test_subjects.py проверяет границы, неизвестный тип, дубль/rename и отказ предметной роли без глобального полномочия.
 - [x] 4.2 [db-control; зависимость: 4.1] Обеспечить subject identity по всей тройке holder/type/key, включая tombstones; запретить изменение ID/holder/type/key, точное Unicode равенство и согласованный control-character validator. Проверка: component tests проверяют различие типов/держателей, регистра/Unicode/пробелов, длины 1/512/0/513 и невозможность обхода identity прямым SQL.
 - [x] 4.3 [entity-subject-adm-api; зависимость: 1.2, 4.2] Добавить PostgreSQL adapter и локальные команды субъектов, разделить активный и административный lookup, подготовить restore прежней записи без нового ID; не переносить name/description в JSONB content. Проверка: unit/component тесты repository и документация команд подтверждают identity/status mapping и один владеющий transaction boundary.
-- [ ] 4.4 [TamarixTests; зависимость: 2.4–2.5, 4.1–4.3] Реализовать test_subjects.py::test_contract[c01]…[c05] в постоянном persistence каталоге, зарегистрировать соответствующие persistent-subjects-* candidate и выполнить набор. Проверка: зарегистрированный/неизвестный тип, полномочия каталога и точная тройка проверены через реальные роли/адаптеры, links соответствуют разделу 13.2; c06 с восстановлением tombstone выполняется в 9.5 после реализации lifecycle.
+- [x] 4.4 [TamarixTests; зависимость: 2.4–2.5, 4.1–4.3] Реализовать test_subjects.py::test_contract[c01]…[c05] в постоянном persistence каталоге, зарегистрировать соответствующие persistent-subjects-* candidate и выполнить набор. Проверка: зарегистрированный/неизвестный тип, полномочия каталога и точная тройка проверены через реальные роли/адаптеры, links соответствуют разделу 13.2; c06 с восстановлением tombstone выполняется в 9.5 после реализации lifecycle.
 
 ## 5. Длинные точные ключи объектов
 
 - [x] 5.1 [db-control; зависимость: 1.1, 2.2, 3.1] Добавить objects key TEXT, nonunique digest candidate index и служебный key_guards с реальным MVCC UPDATE до полного сравнения; защитить write path и immutable identity, cleanup guards привязать к holder lifecycle. Проверка: tests/component/test_objects.py не использует unique hash или unique B-tree всего произвольного TEXT; исходный hash вычисляется доверенным DB path.
 - [x] 5.2 [entity-object-adm-api; зависимость: 1.2, 5.1] Реализовать точные create/get команды и PostgreSQL adapter без прикладного максимума key, trim/normalization или замены сравнения на digest. Проверка: unit/component cases сохраняют длинные Unicode keys, точное различие регистра/представлений и holder identity; README описывает физические ограничения PostgreSQL.
 - [x] 5.3 [db-control; зависимость: 5.1] Добавить компонентные race tests независимых транзакций для одного key и тест изолированного collision seam с полным comparator; проверить full-transaction retry со старым snapshot. Проверка: один duplicate commit и наблюдаемый конфликт; разные полные keys в bucket сосуществуют; production hash/права не ослаблены и тестовый seam недоступен runtime.
-- [ ] 5.4 [TamarixTests; зависимость: 2.4–2.5, 5.2–5.3] Реализовать test_objects.py::test_contract[c01]…[c05], зарегистрировать persistent-objects-c01…c05 и выполнить набор. Проверка: настоящие commit/rollback и синхронизационные барьеры подтверждают все критерии раздела 13.3 без поиска реальной SHA-256 коллизии.
+- [x] 5.4 [TamarixTests; зависимость: 2.4–2.5, 5.2–5.3] Реализовать test_objects.py::test_contract[c01]…[c05], зарегистрировать persistent-objects-c01…c05 и выполнить набор. Проверка: настоящие commit/rollback и синхронизационные барьеры подтверждают все критерии раздела 13.3 без поиска реальной SHA-256 коллизии.
 
 ## 6. Отдельный контракт метаданных моделей
 
 - [x] 6.1 [db-control; зависимость: 1.1–1.2, 2.2, 3.1] Добавить только model metadata identity: BIGINT, holder, key 1–512 ASCII CI, revision, immutable ID/holder/key. Проверка: tests/component/test_model_metadata.py покрывает unique/границы/FK; migration не создаёт privileges/actions/references/content columns.
 - [x] 6.2 [policy-adm-api; зависимость: 1.2, 6.1] Добавить metadata DTO/repository и отдельный metadata set; не сериализовать ModelRecord.content и не выдавать metadata за CompleteModelSet. Проверка: unit/component тесты и README различают metadata, исполнимую модель и Unknown; прежнее ядро T-1 не получает фиктивный evaluator.
-- [ ] 6.3 [TamarixTests; зависимость: 2.4–2.5, 6.1–6.2] Реализовать test_models.py::test_contract[c01], [c02], [c06], candidate persistent-models-c01/c02/c06 и выполнить набор. Проверка: реальные model metadata сохраняют identity и границу исполнения согласно разделу 13.5.
+- [x] 6.3 [TamarixTests; зависимость: 2.4–2.5, 6.1–6.2] Реализовать test_models.py::test_contract[c01], [c02], [c06], candidate persistent-models-c01/c02/c06 и выполнить набор. Проверка: реальные model metadata сохраняют identity и границу исполнения согласно разделу 13.5.
 - [x] 6.4 [tamarix-specs + policy-adm-api; зависимость: 6.2] Документировать extension boundary следующего change: будущие ссылки обязаны добавить cleanup и affected model revision в той же транзакции до совместного rollout. Проверка: список сохранённых требований T3-28/29/30/32/33/35/36 и контракт metadata явно присутствуют; реализация ссылок в T-3 не заявлена.
 
 ## 7. Общие определения и типизированные атрибуты
@@ -67,16 +66,16 @@
 - [x] 7.2 [db-control; зависимость: 7.1] Реализовать ровно один нативный value column по определению, scalar ≤1 и deferred scalar =1 на commit, различие absent/empty set/null и корректность owner/instance cascade. Проверка: component tests проверяют все шесть типов, BIGINT boundaries, wrong type/multiple columns, scalar 0/2 и допустимое удаление scalar вместе с владельцем; допустимые 0, false и пустая строка не считаются SQL NULL или отсутствием заполненного value column.
 - [x] 7.3 [db-control; зависимость: 1.1, 7.2] Реализовать exact set equality, D145 unicode_ci с фиксированной версией профиля и исходным написанием, реальные instance updates для конкурентного исключения повторов; структурные definition FK блокируют смену семантики/версии при instances. Проверка: tests/component/test_attribute_equality.py проверяет full casefold/canonical equivalence/пробелы, длинный TEXT, NUMERIC 1=1.0, одинаковый TIMESTAMPTZ instant, race duplicate и freeze при пустом set/tombstone.
 - [x] 7.4 [container-adm-api + entity-subject-adm-api + entity-object-adm-api + policy-adm-api; зависимость: 1.2, 7.1–7.3] Добавить собственные attribute adapters/commands каждого владельца с общей DB семантикой и aggregate transaction path; name/description субъекта хранить только по definitions. Проверка: unit/component tests каждого сервиса проверяют local DTO/read semantics и отсутствие JSONB подмены; READMEs документируют новые команды и типы.
-- [ ] 7.5 [TamarixTests; зависимость: 2.4–2.5, 7.1–7.4] Реализовать test_attributes.py::test_contract[c01]…[c17], [c19], [c20], зарегистрировать соответствующие persistent-attributes-* и выполнить набор; c13 внутри проверяет каждый из шести типов, c14 все ошибочные типизированные варианты. Проверка: критерии раздела 13.4 проверяются через реальные роли/adapters/DB; каждый параметр имеет своё русское описание и registry links, мощность scalar проверяется после commit; c18 с атрибутом tombstone выполняется в 9.5 после реализации lifecycle.
-- [ ] 7.6 [TamarixTests; зависимость: 4.3, 7.4–7.5] Реализовать test_subjects.py::test_contract[c07] для name/description по общим definitions, зарегистрировать persistent-subjects-c07 и выполнить случай. Проверка: свойства читаются как собственные атрибуты, holder/type/key/ID сохранены.
+- [x] 7.5 [TamarixTests; зависимость: 2.4–2.5, 7.1–7.4] Реализовать test_attributes.py::test_contract[c01]…[c17], [c19], [c20], зарегистрировать соответствующие persistent-attributes-* и выполнить набор; c13 внутри проверяет каждый из шести типов, c14 все ошибочные типизированные варианты. Проверка: критерии раздела 13.4 проверяются через реальные роли/adapters/DB; каждый параметр имеет своё русское описание и registry links, мощность scalar проверяется после commit; c18 с атрибутом tombstone выполняется в 9.5 после реализации lifecycle.
+- [x] 7.6 [TamarixTests; зависимость: 4.3, 7.4–7.5] Реализовать test_subjects.py::test_contract[c07] для name/description по общим definitions, зарегистрировать persistent-subjects-c07 и выполнить случай. Проверка: свойства читаются как собственные атрибуты, holder/type/key/ID сохранены.
 
 ## 8. DN как значение контейнерного множества
 
 - [x] 8.1 [db-control; зависимость: явное принятие DN решения 1.1, 7.1–7.3] Реализовать согласованный DN value type и версионированный DER Name codec, доверенное DN definition и container-only applicability без самостоятельных DN registry/bindings. Проверка: tests/component/test_dn_codec.py подтверждает DER roundtrip, RDN order, AVA unordered equality и невозможность принять клиентский matching key как авторитетный.
 - [x] 8.2 [db-control; зависимость: 8.1] Добавить RFC 5280/RFC 4518 подготовку поддерживаемых DirectoryString с закреплёнными таблицами и fallback точного DER только для прочих неизвестных значений; включить положительные, отрицательные и межкодировочные test vectors. Проверка: component tests отличают X.509 профиль от общего unicode_ci, сохраняют неизвестные OID, отвергают неуспех подготовки без смены равенства; непроверенный codec не объявлен завершённым.
 - [x] 8.3 [container-adm-api; зависимость: 7.4, 8.1–8.2] Подключить DN attribute adapter к допуску T-1: Name берётся из установленного факта аутентификации сертификата и ищется у конкретного O. Проверка: unit/component tests допуска отличают доверенный Name от клиентской строки и сохраняют M:N семантику через атрибуты; документация не заявляет готовую PKI.
-- [ ] 8.4 [TamarixTests; зависимость: 2.4–2.5, 8.1–8.3] Реализовать test_containers.py::test_contract[c15]…[c21], зарегистрировать persistent-containers-c15…c21 и выполнить набор. Проверка: реальные attribute storage/admission adapters проверяют несколько DN/контейнеров, эквивалентность, неизвестные OID, удаление/absence/empty в новом snapshot и отказ без аутентификации согласно разделу 13.1.
-- [ ] 8.5 [container-adm-api + db-control; зависимость: 8.3–8.4] Документировать регистрацию/отзыв DN как aggregate mutation контейнера, профиль и обновление codec; проверить документы против actual routines и vectors. Проверка: нет второго источника DN binding, профиль/версия зафиксированы, subject identity не заменяется DN администратора.
+- [x] 8.4 [TamarixTests; зависимость: 2.4–2.5, 8.1–8.3] Реализовать test_containers.py::test_contract[c15]…[c21], зарегистрировать persistent-containers-c15…c21 и выполнить набор. Проверка: реальные attribute storage/admission adapters проверяют несколько DN/контейнеров, эквивалентность, неизвестные OID, удаление/absence/empty в новом snapshot и отказ без аутентификации согласно разделу 13.1.
+- [x] 8.5 [container-adm-api + db-control; зависимость: 8.3–8.4] Документировать регистрацию/отзыв DN как aggregate mutation контейнера, профиль и обновление codec; проверить документы против actual routines и vectors. Проверка: нет второго источника DN binding, профиль/версия зафиксированы, subject identity не заменяется DN администратора.
 - [x] 8.6 [db-control; зависимость: явное принятие bootstrap 1.1, 8.1–8.2] Поставить deployment-only команду атомарного initial root + DN provisioning через проверенные routines после регистрации DN-definition, с доверенным эксплуатационным Name и отдельной привилегией executor. Проверка: tests/component/test_bootstrap.py подтверждает полный rollback при ошибке DN, допустимость root без DN, отказ catalog_operator/runtime роли и отсутствие нового create-root HTTP API; README называет реального исполнителя и не назначает право по имени репозитория.
 
 ## 9. Aggregate revision, атомарность и жизненный цикл
@@ -85,22 +84,22 @@
 - [x] 9.2 [db-control + entity-subject-adm-api; зависимость: 9.1] Реализовать soft delete/restore с сохранением identity/attributes, уникальностью tombstone и active lookup; физический DELETE active subject запрещён DB guard. Проверка: tests/component/test_subjects.py и сервисные component tests подтверждают прежний ID, отсутствие второй записи и атомарный откат deleted_at/attrs/revision; modelref cleanup не имитируется.
 - [x] 9.3 [db-control + entity-object-adm-api + policy-adm-api; зависимость: 9.1] Реализовать физическое удаление объекта и model metadata с каскадом собственных attributes и сохранением держателя/прочих сущностей. Проверка: component tests проверяют FK/cascade и отказ промежуточного шага; непустые модельные ссылки остаются вне schema/API этого этапа.
 - [x] 9.4 [db-control + container-adm-api; зависимость: 9.2–9.3] Реализовать lifecycle gate и child-first container delete: блокировка при child/active subject/object/model, atomic purge tombstones/attrs/DN/guards, согласование с create/restore. Проверка: tests/component/test_containers.py использует независимые соединения и барьеры; победивший restore блокирует purge либо получает NotFound/conflict после purge, active subject не удаляется.
-- [ ] 9.5 [TamarixTests; зависимость: 2.4–2.5, 9.1–9.4] Реализовать test_containers.py::test_contract[c24]…[c30], test_subjects.py::test_contract[c06], [c08]…[c12], test_objects.py::test_contract[c06]…[c08], test_models.py::test_contract[c03]…[c05] и test_attributes.py::test_contract[c18], зарегистрировать соответствующие persistent-* candidate и выполнить набор. Проверка: все race/CAS/failure-injection/lifecycle/management-scope критерии разделов 13.1–13.5 подтверждены реальным PostgreSQL; holder delete c26 проверяет каждого блокирующего владельца/ребёнка, c29/c30 — rename, attribute и delete в допустимой области и при нарушении каждой части O<=C<=D.
-- [ ] 9.6 [четыре административных сервиса + db-control; зависимость: 9.5] Обновить документацию mutation/restore/delete и retry/error boundary по реально реализованным командам. Проверка: lifecycle, revision и атомарность описаны без HTTP обещаний; сохранённые будущие cleanup требования и несовместимость их раннего включения отмечены.
+- [x] 9.5 [TamarixTests; зависимость: 2.4–2.5, 9.1–9.4] Реализовать test_containers.py::test_contract[c24]…[c30], test_subjects.py::test_contract[c06], [c08]…[c12], test_objects.py::test_contract[c06]…[c08], test_models.py::test_contract[c03]…[c05] и test_attributes.py::test_contract[c18], зарегистрировать соответствующие persistent-* candidate и выполнить набор. Проверка: все race/CAS/failure-injection/lifecycle/management-scope критерии разделов 13.1–13.5 подтверждены реальным PostgreSQL; holder delete c26 проверяет каждого блокирующего владельца/ребёнка, c29/c30 — rename, attribute и delete в допустимой области и при нарушении каждой части O<=C<=D.
+- [x] 9.6 [четыре административных сервиса + db-control; зависимость: 9.5] Обновить документацию mutation/restore/delete и retry/error boundary по реально реализованным командам. Проверка: lifecycle, revision и атомарность описаны без HTTP обещаний; сохранённые будущие cleanup требования и несовместимость их раннего включения отмечены.
 
 ## 10. Read-only views и подготовленный снимок
 
 - [x] 10.1 [db-control; зависимость: 1.1, 7.1–7.3, 8.1, 9.1–9.4] Завершить разрешённые fact views и grants: path/holders/active subjects/objects/attributes/DN/model metadata, только SELECT для reader и ограниченные routines предметных/catalog ролей. Проверка: tests/component/test_database_roles.py проверяет отсутствие runtime DDL/TRUNCATE/широкого DML, закрытый PUBLIC EXECUTE и фиксированный search_path SECURITY DEFINER; view не скрывает существующую model metadata из-за tombstone субъекта.
 - [x] 10.2 [policy-decision-api; зависимость: 1.2, 10.1] Добавить отдельный reader подготовленных фактов с одной READ ONLY REPEATABLE READ транзакцией до первого чтения, полным root-to-holder path и явными metadata empty/unknown. Проверка: tests/component/test_persistence_snapshot.py использует локальные DTO, не отбрасывает субъект из другой ветки и не подключает reader как CompleteModelSet/evaluator полного PDP.
-- [ ] 10.3 [TamarixTests; зависимость: 2.4–2.5, 10.1–10.2] Реализовать test_fact_views.py::test_contract[c01]…[c05], зарегистрировать persistent-facts-c01…c05 и выполнить набор. Проверка: другой DB connection коммитит между чтениями, старая сборка остаётся согласованной, новая видит commit; path/metadata failures не превращаются в empty; SELECT role не может писать/делать DDL согласно разделу 13.6.
-- [ ] 10.4 [policy-decision-api + db-control; зависимость: 10.3] Документировать public Python contract reader и views, snapshot lifetime, отсутствие persistent evaluator и extension следующего change. Проверка: consumer docs различают metadata completeness и исполнимую модель/Undefined; ограничения T-1 не переопределены.
+- [x] 10.3 [TamarixTests; зависимость: 2.4–2.5, 10.1–10.2] Реализовать test_fact_views.py::test_contract[c01]…[c05], зарегистрировать persistent-facts-c01…c05 и выполнить набор. Проверка: другой DB connection коммитит между чтениями, старая сборка остаётся согласованной, новая видит commit; path/metadata failures не превращаются в empty; SELECT role не может писать/делать DDL согласно разделу 13.6.
+- [x] 10.4 [policy-decision-api + db-control; зависимость: 10.3] Документировать public Python contract reader и views, snapshot lifetime, отсутствие persistent evaluator и extension следующего change. Проверка: consumer docs различают metadata completeness и исполнимую модель/Undefined; ограничения T-1 не переопределены.
 
 ## 11. Общая проверка, отчёты и подготовка promotion
 
-- [ ] 11.1 [tamarix-specs + TamarixTests; зависимость: 3.4, 4.4, 5.4, 6.3, 7.5–7.6, 8.4, 9.5, 10.3] Сверить фактическую коллекцию всех 81 planned scenario cases раздела 13 с реестром и заменить planned node references подтверждёнными; проверить каждый точный THEN/AND, русские docstrings/descriptions и актуальные T-2 links после breaking изменений. Проверка: validate-registry --change t-3-persistent проходит, IDs не перенумерованы, нет исчезнувших cases или непокрытых delta-критериев.
-- [ ] 11.2 [db-control + пять сервисов + TamarixTests; зависимость: все feature groups и 11.1] По согласованной apply-задаче выполнить требуемые unit/component/contract и migration проверки фиксированных версий, включая повторное upgrade/downgrade на одноразовой БД. Проверка: фактические команды, версии и отдельные summary/JSON/JUnit каждого прогона сохранены; ноль тестов, SKIP/XFAIL/NOT_RUN или collection/environment error не закрывают задачу.
-- [ ] 11.3 [TamarixTests; зависимость: 11.2 и готовый результат внешнего CD change 1.3] Получить manifest фактических чистых commits и выполнить полный run --change t-3-persistent, включающий новые cases и существующий регресс T-2. Проверка: полный requested/collected/executed набор имеет PASS, manifest фиксирует PostgreSQL/image/Alembic/db-control/source revisions и spec/delta hashes; новый каталог отчёта не перезаписывает прежний.
-- [ ] 11.4 [TamarixTests; зависимость: 11.3] Выполнить promote для полного успешного отчёта и зафиксировать candidate -> regression в registry.yaml без перемещения исходников. Проверка: stable IDs/links сохранены, promotion commit явно записан; предыдущее evidence не выдаётся за проверку нового commit.
+- [x] 11.1 [tamarix-specs + TamarixTests; зависимость: 3.4, 4.4, 5.4, 6.3, 7.5–7.6, 8.4, 9.5, 10.3] Сверить фактическую коллекцию всех 81 planned scenario cases раздела 13 с реестром и заменить planned node references подтверждёнными; проверить каждый точный THEN/AND, русские docstrings/descriptions и актуальные T-2 links после breaking изменений. Проверка: validate-registry --change t-3-persistent проходит, IDs не перенумерованы, нет исчезнувших cases или непокрытых delta-критериев.
+- [x] 11.2 [db-control + пять сервисов + TamarixTests; зависимость: все feature groups и 11.1] По согласованной apply-задаче выполнить требуемые unit/component/contract и migration проверки фиксированных версий, включая повторное upgrade/downgrade на одноразовой БД. Проверка: фактические команды, версии и отдельные summary/JSON/JUnit каждого прогона сохранены; ноль тестов, SKIP/XFAIL/NOT_RUN или collection/environment error не закрывают задачу.
+- [x] 11.3 [TamarixTests; зависимость: 11.2 и готовый результат внешнего CD change 1.3] Получить manifest фактических чистых commits и выполнить полный run --change t-3-persistent, включающий новые cases и существующий регресс T-2. Проверка: полный requested/collected/executed набор имеет PASS, manifest фиксирует PostgreSQL/image/Alembic/db-control/source revisions и spec/delta hashes; новый каталог отчёта не перезаписывает прежний.
+- [x] 11.4 [TamarixTests; зависимость: 11.3] Выполнить promote для полного успешного отчёта и зафиксировать candidate -> regression в registry.yaml без перемещения исходников. Проверка: stable IDs/links сохранены, promotion commit явно записан; предыдущее evidence не выдаётся за проверку нового commit.
 - [ ] 11.5 [TamarixTests + tamarix-specs; зависимость: 11.4] Получить новый manifest окончательного promotion commit и явно повторить полный набор change + текущий регресс. Проверка: новый завершённый PASS соответствует окончательным immutable revisions; диагностика с --id/--level и старый отчёт не используются для archive.
 - [ ] 11.6 [tamarix-specs; зависимость: 11.5] Записать фактические команды/результаты в этот tasks.md и подготовить verification/evidence со ссылками и hashes артефактов, scope foundation и сохранёнными ограничениями; проверить существующий archive gate на готовых данных. Проверка: полнота criterion coverage, promotion, commits, reports и граница следующего change подтверждены; при недоступной/неуспешной проверке соответствующие задачи остаются открытыми. Новые verification/evidence файлы создаются только в будущей согласованной реализации, не данным планированием.
 
@@ -155,16 +154,16 @@ tests; общие требования не превращаются автом�
 Они должны войти в proposal/specs/acceptance следующего отдельного change
 до включения model references или полноценного persistent PDP.
 
-## 13. Полная планируемая связь delta-критериев с integration tests
+## 13. Подтверждённая связь delta-критериев с integration tests
 
 Для каждой таблицы путь в заголовке — **полный delta spec path каждой строки**.
 Колонки Requirement/Scenario и критерий воспроизводят точные названия и THEN/AND
 из соответствующего файла. Каждая строка вместе с этим путём задаёт:
 spec path + Requirement + Scenario + criterion -> stable test ID ->
-репозиторий TamarixTests + точный planned pytest node ID.
+репозиторий TamarixTests + точный pytest node ID.
 
 Все случаи имеют level integration, introduced_by t-3-persistent, начальный
-state candidate. В registry links хранится постоянный основной путь
+state candidate; после полного PASS все 81 переведены в regression. В registry links хранится постоянный основной путь
 openspec/specs/<capability>/spec.md; validator --change разрешает его против
 delta T-3. Это не переносит основные specs в ходе planning. Исходники остаются
 в постоянном tests/integration/persistence после promotion.
@@ -180,7 +179,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/containers/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Упорядоченное дерево контейнеров | Допустимые непосредственные дети | допустимость по типам SHALL соответствовать таблице: | `persistent-containers-c01` | `tests/integration/persistence/test_containers.py::test_contract[c01]` |
 | Упорядоченное дерево контейнеров | Обратный порядок типов | связь SHALL быть отклонена как нарушающая порядок типов | `persistent-containers-c02` | `tests/integration/persistence/test_containers.py::test_contract[c02]` |
@@ -217,7 +216,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/entities/subjects/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Общий каталог типов субъектов | Зарегистрированный и неизвестный тип | зарегистрированный тип SHALL приниматься, а неизвестный SHALL отклоняться без создания субъекта | `persistent-subjects-c01` | `tests/integration/persistence/test_subjects.py::test_contract[c01]` |
 | Общий каталог типов субъектов | Правила ключа типа | только свободные допустимые ключи SHALL приниматься; остальные перечисленные операции SHALL отклоняться | `persistent-subjects-c02` | `tests/integration/persistence/test_subjects.py::test_contract[c02]` |
@@ -236,7 +235,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/entities/objects/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Постоянная идентичность объекта и точный ключ | Длинные и точные ключи | все допустимые точные различные ключи SHALL сохраняться и находиться без искусственного ограничения длины | `persistent-objects-c01` | `tests/integration/persistence/test_objects.py::test_contract[c01]` |
 | Постоянная идентичность объекта и точный ключ | Пустой или управляющий ключ | создание SHALL отклоняться без сохранения объекта | `persistent-objects-c02` | `tests/integration/persistence/test_objects.py::test_contract[c02]` |
@@ -251,7 +250,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/attributes/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Предварительная регистрация общих определений | Запись без зарегистрированного определения | операция SHALL быть отклонена без создания определения, экземпляра или значения | `persistent-attributes-c01` | `tests/integration/persistence/test_attributes.py::test_contract[c01]` |
 | Неизменяемые ключи определений атрибутов | Регистронезависимый конфликт ключей | регистрация второго определения SHALL быть отклонена как конфликт ключа | `persistent-attributes-c02` | `tests/integration/persistence/test_attributes.py::test_contract[c02]` |
@@ -278,7 +277,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/access-model/models/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Постоянная идентичность метаданных модели | Уникальность в держателе | регистровый дубликат первого держателя SHALL отклоняться, а модель второго держателя SHALL получать независимый ID | `persistent-models-c01` | `tests/integration/persistence/test_models.py::test_contract[c01]` |
 | Постоянная идентичность метаданных модели | Границы и неизменяемость идентичности | только новые допустимые ключи длиной 1 и 512 SHALL приниматься, а остальные перечисленные операции SHALL отклоняться | `persistent-models-c02` | `tests/integration/persistence/test_models.py::test_contract[c02]` |
@@ -291,7 +290,7 @@ delta T-3. Это не переносит основные specs в ходе pla
 
 `openspec/changes/t-3-persistent/specs/authorization/access-check/spec.md`
 
-| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: planned pytest node ID |
+| Requirement | Scenario | Точный критерий THEN/AND | Стабильный test ID | TamarixTests: pytest node ID |
 | --- | --- | --- | --- | --- |
 | Единый снимок подготовленных фактов | Конкурентный commit между чтениями | текущая сборка SHALL видеть прежнее согласованное состояние всех фактов, а новая транзакция чтения SHALL видеть зафиксированное изменение | `persistent-facts-c01` | `tests/integration/persistence/test_fact_views.py::test_contract[c01]` |
 | Единый снимок подготовленных фактов | Путь и независимый субъект | сборка SHALL возвращать весь фактический путь от корня с обоими концами и предками контекста, не исключая субъект только по положению его держателя | `persistent-facts-c02` | `tests/integration/persistence/test_fact_views.py::test_contract[c02]` |
@@ -299,10 +298,10 @@ delta T-3. Это не переносит основные specs в ходе pla
 | Различение пустых и неизвестных подготовленных данных | Неизвестные путь или метаданные | результат SHALL явно обозначать неизвестную часть и не SHALL представлять сборку полной или заменять ошибку пустым набором | `persistent-facts-c04` | `tests/integration/persistence/test_fact_views.py::test_contract[c04]` |
 | Доступ читателя только для чтения | Попытка записи читателем | БД SHALL отклонять запись с сохранением данных и схемы | `persistent-facts-c05` | `tests/integration/persistence/test_fact_views.py::test_contract[c05]` |
 
-## 14. Планируемые команды и правила отчётности
+## 14. Команды и правила отчётности
 
-Команды ниже **не выполнялись при подготовке change**. Они применяются в
-будущих согласованных apply-задачах после появления исходников, pins и среды.
+Команды ниже задают воспроизводимый протокол apply-проверок; фактически
+выполненные прогоны и результаты сохранены в разделе результатов и verification.
 Каждый инициированный прогон, включая fail/error/cancel, получает новый
 каталог; компоненты также сохраняют русскую summary.md и results.json с
 фактическими командами, case/node IDs, версиями, временем, статусами и ошибками.
@@ -314,7 +313,7 @@ JUnit XML дополняет эти отчёты. Не начавшиеся сл
 ```sh
 uv lock --check
 uv sync --frozen
-uv run --frozen --no-sync python -m pytest tests/component -q --junitxml /absolute/path/new-component-run/junit.xml
+.venv/bin/python tools/run_tests.py --output-dir reports -- tests -q --tb=short
 ```
 
 Путь tests/component относится к планируемым component suites; дополнительно
@@ -359,3 +358,8 @@ regression cases, поэтому bootstrap-empty-regression здесь непр�
 - 2.5: локальные `tools/run_tests.py` в семи репозиториях и существующий integration runner сохраняют отдельные summary/JSON/log/JUnit до collection. Самопроверки исходов PASS/FAIL/collection error/CANCELLED прошли: [4 PASS](../../../../db-control/reports/b2fa306d25a3415b9a85e83885efa53a/summary.md). Отмена сохраняет NOT_RUN/complete=false. Никаких новых commit/start/archive triggers.
 - 2.2–2.3: db-control поставляет baseline и Alembic CLI с UTF8/block-size/unknown-schema preflight и закрытым runtime DML/PUBLIC EXECUTE. Команда wrapper `tests/component/test_migrations.py -q --tb=short` на отдельных PostgreSQL БД: [11 PASS](../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md), включая повторный upgrade и downgrade/upgrade, сохранение неизвестной схемы и 6 настоящих LOGIN ролей. Production forward-fix/backup граница — README db-control.
 - Промежуточные проверки (не итоговый integration evidence): db-control primitives [93 PASS](../../../../db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/summary.md); пять существующих сервисных наборов после typed-address перехода — 466 PASS. DN component [88 PASS](../../../../db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/summary.md). Функциональные/race/registry/promotion задачи остаются открытыми до своих проверок.
+
+- 2.4, 3–10: реализованы db-control routines/constraints, независимые локальные adapters/application commands пяти пакетов, DN codec и подготовленный RO/RR reader. Финальные unit/component наборы: db-control **298 PASS** (`b17d2f5c6bff457490af16039b4128fc`); Container **198** (`92c59e71154b4550924503ad47805ae5`), Subject **123** (`6a3f64e86aaa41829cc0a9d8ec9500dd`), Object **116** (`6dd4064c6d5f48d2a6285fa624dcdb2a`), Policy **162** (`1f9504f20ccf4931824b118207628dd0`), PDP **139** (`a161d6a6c6ee4b2b9fc1f3a8b1656960`); TamarixTests **83** (`10e1b3989c344ace84f9979577609f63`); CD **42** (`559ce1ed771e42f4aef864c381eb4baa`). Каждый wrapper запуск: `.venv/bin/python tools/run_tests.py --output-dir reports -- tests -q`; у Tests selectors `tests/unit tests/component`, у CD — три tooling suites через `ci/test_report.py`. Полные paths/hashes — evidence.json.
+- 10.1: аудит выявил PUBLIC TEMP grant PostgreSQL; baseline теперь отзывает CREATE/TEMPORARY только в целевой БД. Bootstrap/roles повтор **25 PASS** (`7ccc754d4e474b11989f4a3f33b66b40`), затем полный DB набор PASS.
+- 11.1–11.3: registry links проверены; все 81 новых и 20 прежних stable IDs собраны/исполнены. Первый полный source-pinned запуск дал 100 PASS/1 FAIL из-за неверного ожидания тестом списка materialized containers; исправлено ожидание держателя субъекта другого дерева, production не менялся. Повтор **101/101 PASS**: `/private/tmp/tamarix-t3-candidate-runs/ccdd327592a94abfa0bab75a9c7584df/reports/20261015T141541-f0b56743d607/results.json`; сохранены manifest/summary/JUnit и предыдущий отказ. Scope postgresql-integration, PG18.6/head20261015_0003; отдельные реальныe LOGIN, fingerprint executor, clean commits и SQL/data/source hashes проверены producer/consumer.
+- 11.4: promotion CLI по этому полному отчёту перевёл 81 candidate в regression; Tests commit `85d5b49`, исходники не перемещались. [Promotion report](/private/tmp/tamarix-t3-promotion/b8056ba31b384298ab0ee85bb0945fa9/results.json). Новый полный прогон окончательного commit обязателен до 11.5/11.6.
