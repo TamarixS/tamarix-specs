@@ -3,8 +3,8 @@
 ## Context
 
 Мотивация — в [proposal.md](proposal.md). Принятый процесс — в
-[testing.md](../../context/testing.md) и
-[ADR 0004](../../context/adr/0004-testing-regression-lifecycle.md).
+[testing.md](../../../context/testing.md) и
+[ADR 0004](../../../context/adr/0004-testing-regression-lifecycle.md).
 Этот change оформляет процесс и план его реализации; создание отдельной
 тестовой репы и исполняемого gate остаётся открытой работой.
 

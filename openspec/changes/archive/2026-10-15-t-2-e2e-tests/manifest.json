@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "services": {
+    "container-adm-api": {
+      "commit": "b29e639c15892bfb3bb54330f530ef068de0b91e",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api",
+      "endpoint": null,
+      "image_digest": null,
+      "distribution": "container-adm-api",
+      "module": "container_adm_api",
+      "source_hashes": {
+        "src/container_adm_api/__init__.py": "7715e390e90132db93dd95b93a24671113dec0db149772f9569bba06f99bc40d",
+        "src/container_adm_api/core.py": "afab88a4dc78dfed33410b5d0bdaf0973e4a603f424a7a1fd58eb17c45b31c8b",
+        "src/container_adm_api/facts.py": "e390fdc50b8d2faa2eb3cbc4fa2b7e6d6190d1cc5213e97d917832a35f4b0cdc",
+        "src/container_adm_api/ports.py": "a03509d2d7cae86c8b0ec1cad9fe01be63df23d1b70c04b176400acee0bedb68"
+      }
+    },
+    "entity-subject-adm-api": {
+      "commit": "8706e2dde6944cdae1fd06a2784cb027540cae46",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api",
+      "endpoint": null,
+      "image_digest": null,
+      "distribution": "entity-subject-adm-api",
+      "module": "entity_subject_adm_api",
+      "source_hashes": {
+        "src/entity_subject_adm_api/__init__.py": "c99578dd18f3ce679d0309abbdd16a23a85fb299bbe573bd80397cd025bb7c0c",
+        "src/entity_subject_adm_api/core.py": "e8e35f87d6830d17c9e4ccd8e8d8cf262c2a8d3a99531d8bcbd83eeae8c7de59",
+        "src/entity_subject_adm_api/facts.py": "187992902a4f1f1acef859938873c344e7a8eea623551d060cce551e7e284cb5",
+        "src/entity_subject_adm_api/ports.py": "55fc3e3da3a09998aa1600a7b39d6069a647bed34cddc98809e182d9f0450883"
+      }
+    },
+    "entity-object-adm-api": {
+      "commit": "1707a6f470842646609ac86545a72f99f2ca741b",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api",
+      "endpoint": null,
+      "image_digest": null,
+      "distribution": "entity-object-adm-api",
+      "module": "entity_object_adm_api",
+      "source_hashes": {
+        "src/entity_object_adm_api/__init__.py": "a39fc28a06c0fd99eea4e7c33d09bf4742307240bc90bf5720e488612e715d2e",
+        "src/entity_object_adm_api/core.py": "c2d6bf23577be454caeb0a789e7974b35c7081cee4622e241cc9dd3ece59d44f",
+        "src/entity_object_adm_api/facts.py": "79265a7cb73fe7ff8b3b938fb3523153a118282276aeee71179a4a9e73371f7a",
+        "src/entity_object_adm_api/ports.py": "d82e8fc4fb4436b79bc25b89b09ee36344fe371c29b5080a5bbb485af818046d"
+      }
+    },
+    "policy-adm-api": {
+      "commit": "4230502fe1e068e08d3516ddfa85e2c6a3215d8c",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api",
+      "endpoint": null,
+      "image_digest": null,
+      "distribution": "policy-adm-api",
+      "module": "policy_adm_api",
+      "source_hashes": {
+        "src/policy_adm_api/__init__.py": "7e532e6e438625f24be6a93c628a8e22a335aaaa805c3d04adc8b7efd40c18ef",
+        "src/policy_adm_api/core.py": "eee7d2d85a33443ffe829a974ac80443ba2d6ac98329de9eaf68a6acac513960",
+        "src/policy_adm_api/facts.py": "0736e38350f5da802c16d23780a99411d3a07fa62b8515507727d29330d0775c",
+        "src/policy_adm_api/ports.py": "c8e62516fa4066a50b3dccc405ad656944a9299f6030f88dfb362a580fc4b7bb"
+      }
+    },
+    "policy-decision-api": {
+      "commit": "e7a0409be87e2ba7a8a2a9fc1b869a858f84ab81",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api",
+      "endpoint": null,
+      "image_digest": null,
+      "distribution": "policy-decision-api",
+      "module": "policy_decision_api",
+      "source_hashes": {
+        "src/policy_decision_api/__init__.py": "50350b4fec400245d0d631ccf0f8b305b9476cbdf48e4cc0221203425fa86fb3",
+        "src/policy_decision_api/core.py": "d9d83b4cd6122e46824de4eb44cc4d29281fdac83d9de7b807b40b1ce289b192",
+        "src/policy_decision_api/facts.py": "403ec11be96d43a45e712fe5cc50ac2d7c94d0fdccb96cd2d8c9a3bdeb426032",
+        "src/policy_decision_api/ports.py": "dae7b65d093cd96024683bd129a4bcb79903ed6f7e215d7808abcf241f90f33a"
+      }
+    }
+  },
+  "cd": {
+    "commit": "c37933127b83c93aa726111d52db7a0fb987ec54",
+    "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixCD"
+  },
+  "tests": {
+    "commit": "b51f49486db1a13be64f0f03a5034846f8114e61",
+    "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixTests"
+  },
+  "store": {
+    "commit": "af97e100fa1222e12279a14ced6ea63433c81fa3",
+    "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs",
+    "spec_hashes": {
+      "openspec/specs/authorization/access-check/spec.md": "e77997e8c475fde6e55ba4329b1456f54f41e1f4fe3076e3138a9556fb4d28fa",
+      "openspec/specs/containers/spec.md": "c717caf71e6897121801e75ef429c1e08732d7b1b340dc83a1d84ad66cfc1ed0",
+      "openspec/specs/entities/objects/spec.md": "233ad44e8b3386c326decd4d412d094d3917cb5dc3aa2c83b08c2a1bb120ec5c",
+      "openspec/specs/entities/subjects/spec.md": "02c30c9b72a515ce9c15f7af4b3d6d5512406cda89e325b613dc716bef8ffd77"
+    },
+    "delta_hashes": {}
+  },
+  "migrations": null,
+  "environment": {
+    "id": "c407a86b73744c5d94a82a8b3cc53fc2",
+    "scope": "logical-integration",
+    "python": "3.15.0"
+  }
+}

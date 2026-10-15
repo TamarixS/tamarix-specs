@@ -6,7 +6,7 @@
 в отдельной репе с включением в регресс при архивировании OpenSpec, затем
 ответил «добавь» на предложенную схему. Процесс принят в
 [ADR 0004](adr/0004-testing-regression-lifecycle.md); задачи внедрения — в
-[t-2-e2e-tests](../changes/t-2-e2e-tests/).
+[t-2-e2e-tests](../changes/archive/2026-10-15-t-2-e2e-tests/).
 
 Реализация `t-2-e2e-tests` добавляет отдельную локальную Git-репу `TamarixTests`,
 registry/runner, отчёты, promotion и обёртку archive. Команды и форматы описаны в

@@ -1,0 +1,270 @@
+schema_version: 1
+cases:
+- id: access-empty-chain-denied
+  description: Без моделей на всём пути ожидается запрет по умолчанию; защищает от
+    разрешения пустого набора.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[empty-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Пустая цепочка моделей
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-neutral-chain-denied
+  description: 'Все известные модели нейтральны: ожидается запрет по умолчанию; защищает
+    отсутствие подходящих разрешений.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[neutral-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Все модели нейтральны
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-undefined-chain-denied
+  description: 'Все известные модели завершаются объявленной ошибкой: ожидается запрет;
+    контролирует отсутствие определённых разрешений.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[undefined-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Все результаты неопределённы
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-allow-with-neutral-models
+  description: 'Модель объекта разрешает, остальные нейтральны: ожидается разрешение;
+    проверяет прохождение разрешения через пять ядер.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[allow-with-neutral-models]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Приоритет запрета в цепочке моделей
+    scenario: Только разрешения и нейтральные результаты
+    criterion: итог SHALL быть разрешением
+- id: access-ancestor-deny-precedes-addressed
+  description: 'Корень запрещает, C и R разрешают: итоговый запрет; контролирует включение
+    предков адресуемого контейнера.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[ancestor-deny-precedes-addressed]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Запрет предка адресуемого контейнера
+    criterion: модель `root` SHALL участвовать в проверке, а итог SHALL быть запретом
+- id: access-direct-object-address-keeps-root-deny
+  description: 'При обращении прямо к R корень запрещает, R разрешает: итоговый запрет;
+    защищает полную цепочку при C=R.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[direct-object-address-keeps-root-deny]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Адресация непосредственно к контейнеру объекта
+    criterion: цепочка SHALL включать модель корня и модель `R`, а итог SHALL быть
+      запретом
+- id: access-all-models-of-container-evaluated
+  description: 'Две модели одного C: разрешающая и с разрешением/запретом; итоговый
+    запрет защищает учёт всех моделей и приоритет запрета.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[all-models-of-container-evaluated]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Несколько моделей одного контейнера
+    criterion: обе модели этого контейнера SHALL участвовать в проверке, а итог SHALL
+      быть запретом
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Объединение подходящих правил модели
+    scenario: Разрешение и запрет внутри одной модели
+    criterion: результат модели SHALL быть запретом
+- id: access-descendant-subject-neutralizes-ancestor-models
+  description: 'Субъект принадлежит R: модели предков вне его области, R разрешает;
+    ожидается разрешение без общей привязки к C.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[descendant-subject-neutralizes-ancestor-models]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Отсутствие общей привязки субъекта к адресату
+    scenario: Держатель субъекта является потомком адресата
+    criterion: обращение SHALL быть допустимо, а итог проверки SHALL быть разрешением
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Нейтральность модели вне области субъекта
+    scenario: Другая модель разрешает доступ
+    criterion: итог проверки SHALL быть разрешением при отсутствии запретов других
+      моделей
+- id: access-known-model-error-keeps-allow
+  description: 'Известная модель корня даёт ошибку, R разрешает: ожидается разрешение;
+    отличает неопределённый результат от неизвестного состава.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[known-model-error-keeps-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Нейтральная трактовка неопределённого результата модели
+    scenario: Ошибка модели при известном разрешении
+    criterion: неопределённый результат SHALL считаться нейтральным, а итог SHALL
+      быть разрешением
+- id: access-skipped-levels-keep-real-path
+  description: Organization непосредственно содержит module R; обе модели участвуют
+    и R разрешает; контролирует фактический путь без пустых уровней.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[skipped-levels-keep-real-path]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Пропущенные уровни дерева
+    criterion: цепочка SHALL включать модели обоих контейнеров без требования контейнеров
+      `environment` и `system`
+- id: access-sibling-model-excluded
+  description: 'Модель соседней ветки запрещает, R разрешает: итоговое разрешение;
+    защищает исключение посторонних моделей из цепочки.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[sibling-model-excluded]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Соседняя ветка исключена
+    criterion: модели `X` SHALL не входить в цепочку проверки объекта `R`
+- id: access-represented-outside-object-path
+  description: 'Подтверждённый O находится в соседней ветке, C на пути объекта и R
+    разрешает: итоговое разрешение; защищает независимость C и O.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[represented-outside-object-path]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Адресация проверки относительно объекта
+    scenario: Представляемый контейнер вне пути объекта
+    criterion: положение `O` SHALL не нарушать условие адресации проверки; условие
+      SHALL оцениваться по `C`
+- id: access-unknown-path-denied-despite-allow
+  description: 'Полнота пути неизвестна при сохранённом разрешении: итоговый запрет
+    до вычисления; предотвращает разрешение по частичному пути.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[unknown-path-denied-despite-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Неизвестен путь до контейнера объекта
+    criterion: результат проверки SHALL быть запретом
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Известное разрешение при неизвестном составе цепочки
+    criterion: результат проверки SHALL быть запретом независимо от известного разрешения
+- id: access-unknown-model-set-denied-despite-allow
+  description: 'Полный список моделей C неизвестен при разрешении корня: итоговый
+    запрет до вычисления; не подменяет неизвестный список пустым.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[unknown-model-set-denied-despite-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Неизвестен полный набор моделей
+    criterion: результат проверки SHALL быть запретом; отсутствующий полный набор
+      SHALL не подменяться пустым набором или нейтральными результатами
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Известное разрешение при неизвестном составе цепочки
+    criterion: результат проверки SHALL быть запретом независимо от известного разрешения
+- id: admission-unverified-certificate
+  description: Без подтверждённого сертификата обращение отклоняется до чтения пути;
+    защищает обязательный допуск.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[unverified-certificate]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: Отсутствует успешная сертификатная аутентификация
+    criterion: оно SHALL не допускаться к выполнению запрошенной операции
+- id: admission-dn-bound-to-other-container
+  description: 'DN зарегистрирован только за outside, а заявлен root: обращение отклоняется;
+    защищает привязку DN к конкретному O.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[dn-bound-to-other-container]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: DN приписан только к другому контейнеру
+    criterion: обращение SHALL быть отклонено; принадлежность DN к `Q` SHALL не подтверждать
+      `O`
+- id: holder-subject-single-descendant-model
+  description: 'Одна модель потомка использует субъект root: root остаётся единственным
+    держателем; защищает от передачи владения ссылкой.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-single-descendant-model]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Сохранение держателя субъекта при использовании в модели
+    scenario: Модель потомка использует субъект предка
+    criterion: '`C` SHALL оставаться единственным держателем субъекта, а `M` SHALL
+      не становиться его держателем'
+- id: holder-subject-multiple-descendant-models
+  description: 'Две модели разных потомков используют субъект root: исходная запись
+    неизменна; защищает держателя при повторном использовании.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-multiple-descendant-models]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Сохранение держателя субъекта при использовании в модели
+    scenario: Несколько моделей других контейнеров
+    criterion: '`C` SHALL оставаться единственным держателем субъекта независимо от
+      количества и держателей использующих моделей'
+- id: holder-object-single-ancestor-model
+  description: 'Модель предка C использует объект R: R остаётся единственным держателем;
+    защищает от передачи владения ссылкой.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-single-ancestor-model]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Сохранение держателя объекта при использовании в модели
+    scenario: Модель предка использует объект потомка
+    criterion: '`C` SHALL оставаться единственным держателем объекта, а `M` SHALL
+      не становиться его держателем'
+- id: holder-object-multiple-ancestor-models
+  description: 'Две модели разных предков используют объект R: факты объекта неизменны;
+    защищает держателя при повторном использовании.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-multiple-ancestor-models]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Сохранение держателя объекта при использовании в модели
+    scenario: Несколько моделей других контейнеров
+    criterion: '`C` SHALL оставаться единственным держателем объекта независимо от
+      количества и держателей использующих моделей'

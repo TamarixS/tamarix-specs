@@ -1,8 +1,8 @@
 # Tasks
 
 Процесс принят пользователем 2026-10-14 и описан в
-[design.md](design.md), [testing.md](../../context/testing.md) и
-[ADR 0004](../../context/adr/0004-testing-regression-lifecycle.md).
+[design.md](design.md), [testing.md](../../../context/testing.md) и
+[ADR 0004](../../../context/adr/0004-testing-regression-lifecycle.md).
 Это tooling/docs change с `skip_specs: true`; предметных delta specs нет.
 Выполненные документальные задачи не означают готовность тестовой репы/gate.
 
