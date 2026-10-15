@@ -77,7 +77,7 @@ Runtime, integration/e2e или сервисные тесты этим запр�
 
 ## Реализация и фактические прогоны — 2026-10-14
 
-Создана отдельная локальная Git-репа [TamarixTests](../../../../../TamarixTests/README.md).
+Создана отдельная локальная Git-репа [TamarixTests](../../../../../../TamarixTests/README.md).
 Store pointer разрешает `tamarix-specs`; remote тестовой репы не назначен.
 Проверены `uv lock --check`, `uv sync --frozen`: Python 3.15.0 final,
 uv/uv_build 0.12.24, pytest 9.1.1, PyYAML 6.0.3. Пять ядер 0.1.0
@@ -85,9 +85,9 @@ uv/uv_build 0.12.24, pytest 9.1.1, PyYAML 6.0.3. Пять ядер 0.1.0
 
 Runner/registry/promotion и отчёты реализованы в TamarixTests; archive wrapper
 и CI-валидатор — в этом store. CD manifest/readiness и внешний вызов реализованы
-отдельным локальным [external-test-runner](../../../../../TamarixCD/openspec/changes/external-test-runner/verification.md),
+отдельным локальным [external-test-runner](../../../../../../TamarixCD/openspec/changes/external-test-runner/verification.md),
 4/4 его задач выполнены, strict validation PASS. Контракт описан в
-[EXTERNAL_TESTS.md](../../../../../TamarixCD/ci/EXTERNAL_TESTS.md).
+[EXTERNAL_TESTS.md](../../../../../../TamarixCD/ci/EXTERNAL_TESTS.md).
 
 Проверка реализации из TamarixTests:
 
@@ -191,3 +191,34 @@ check. Запрос merge заведомо ошибочного archive не в�
 повтор `archive_gate.py check` окончательного отчёта после записи задач/evidence:
 **PASS**. `git diff --check` чистый. OpenSpec apply сообщает **all_done, 16/16**.
 Реальный T-2 не архивирован; архивирование — следующий отдельный workflow.
+
+## Архивирование — 2026-10-15
+
+Использован существующий полный отчёт `20261014T145613-3635e2ccfb98`,
+20/20 PASS окончательного promotion commit. Перед переносом проектный
+`archive_gate.py check` повторно сверил актуальные revisions, hashes, traceability
+и registry: **PASS**. Новых runtime-прогонов архивирование не инициировало.
+Все 16 задач и planning artifacts завершены, specs skipped (`skip_specs: true`);
+предметных delta specs нет, основные specs не изменялись.
+
+```sh
+../../TamarixTests/.venv/bin/python tools/archive_gate.py archive \
+  --tests ../../TamarixTests --change t-2-e2e-tests \
+  --report ../../TamarixTests/reports/immutable-runs/1e61a1e8edfc43f599d3294ac9817d56/reports/20261014T145613-3635e2ccfb98/results.json \
+  --operation-id t-2-e2e-tests-20261015-20261014T145613-3635e2ccfb98
+```
+
+Команда из корня store завершилась `state: complete`, change перемещён в
+`openspec/changes/archive/2026-10-15-t-2-e2e-tests/`. В archive сохранены
+run-results.json, run-manifest.json, run-summary.md, regression-registry.yaml
+и regression-evidence.json. [archive-completion.json](archive-completion.json)
+фиксирует operation ID и SHA256 этих снимков; .openspec.yaml сохранён.
+Постоянные исходники и promotion commit тестовой репы сохраняют свои пути.
+Относительные ссылки design/tasks/verification и входящие ссылки context/ADR/tools
+обновлены для архивного расположения.
+
+Для сохранения исходных относительных ссылок отчёта добавлен небольшой полный
+report bundle с оригинальными именами results.json/manifest.json/summary.md,
+JUnit XML и pytest.log; bytes совпадают с исходным прогоном. Нормативные
+run-*.json/run-summary.md snapshots gate сохранены без изменений.
+OpenSpec strict validation: основные specs **4/4 PASS**, архивы **2/2 PASS**.

@@ -35,10 +35,10 @@ Workflow `.github/workflows/archive-evidence.yml` не запускает пре
 Для публичного `TamarixS/tamarix-specs` job `archive-evidence` установлен как
 required check main от GitHub Actions app 15368, strict/enforce_admins включены.
 Проваленный check блокирует merge; отрицательная проверка и API-настройки — в
-[evidence T-2](../openspec/changes/t-2-e2e-tests/github-required-check-evidence.json).
+[evidence T-2](../openspec/changes/archive/2026-10-15-t-2-e2e-tests/github-required-check-evidence.json).
 При переносе в другой remote эту policy нужно настроить и подтвердить отдельно;
 сам файл workflow не устанавливает branch protection.
 
 Изменение существующих архивов до введения evidence требует отдельного review;
-старые архивы этим внедрением не изменяются. Сам `t-2-e2e-tests` архивируется
-только после закрытия его задач, по отдельному workflow follow-up.
+старые архивы этим внедрением не изменяются. Tooling change `t-2-e2e-tests`
+архивирован 2026-10-15 с отчётом, manifest и registry snapshot после выполнения 16/16 задач.

@@ -1,0 +1,423 @@
+{
+  "schema_version": 1,
+  "run_id": "20261014T145613-3635e2ccfb98",
+  "started_at": "2026-10-14T14:56:13.587169+00:00",
+  "finished_at": "2026-10-14T14:56:13.987339+00:00",
+  "duration_seconds": 0.400495,
+  "complete": true,
+  "status": "PASS",
+  "selection": {
+    "change": "t-2-e2e-tests",
+    "ids": [],
+    "level": null,
+    "regression": false,
+    "bootstrap_empty_regression": false
+  },
+  "command": [
+    "/Users/mfedotenko/Projects/TamarixS/TamarixTests/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-p",
+    "tamarix_tests.runner",
+    "-q",
+    "tests/integration/test_access_flow.py",
+    "tests/integration/test_holder_preservation.py",
+    "--junitxml=/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/immutable-runs/1e61a1e8edfc43f599d3294ac9817d56/reports/20261014T145613-3635e2ccfb98/junit.xml"
+  ],
+  "initiator": "explicit-cli",
+  "manifest": {
+    "schema_version": 1,
+    "services": {
+      "container-adm-api": {
+        "commit": "b29e639c15892bfb3bb54330f530ef068de0b91e",
+        "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api",
+        "endpoint": null,
+        "image_digest": null,
+        "distribution": "container-adm-api",
+        "module": "container_adm_api",
+        "source_hashes": {
+          "src/container_adm_api/__init__.py": "7715e390e90132db93dd95b93a24671113dec0db149772f9569bba06f99bc40d",
+          "src/container_adm_api/core.py": "afab88a4dc78dfed33410b5d0bdaf0973e4a603f424a7a1fd58eb17c45b31c8b",
+          "src/container_adm_api/facts.py": "e390fdc50b8d2faa2eb3cbc4fa2b7e6d6190d1cc5213e97d917832a35f4b0cdc",
+          "src/container_adm_api/ports.py": "a03509d2d7cae86c8b0ec1cad9fe01be63df23d1b70c04b176400acee0bedb68"
+        }
+      },
+      "entity-subject-adm-api": {
+        "commit": "8706e2dde6944cdae1fd06a2784cb027540cae46",
+        "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api",
+        "endpoint": null,
+        "image_digest": null,
+        "distribution": "entity-subject-adm-api",
+        "module": "entity_subject_adm_api",
+        "source_hashes": {
+          "src/entity_subject_adm_api/__init__.py": "c99578dd18f3ce679d0309abbdd16a23a85fb299bbe573bd80397cd025bb7c0c",
+          "src/entity_subject_adm_api/core.py": "e8e35f87d6830d17c9e4ccd8e8d8cf262c2a8d3a99531d8bcbd83eeae8c7de59",
+          "src/entity_subject_adm_api/facts.py": "187992902a4f1f1acef859938873c344e7a8eea623551d060cce551e7e284cb5",
+          "src/entity_subject_adm_api/ports.py": "55fc3e3da3a09998aa1600a7b39d6069a647bed34cddc98809e182d9f0450883"
+        }
+      },
+      "entity-object-adm-api": {
+        "commit": "1707a6f470842646609ac86545a72f99f2ca741b",
+        "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api",
+        "endpoint": null,
+        "image_digest": null,
+        "distribution": "entity-object-adm-api",
+        "module": "entity_object_adm_api",
+        "source_hashes": {
+          "src/entity_object_adm_api/__init__.py": "a39fc28a06c0fd99eea4e7c33d09bf4742307240bc90bf5720e488612e715d2e",
+          "src/entity_object_adm_api/core.py": "c2d6bf23577be454caeb0a789e7974b35c7081cee4622e241cc9dd3ece59d44f",
+          "src/entity_object_adm_api/facts.py": "79265a7cb73fe7ff8b3b938fb3523153a118282276aeee71179a4a9e73371f7a",
+          "src/entity_object_adm_api/ports.py": "d82e8fc4fb4436b79bc25b89b09ee36344fe371c29b5080a5bbb485af818046d"
+        }
+      },
+      "policy-adm-api": {
+        "commit": "4230502fe1e068e08d3516ddfa85e2c6a3215d8c",
+        "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api",
+        "endpoint": null,
+        "image_digest": null,
+        "distribution": "policy-adm-api",
+        "module": "policy_adm_api",
+        "source_hashes": {
+          "src/policy_adm_api/__init__.py": "7e532e6e438625f24be6a93c628a8e22a335aaaa805c3d04adc8b7efd40c18ef",
+          "src/policy_adm_api/core.py": "eee7d2d85a33443ffe829a974ac80443ba2d6ac98329de9eaf68a6acac513960",
+          "src/policy_adm_api/facts.py": "0736e38350f5da802c16d23780a99411d3a07fa62b8515507727d29330d0775c",
+          "src/policy_adm_api/ports.py": "c8e62516fa4066a50b3dccc405ad656944a9299f6030f88dfb362a580fc4b7bb"
+        }
+      },
+      "policy-decision-api": {
+        "commit": "e7a0409be87e2ba7a8a2a9fc1b869a858f84ab81",
+        "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api",
+        "endpoint": null,
+        "image_digest": null,
+        "distribution": "policy-decision-api",
+        "module": "policy_decision_api",
+        "source_hashes": {
+          "src/policy_decision_api/__init__.py": "50350b4fec400245d0d631ccf0f8b305b9476cbdf48e4cc0221203425fa86fb3",
+          "src/policy_decision_api/core.py": "d9d83b4cd6122e46824de4eb44cc4d29281fdac83d9de7b807b40b1ce289b192",
+          "src/policy_decision_api/facts.py": "403ec11be96d43a45e712fe5cc50ac2d7c94d0fdccb96cd2d8c9a3bdeb426032",
+          "src/policy_decision_api/ports.py": "dae7b65d093cd96024683bd129a4bcb79903ed6f7e215d7808abcf241f90f33a"
+        }
+      }
+    },
+    "cd": {
+      "commit": "c37933127b83c93aa726111d52db7a0fb987ec54",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixCD"
+    },
+    "tests": {
+      "commit": "b51f49486db1a13be64f0f03a5034846f8114e61",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixTests"
+    },
+    "store": {
+      "commit": "af97e100fa1222e12279a14ced6ea63433c81fa3",
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs",
+      "spec_hashes": {
+        "openspec/specs/authorization/access-check/spec.md": "e77997e8c475fde6e55ba4329b1456f54f41e1f4fe3076e3138a9556fb4d28fa",
+        "openspec/specs/containers/spec.md": "c717caf71e6897121801e75ef429c1e08732d7b1b340dc83a1d84ad66cfc1ed0",
+        "openspec/specs/entities/objects/spec.md": "233ad44e8b3386c326decd4d412d094d3917cb5dc3aa2c83b08c2a1bb120ec5c",
+        "openspec/specs/entities/subjects/spec.md": "02c30c9b72a515ce9c15f7af4b3d6d5512406cda89e325b613dc716bef8ffd77"
+      },
+      "delta_hashes": {}
+    },
+    "migrations": null,
+    "environment": {
+      "id": "c407a86b73744c5d94a82a8b3cc53fc2",
+      "scope": "logical-integration",
+      "python": "3.15.0"
+    }
+  },
+  "manifest_sha256": "44fbda4f5eebee3d50c7d34fcc58c852df7b94a41263aaa88cadd9c009077916",
+  "registry_sha256": "457d6cdd9eabaeed87e23bfcba64705582cad869d806938b2b2bb26232842a2a",
+  "requested_ids": [
+    "access-empty-chain-denied",
+    "access-neutral-chain-denied",
+    "access-undefined-chain-denied",
+    "access-allow-with-neutral-models",
+    "access-ancestor-deny-precedes-addressed",
+    "access-direct-object-address-keeps-root-deny",
+    "access-all-models-of-container-evaluated",
+    "access-descendant-subject-neutralizes-ancestor-models",
+    "access-known-model-error-keeps-allow",
+    "access-skipped-levels-keep-real-path",
+    "access-sibling-model-excluded",
+    "access-represented-outside-object-path",
+    "access-unknown-path-denied-despite-allow",
+    "access-unknown-model-set-denied-despite-allow",
+    "admission-unverified-certificate",
+    "admission-dn-bound-to-other-container",
+    "holder-subject-single-descendant-model",
+    "holder-subject-multiple-descendant-models",
+    "holder-object-single-ancestor-model",
+    "holder-object-multiple-ancestor-models"
+  ],
+  "collected_node_ids": [
+    "tests/integration/test_access_flow.py::test_access_decision[empty-chain-denied]",
+    "tests/integration/test_access_flow.py::test_access_decision[neutral-chain-denied]",
+    "tests/integration/test_access_flow.py::test_access_decision[undefined-chain-denied]",
+    "tests/integration/test_access_flow.py::test_access_decision[allow-with-neutral-models]",
+    "tests/integration/test_access_flow.py::test_access_decision[ancestor-deny-precedes-addressed]",
+    "tests/integration/test_access_flow.py::test_access_decision[direct-object-address-keeps-root-deny]",
+    "tests/integration/test_access_flow.py::test_access_decision[all-models-of-container-evaluated]",
+    "tests/integration/test_access_flow.py::test_access_decision[descendant-subject-neutralizes-ancestor-models]",
+    "tests/integration/test_access_flow.py::test_access_decision[known-model-error-keeps-allow]",
+    "tests/integration/test_access_flow.py::test_access_decision[skipped-levels-keep-real-path]",
+    "tests/integration/test_access_flow.py::test_access_decision[sibling-model-excluded]",
+    "tests/integration/test_access_flow.py::test_access_decision[represented-outside-object-path]",
+    "tests/integration/test_access_flow.py::test_access_decision[unknown-path-denied-despite-allow]",
+    "tests/integration/test_access_flow.py::test_access_decision[unknown-model-set-denied-despite-allow]",
+    "tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[unverified-certificate]",
+    "tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[dn-bound-to-other-container]",
+    "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-single-descendant-model]",
+    "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-multiple-descendant-models]",
+    "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-single-ancestor-model]",
+    "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-multiple-ancestor-models]"
+  ],
+  "executed_ids": [
+    "access-empty-chain-denied",
+    "access-neutral-chain-denied",
+    "access-undefined-chain-denied",
+    "access-allow-with-neutral-models",
+    "access-ancestor-deny-precedes-addressed",
+    "access-direct-object-address-keeps-root-deny",
+    "access-all-models-of-container-evaluated",
+    "access-descendant-subject-neutralizes-ancestor-models",
+    "access-known-model-error-keeps-allow",
+    "access-skipped-levels-keep-real-path",
+    "access-sibling-model-excluded",
+    "access-represented-outside-object-path",
+    "access-unknown-path-denied-despite-allow",
+    "access-unknown-model-set-denied-despite-allow",
+    "admission-unverified-certificate",
+    "admission-dn-bound-to-other-container",
+    "holder-subject-single-descendant-model",
+    "holder-subject-multiple-descendant-models",
+    "holder-object-single-ancestor-model",
+    "holder-object-multiple-ancestor-models"
+  ],
+  "errors": [],
+  "cases": [
+    {
+      "id": "access-empty-chain-denied",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[empty-chain-denied]",
+      "description": "Без моделей на всём пути ожидается запрет по умолчанию; защищает от разрешения пустого набора.",
+      "status": "PASS",
+      "duration_seconds": 0.00039416599611286074,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.913484+00:00"
+    },
+    {
+      "id": "access-neutral-chain-denied",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[neutral-chain-denied]",
+      "description": "Все известные модели нейтральны: ожидается запрет по умолчанию; защищает отсутствие подходящих разрешений.",
+      "status": "PASS",
+      "duration_seconds": 0.00037674900522688404,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.917810+00:00"
+    },
+    {
+      "id": "access-undefined-chain-denied",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[undefined-chain-denied]",
+      "description": "Все известные модели завершаются объявленной ошибкой: ожидается запрет; контролирует отсутствие определённых разрешений.",
+      "status": "PASS",
+      "duration_seconds": 0.00025395800184924155,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.920177+00:00"
+    },
+    {
+      "id": "access-allow-with-neutral-models",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[allow-with-neutral-models]",
+      "description": "Модель объекта разрешает, остальные нейтральны: ожидается разрешение; проверяет прохождение разрешения через пять ядер.",
+      "status": "PASS",
+      "duration_seconds": 0.0002588749921415001,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.922451+00:00"
+    },
+    {
+      "id": "access-ancestor-deny-precedes-addressed",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[ancestor-deny-precedes-addressed]",
+      "description": "Корень запрещает, C и R разрешают: итоговый запрет; контролирует включение предков адресуемого контейнера.",
+      "status": "PASS",
+      "duration_seconds": 0.0002854590129572898,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.925024+00:00"
+    },
+    {
+      "id": "access-direct-object-address-keeps-root-deny",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[direct-object-address-keeps-root-deny]",
+      "description": "При обращении прямо к R корень запрещает, R разрешает: итоговый запрет; защищает полную цепочку при C=R.",
+      "status": "PASS",
+      "duration_seconds": 0.000284333000308834,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.927677+00:00"
+    },
+    {
+      "id": "access-all-models-of-container-evaluated",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[all-models-of-container-evaluated]",
+      "description": "Две модели одного C: разрешающая и с разрешением/запретом; итоговый запрет защищает учёт всех моделей и приоритет запрета.",
+      "status": "PASS",
+      "duration_seconds": 0.00033929200435522944,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.930024+00:00"
+    },
+    {
+      "id": "access-descendant-subject-neutralizes-ancestor-models",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[descendant-subject-neutralizes-ancestor-models]",
+      "description": "Субъект принадлежит R: модели предков вне его области, R разрешает; ожидается разрешение без общей привязки к C.",
+      "status": "PASS",
+      "duration_seconds": 0.0003030840016435832,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.932643+00:00"
+    },
+    {
+      "id": "access-known-model-error-keeps-allow",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[known-model-error-keeps-allow]",
+      "description": "Известная модель корня даёт ошибку, R разрешает: ожидается разрешение; отличает неопределённый результат от неизвестного состава.",
+      "status": "PASS",
+      "duration_seconds": 0.0002565420072642155,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.935144+00:00"
+    },
+    {
+      "id": "access-skipped-levels-keep-real-path",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[skipped-levels-keep-real-path]",
+      "description": "Organization непосредственно содержит module R; обе модели участвуют и R разрешает; контролирует фактический путь без пустых уровней.",
+      "status": "PASS",
+      "duration_seconds": 0.00024083301104838029,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.937367+00:00"
+    },
+    {
+      "id": "access-sibling-model-excluded",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[sibling-model-excluded]",
+      "description": "Модель соседней ветки запрещает, R разрешает: итоговое разрешение; защищает исключение посторонних моделей из цепочки.",
+      "status": "PASS",
+      "duration_seconds": 0.00024625000514788553,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.939738+00:00"
+    },
+    {
+      "id": "access-represented-outside-object-path",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[represented-outside-object-path]",
+      "description": "Подтверждённый O находится в соседней ветке, C на пути объекта и R разрешает: итоговое разрешение; защищает независимость C и O.",
+      "status": "PASS",
+      "duration_seconds": 0.0002432490000501275,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.942112+00:00"
+    },
+    {
+      "id": "access-unknown-path-denied-despite-allow",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[unknown-path-denied-despite-allow]",
+      "description": "Полнота пути неизвестна при сохранённом разрешении: итоговый запрет до вычисления; предотвращает разрешение по частичному пути.",
+      "status": "PASS",
+      "duration_seconds": 0.00026483400142751634,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.944445+00:00"
+    },
+    {
+      "id": "access-unknown-model-set-denied-despite-allow",
+      "node_id": "tests/integration/test_access_flow.py::test_access_decision[unknown-model-set-denied-despite-allow]",
+      "description": "Полный список моделей C неизвестен при разрешении корня: итоговый запрет до вычисления; не подменяет неизвестный список пустым.",
+      "status": "PASS",
+      "duration_seconds": 0.00025033300335053355,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.946681+00:00"
+    },
+    {
+      "id": "admission-unverified-certificate",
+      "node_id": "tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[unverified-certificate]",
+      "description": "Без подтверждённого сертификата обращение отклоняется до чтения пути; защищает обязательный допуск.",
+      "status": "PASS",
+      "duration_seconds": 0.0002484170108800754,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.948949+00:00"
+    },
+    {
+      "id": "admission-dn-bound-to-other-container",
+      "node_id": "tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[dn-bound-to-other-container]",
+      "description": "DN зарегистрирован только за outside, а заявлен root: обращение отклоняется; защищает привязку DN к конкретному O.",
+      "status": "PASS",
+      "duration_seconds": 0.0002146259939763695,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.951346+00:00"
+    },
+    {
+      "id": "holder-subject-single-descendant-model",
+      "node_id": "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-single-descendant-model]",
+      "description": "Одна модель потомка использует субъект root: root остаётся единственным держателем; защищает от передачи владения ссылкой.",
+      "status": "PASS",
+      "duration_seconds": 0.00024870800552889705,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.953734+00:00"
+    },
+    {
+      "id": "holder-subject-multiple-descendant-models",
+      "node_id": "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-multiple-descendant-models]",
+      "description": "Две модели разных потомков используют субъект root: исходная запись неизменна; защищает держателя при повторном использовании.",
+      "status": "PASS",
+      "duration_seconds": 0.00024420800036750734,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.955971+00:00"
+    },
+    {
+      "id": "holder-object-single-ancestor-model",
+      "node_id": "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-single-ancestor-model]",
+      "description": "Модель предка C использует объект R: R остаётся единственным держателем; защищает от передачи владения ссылкой.",
+      "status": "PASS",
+      "duration_seconds": 0.00021633300639223307,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.958203+00:00"
+    },
+    {
+      "id": "holder-object-multiple-ancestor-models",
+      "node_id": "tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-multiple-ancestor-models]",
+      "description": "Две модели разных предков используют объект R: факты объекта неизменны; защищает держателя при повторном использовании.",
+      "status": "PASS",
+      "duration_seconds": 0.00027629199757939205,
+      "error": null,
+      "artifacts": [],
+      "started_at": "2026-10-14T14:56:13.960486+00:00"
+    }
+  ],
+  "counts": {
+    "PASS": 20,
+    "FAIL": 0,
+    "ERROR": 0,
+    "SKIP": 0,
+    "XFAIL": 0,
+    "XPASS": 0,
+    "NOT_RUN": 0,
+    "total": 20
+  },
+  "artifacts": {
+    "results": "results.json",
+    "summary": "summary.md",
+    "manifest": "manifest.json",
+    "junit": "junit.xml",
+    "pytest_log": "pytest.log"
+  },
+  "report_path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/immutable-runs/1e61a1e8edfc43f599d3294ac9817d56/reports/20261014T145613-3635e2ccfb98/results.json",
+  "artifact_sha256": {
+    "manifest": "44fbda4f5eebee3d50c7d34fcc58c852df7b94a41263aaa88cadd9c009077916",
+    "junit": "c45fa126ba6b54d00b71e851a6c93240abed58882dc40885eb6e1331251a871b",
+    "pytest_log": "db3988c5aa61c1f984246df6ea9d0e2032da7e891357d094b54e240a3ea50fe1",
+    "summary": "2432f938c04562fc721c6b63485e4389bd1dee0551c81055cc33ba1f21f2b896"
+  }
+}

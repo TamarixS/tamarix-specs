@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "operation_id": "t-2-e2e-tests-20261015-20261014T145613-3635e2ccfb98",
+  "change": "t-2-e2e-tests",
+  "report_sha256": "4f9f32f3d74caa67971cdb8d562fa253e10c3e3e4fe0052da21a0ea1988fdd2a",
+  "archive_path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-15-t-2-e2e-tests",
+  "state": "complete",
+  "date": "2026-10-15",
+  "schema": "spec-driven",
+  "tasks_completed": 16,
+  "tasks_total": 16,
+  "spec_sync": "No delta specs; skip_specs=true",
+  "runtime_tests_started_by_archive": false,
+  "provided_report_run_id": "20261014T145613-3635e2ccfb98",
+  "hashes": {
+    "run-results.json": "4f9f32f3d74caa67971cdb8d562fa253e10c3e3e4fe0052da21a0ea1988fdd2a",
+    "run-manifest.json": "44fbda4f5eebee3d50c7d34fcc58c852df7b94a41263aaa88cadd9c009077916",
+    "run-summary.md": "2432f938c04562fc721c6b63485e4389bd1dee0551c81055cc33ba1f21f2b896",
+    "regression-registry.yaml": "457d6cdd9eabaeed87e23bfcba64705582cad869d806938b2b2bb26232842a2a",
+    "regression-evidence.json": "a003ed212cb9188fb9132c475a66ad5e3d1b7c4b0ca6fd9aac8f5650ee55568c"
+  },
+  "report_bundle": {
+    "junit.xml": "c45fa126ba6b54d00b71e851a6c93240abed58882dc40885eb6e1331251a871b",
+    "manifest.json": "44fbda4f5eebee3d50c7d34fcc58c852df7b94a41263aaa88cadd9c009077916",
+    "pytest.log": "db3988c5aa61c1f984246df6ea9d0e2032da7e891357d094b54e240a3ea50fe1",
+    "results.json": "4f9f32f3d74caa67971cdb8d562fa253e10c3e3e4fe0052da21a0ea1988fdd2a",
+    "summary.md": "2432f938c04562fc721c6b63485e4389bd1dee0551c81055cc33ba1f21f2b896"
+  }
+}
