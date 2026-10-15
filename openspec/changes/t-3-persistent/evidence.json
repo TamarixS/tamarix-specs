@@ -1,0 +1,1402 @@
+{
+  "schema_version": 1,
+  "evidence_type": "supplemental-foundation-verification-draft",
+  "change": "t-3-persistent",
+  "status": "DRAFT_INCOMPLETE",
+  "generated_at": "2026-10-15T14:06:15.595729+00:00",
+  "archive_ready": false,
+  "consumed_by_archive_gate": false,
+  "scope": {
+    "foundation": true,
+    "intended_environment_scope": "postgresql-integration",
+    "business_http_e2e": false,
+    "production_pki_validation": false,
+    "full_persistent_pdp": false,
+    "models": "metadata id/holder/key/revision plus attributes only",
+    "deferred": [
+      "privileges/actions and internal model representation",
+      "physical model-reference storage",
+      "cleanup of incoming model references on subject/object/container lifecycle",
+      "affected model revisions and atomicity including future reference cleanup",
+      "full persistent CompleteModelSet/evaluator/access-decision integration"
+    ]
+  },
+  "sources": {
+    "archive_gate": {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs/tools/archive_gate.py",
+      "sha256": "7997dfff10240d97ad62c4203cbaa13e1ad92ef87839fb282f240556276f00a3"
+    },
+    "archive_gate_documentation": {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs/tools/ARCHIVE_GATE.md",
+      "sha256": "b04e9fca2a39e18b63a3ad7ccea8358ecebddf501be91371b1ba6bf85a9ebe53"
+    },
+    "runner": {
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/src/tamarix_tests/runner.py",
+      "sha256": "83835695905a8c052d9aa797808ffc3239735878c3be90f0720bc4e6117449eb"
+    },
+    "promotion_cli": {
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/src/tamarix_tests/cli.py",
+      "sha256": "9c33a5531babaeb3c80c65e2805c9cb5d2cc608d2d82b336d9cb3fcca548ebc9"
+    }
+  },
+  "registry_snapshot": {
+    "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/registry.yaml",
+    "sha256": "fe89d5d68db21b0d7dc0f72d97d5c0325a5f2aac3781585c2156be8fee1d9551",
+    "schema_version": 1,
+    "change_case_count": 81,
+    "change_states": {
+      "candidate": 81
+    },
+    "groups": {
+      "persistent-containers": 30,
+      "persistent-subjects": 12,
+      "persistent-objects": 8,
+      "persistent-attributes": 20,
+      "persistent-models": 6,
+      "persistent-facts": 5
+    },
+    "previous_regression_count": 20,
+    "full_required_count": 101,
+    "collection_status": "PENDING_SOURCE_PINNED_RUNNER",
+    "execution_status": "PENDING_ROOT_REPORT",
+    "cases": [
+      {
+        "id": "persistent-containers-c01",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c02",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c03",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c04",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c05",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c05]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c06",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c06]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c07",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c07]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c08",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c08]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c09",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c09]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c10",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c10]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c11",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c11]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c12",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c12]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c13",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c13]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c14",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c14]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c15",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c15]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c16",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c16]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c17",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c17]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c18",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c18]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c19",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c19]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c20",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c20]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c21",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c21]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c22",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c22]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c23",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c23]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c24",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c24]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c25",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c25]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c26",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c26]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c27",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c27]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c28",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c28]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c29",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c29]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-containers-c30",
+        "node_id": "tests/integration/persistence/test_containers.py::test_contract[c30]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c01",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c02",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c03",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c04",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c05",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c05]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c06",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c06]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c07",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c07]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c08",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c08]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c09",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c09]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c10",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c10]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c11",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c11]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-subjects-c12",
+        "node_id": "tests/integration/persistence/test_subjects.py::test_contract[c12]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c01",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c02",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c03",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c04",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c05",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c05]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c06",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c06]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c07",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c07]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-objects-c08",
+        "node_id": "tests/integration/persistence/test_objects.py::test_contract[c08]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c01",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c02",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c03",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c04",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c05",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c05]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c06",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c06]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c07",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c07]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c08",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c08]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c09",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c09]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c10",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c10]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c11",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c11]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c12",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c12]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c13",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c13]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c14",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c14]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c15",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c15]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c16",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c16]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c17",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c17]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c18",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c18]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c19",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c19]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-attributes-c20",
+        "node_id": "tests/integration/persistence/test_attributes.py::test_contract[c20]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c01",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c02",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c03",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c04",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c05",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c05]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-models-c06",
+        "node_id": "tests/integration/persistence/test_models.py::test_contract[c06]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-facts-c01",
+        "node_id": "tests/integration/persistence/test_fact_views.py::test_contract[c01]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-facts-c02",
+        "node_id": "tests/integration/persistence/test_fact_views.py::test_contract[c02]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-facts-c03",
+        "node_id": "tests/integration/persistence/test_fact_views.py::test_contract[c03]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-facts-c04",
+        "node_id": "tests/integration/persistence/test_fact_views.py::test_contract[c04]",
+        "state": "candidate"
+      },
+      {
+        "id": "persistent-facts-c05",
+        "node_id": "tests/integration/persistence/test_fact_views.py::test_contract[c05]",
+        "state": "candidate"
+      }
+    ]
+  },
+  "observed_checkouts_not_tested_versions": {
+    "store": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs",
+      "observed_head": "2ce4da8c242221a952dc624b1047227af5e344c0",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "tests": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixTests",
+      "observed_head": "b51f49486db1a13be64f0f03a5034846f8114e61",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "cd": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/TamarixCD",
+      "observed_head": "c37933127b83c93aa726111d52db7a0fb987ec54",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "db_control": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control",
+      "observed_head": "8605b4a1061dd4ca88f94ab6bb2563dc5207f67b",
+      "observed_dirty": false,
+      "tested_commit": null
+    },
+    "container-adm-api": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api",
+      "observed_head": "b29e639c15892bfb3bb54330f530ef068de0b91e",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "entity-subject-adm-api": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api",
+      "observed_head": "8706e2dde6944cdae1fd06a2784cb027540cae46",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "entity-object-adm-api": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api",
+      "observed_head": "1707a6f470842646609ac86545a72f99f2ca741b",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "policy-adm-api": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api",
+      "observed_head": "4230502fe1e068e08d3516ddfa85e2c6a3215d8c",
+      "observed_dirty": true,
+      "tested_commit": null
+    },
+    "policy-decision-api": {
+      "repo_root": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api",
+      "observed_head": "e7a0409be87e2ba7a8a2a9fc1b869a858f84ab81",
+      "observed_dirty": true,
+      "tested_commit": null
+    }
+  },
+  "draft_spec_hashes": {
+    "openspec/specs/authorization/access-check/spec.md": "e77997e8c475fde6e55ba4329b1456f54f41e1f4fe3076e3138a9556fb4d28fa",
+    "openspec/specs/containers/spec.md": "c717caf71e6897121801e75ef429c1e08732d7b1b340dc83a1d84ad66cfc1ed0",
+    "openspec/specs/entities/objects/spec.md": "233ad44e8b3386c326decd4d412d094d3917cb5dc3aa2c83b08c2a1bb120ec5c",
+    "openspec/specs/entities/subjects/spec.md": "02c30c9b72a515ce9c15f7af4b3d6d5512406cda89e325b613dc716bef8ffd77"
+  },
+  "draft_delta_hashes": {
+    "openspec/changes/t-3-persistent/specs/access-model/models/spec.md": "8e8510af5a8b690c699d6e8284e88e240677e18e5cf046955f62795f40fb904d",
+    "openspec/changes/t-3-persistent/specs/attributes/spec.md": "232cf38e7b807439ea0e85dc1ebc82b5af2e70def1624848fb12b1f5a0d600fc",
+    "openspec/changes/t-3-persistent/specs/authorization/access-check/spec.md": "9b9029fa28139a82c4f39e6f0620e11a49aa90abf4a228a5c44a16cefcf2c632",
+    "openspec/changes/t-3-persistent/specs/containers/spec.md": "ead0274d045e963202e29ebbfb3a1dcb06b360fde36d66f5b877d59d19bc8e90",
+    "openspec/changes/t-3-persistent/specs/entities/objects/spec.md": "9673318822a385233d809d4ffe05432df44c295e7f1224856f3fa6eb7e5c3e8b",
+    "openspec/changes/t-3-persistent/specs/entities/subjects/spec.md": "f97dd26e1c46e9b56819d76394e17e6db09407bcd39f04fa3e169cc8696939cf"
+  },
+  "local_reports": [
+    {
+      "label": "db-control contracts",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/results.json",
+      "sha256": "95a455c42f71a30797050bedfe685899e57702219d91928bc7e51411de72e39e",
+      "report_type": "component",
+      "run_id": "25e087ccba9345d5a7aaaeb38f8e7c15",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T12:32:49.206919+00:00",
+      "finished_at": "2026-10-15T12:32:49.579615+00:00",
+      "duration_seconds": 0.3727110839972738,
+      "returncode": 0,
+      "requested": [
+        "tests/test_contracts.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 93,
+        "total": 93
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/summary.md",
+          "sha256": "6ee680f92e78e4211b286b1eae8800dbe2a551ddddd230f938d81839973a68d0"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/pytest.log",
+          "sha256": "0ff24dd674dd3d698c95eaf35db082809ec4f317ac4ef81abe29462ee0c42535"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/junit.xml",
+          "sha256": "1a4f43ba73a83aa141184caba1bb31c27ac0a8be460bf286ba04a564244fef38"
+        }
+      }
+    },
+    {
+      "label": "db-control deployment/reporting",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/bac7a377a28d49f0af97a3f4e3433fc9/results.json",
+      "sha256": "3c2d31b6b04d284171b38c7e461d995c09ac61ce6316b30fab05d227ce5e56f3",
+      "report_type": "component",
+      "run_id": "bac7a377a28d49f0af97a3f4e3433fc9",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:27:15.206930+00:00",
+      "finished_at": "2026-10-15T13:27:16.358773+00:00",
+      "duration_seconds": 1.1518589170009363,
+      "returncode": 0,
+      "requested": [
+        "tests/test_deployment_cli.py",
+        "tests/test_reporting.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 15,
+        "total": 15
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/bac7a377a28d49f0af97a3f4e3433fc9/summary.md",
+          "sha256": "fa125b47ac7c6b12a093bbdfb4eae8bec964ecaefb5c88ab63afdd26d2b79a5c"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/bac7a377a28d49f0af97a3f4e3433fc9/pytest.log",
+          "sha256": "2474a6233c25a55303cfdbee51446b3dd78e70c0a33fd0b4121caf79f39c5c00"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/bac7a377a28d49f0af97a3f4e3433fc9/junit.xml",
+          "sha256": "3891bdebac2359e73fd627d22437d4c1a86fbc2cf8937d4bc686f0ee10f32956"
+        }
+      }
+    },
+    {
+      "label": "db-control deployment CLI",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/0b91fc8f0deb4d16a32608c4bb8bf94a/results.json",
+      "sha256": "c83ad2bf5ebe128f410261801c41bdc30201fb520805c26ff9bbaa48c5bc013b",
+      "report_type": "component",
+      "run_id": "0b91fc8f0deb4d16a32608c4bb8bf94a",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:31:17.438245+00:00",
+      "finished_at": "2026-10-15T13:31:17.786322+00:00",
+      "duration_seconds": 0.34810370800551027,
+      "returncode": 0,
+      "requested": [
+        "tests/test_deployment_cli.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 11,
+        "total": 11
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/0b91fc8f0deb4d16a32608c4bb8bf94a/summary.md",
+          "sha256": "d3fe0857304eeb4a54d0436322fc342cd183421e11c253ef60affa2f8541ffd0"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/0b91fc8f0deb4d16a32608c4bb8bf94a/pytest.log",
+          "sha256": "3817260cc1420f191e30ab7b7a0b24bd97633c13927e57fbb803bb0f77ce27f3"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/0b91fc8f0deb4d16a32608c4bb8bf94a/junit.xml",
+          "sha256": "e42c66400e487413f9573ac21a9f8544e1317aeaba20f270f527e873d49e2b83"
+        }
+      }
+    },
+    {
+      "label": "db-control constraints/concurrency/migrations",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/833dd42b57d742f4af5a16cfc36696a1/results.json",
+      "sha256": "7d3332fc27634a9522b2a11189cae461222eb0c435f5f5278006e66bde024c7b",
+      "report_type": "component",
+      "run_id": "833dd42b57d742f4af5a16cfc36696a1",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:27:46.398771+00:00",
+      "finished_at": "2026-10-15T13:27:58.466847+00:00",
+      "duration_seconds": 12.068135000008624,
+      "returncode": 0,
+      "requested": [
+        "tests/component/test_containers.py",
+        "tests/component/test_subjects.py",
+        "tests/component/test_objects.py",
+        "tests/component/test_model_metadata.py",
+        "tests/component/test_attributes_schema.py",
+        "tests/component/test_attribute_equality.py",
+        "tests/component/test_migrations.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 76,
+        "total": 76
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/833dd42b57d742f4af5a16cfc36696a1/summary.md",
+          "sha256": "10a0123a90ee0ce5614eaf3715b5cf07c975da0b4da8cb8501d7e54ed842f906"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/833dd42b57d742f4af5a16cfc36696a1/pytest.log",
+          "sha256": "a5d3149e29a36036481df7470daf7073483d78bf7bfe3c789ee6334bb4b7bb69"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/833dd42b57d742f4af5a16cfc36696a1/junit.xml",
+          "sha256": "75c3c8df313e85c2d16ebd9cc9d74d5b9542958628c211794bd734def5c247b9"
+        }
+      }
+    },
+    {
+      "label": "db-control DN codec",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/results.json",
+      "sha256": "81ff4aaf4b182d24b19897eca4f1dca0f2a85db221d4ab4846e46225ee7e5a5c",
+      "report_type": "component",
+      "run_id": "c3ce7f52b1c14421b6173afd64dfe6e8",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:14:21.083617+00:00",
+      "finished_at": "2026-10-15T13:14:22.805289+00:00",
+      "duration_seconds": 1.7217020410025725,
+      "returncode": 0,
+      "requested": [
+        "tests/component/test_dn_codec.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 88,
+        "total": 88
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/summary.md",
+          "sha256": "7c7d8eb0ee94116f5ddc27a975dbcc063601bb2ddcbc2e7c15bcfa6ff7aec905"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/pytest.log",
+          "sha256": "d16aa242ef5b93b10f35039dff2cb6beedd575293aaee029729d84045e0973db"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/junit.xml",
+          "sha256": "a27142ac1465cd443f766e98d259fa855e7377c332ed011f9421e87d311c50cd"
+        }
+      }
+    },
+    {
+      "label": "db-control bootstrap/roles",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/7ccc754d4e474b11989f4a3f33b66b40/results.json",
+      "sha256": "9a47a566a982dc8ff20bceec5bd6627dd05e54c6a1cccf983879749e7f512495",
+      "report_type": "component",
+      "run_id": "7ccc754d4e474b11989f4a3f33b66b40",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:55.546353+00:00",
+      "finished_at": "2026-10-15T14:01:00.015110+00:00",
+      "duration_seconds": 4.468842125002993,
+      "returncode": 0,
+      "requested": [
+        "tests/component/test_bootstrap.py",
+        "tests/component/test_database_roles.py",
+        "-q",
+        "--tb=short"
+      ],
+      "counts": {
+        "PASS": 25,
+        "total": 25
+      },
+      "python": "3.15.0",
+      "versions": {
+        "db-control": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": "1.20.0",
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/7ccc754d4e474b11989f4a3f33b66b40/summary.md",
+          "sha256": "8de781ae0b74375d6e23a943f09547afcda50472edba2c441201fdf472b48142"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/7ccc754d4e474b11989f4a3f33b66b40/pytest.log",
+          "sha256": "318dad004aa338a08b34bb6104ee141b898ce18b5c3a5504776cb3a25af4015b"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/7ccc754d4e474b11989f4a3f33b66b40/junit.xml",
+          "sha256": "423083846df77112fc23a1de79aad4dce5e24d60832deadd208553ab96021a1f"
+        }
+      }
+    },
+    {
+      "label": "container-adm-api full local suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/9d1c7c569872462e8750043ddcdc7c7a/results.json",
+      "sha256": "39f8b1b0b83f89b66492a214b566e29f3af19cc71d0fde034ab5732ff60a2b53",
+      "report_type": "component",
+      "run_id": "9d1c7c569872462e8750043ddcdc7c7a",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:51.973236+00:00",
+      "finished_at": "2026-10-15T14:00:56.202653+00:00",
+      "duration_seconds": 4.229495207997388,
+      "returncode": 0,
+      "requested": [
+        "tests",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 182,
+        "total": 182
+      },
+      "python": "3.15.0",
+      "versions": {
+        "container-adm-api": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/9d1c7c569872462e8750043ddcdc7c7a/summary.md",
+          "sha256": "c80911ef5871668949556cce5167e4529b4507e0117a082024bbe3d6737ec25a"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/9d1c7c569872462e8750043ddcdc7c7a/pytest.log",
+          "sha256": "dc79dba58736a0d2110852e188c2afd76287981b8bbff3fc7594417679e895b9"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/9d1c7c569872462e8750043ddcdc7c7a/junit.xml",
+          "sha256": "7543501b307308a3d59d8fd047d46605c8a28dd7fd234cd1e83bd73a6f702488"
+        }
+      }
+    },
+    {
+      "label": "entity-subject-adm-api full local suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/9f7f612b59b5445dada40fd5c612da81/results.json",
+      "sha256": "e111a8ad2d7b9873d73cc0232e81515fab5e07b1173236439e0dba8f0ab87d37",
+      "report_type": "component",
+      "run_id": "9f7f612b59b5445dada40fd5c612da81",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:51.975714+00:00",
+      "finished_at": "2026-10-15T14:00:54.663459+00:00",
+      "duration_seconds": 2.6878027920029126,
+      "returncode": 0,
+      "requested": [
+        "tests",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 107,
+        "total": 107
+      },
+      "python": "3.15.0",
+      "versions": {
+        "entity-subject-adm-api": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/9f7f612b59b5445dada40fd5c612da81/summary.md",
+          "sha256": "8bf9a788436e355d9cb2bcbdbe109867a50b15c35b6eb6771100c4537ebfed62"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/9f7f612b59b5445dada40fd5c612da81/pytest.log",
+          "sha256": "3cb3c951dbaa7c70422362b28dc044f96ee282a3278ef1721d8d6f9a719cc6cd"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/9f7f612b59b5445dada40fd5c612da81/junit.xml",
+          "sha256": "b0b750132eef0d67efb1d4871b0f2f3202db57f0bb2e0b2730b3c3ff30778a66"
+        }
+      }
+    },
+    {
+      "label": "entity-object-adm-api full local suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/52d13d42542645599b8afe085d389c47/results.json",
+      "sha256": "a6fb43b540603f47e89da84e406d4888ceeee4b26a767c75a3cdbff214c4de0e",
+      "report_type": "component",
+      "run_id": "52d13d42542645599b8afe085d389c47",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:51.977947+00:00",
+      "finished_at": "2026-10-15T14:00:54.594983+00:00",
+      "duration_seconds": 2.6171046660019783,
+      "returncode": 0,
+      "requested": [
+        "tests",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 104,
+        "total": 104
+      },
+      "python": "3.15.0",
+      "versions": {
+        "entity-object-adm-api": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/52d13d42542645599b8afe085d389c47/summary.md",
+          "sha256": "e64f14746eea2fee0178654056d6b63f4ab9f9059160d8bc197955183da884da"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/52d13d42542645599b8afe085d389c47/pytest.log",
+          "sha256": "618bd427a66ba5c79a08cc0ac2318277d47f17a922df7eedd4c7b06554e4849b"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/52d13d42542645599b8afe085d389c47/junit.xml",
+          "sha256": "c6e1386453a820b2e259029f802ff39de38816839302dcec832726491cdf832e"
+        }
+      }
+    },
+    {
+      "label": "policy-adm-api full local suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/bb9fe3fde2824f8f8be8bcb8a706f7a6/results.json",
+      "sha256": "04279a61457baff32d840cb7e64f92f308f32e239c560f6809bf281fd4929679",
+      "report_type": "component",
+      "run_id": "bb9fe3fde2824f8f8be8bcb8a706f7a6",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:51.973918+00:00",
+      "finished_at": "2026-10-15T14:00:54.807585+00:00",
+      "duration_seconds": 2.8337500000052387,
+      "returncode": 0,
+      "requested": [
+        "tests",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 150,
+        "total": 150
+      },
+      "python": "3.15.0",
+      "versions": {
+        "policy-adm-api": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/bb9fe3fde2824f8f8be8bcb8a706f7a6/summary.md",
+          "sha256": "8ef921fa43c313a68a068484c6436df6fc021830963761bf6bb46785ed1b4a64"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/bb9fe3fde2824f8f8be8bcb8a706f7a6/pytest.log",
+          "sha256": "033fa86954314bad2e85d16cc004dece421375504b426c39834de383af28cdd0"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/bb9fe3fde2824f8f8be8bcb8a706f7a6/junit.xml",
+          "sha256": "b3c94ec51d4742e23e367fe54949dfdfc4ceb2ace7542e230f51a15cce8347b6"
+        }
+      }
+    },
+    {
+      "label": "policy-decision-api full local suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api/reports/a161d6a6c6ee4b2b9fc1f3a8b1656960/results.json",
+      "sha256": "4645b8f08f427eb0aded7d18c3e359b2d5f36a74e7584196124db2a652e35d21",
+      "report_type": "component",
+      "run_id": "a161d6a6c6ee4b2b9fc1f3a8b1656960",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T14:00:51.974663+00:00",
+      "finished_at": "2026-10-15T14:00:52.952297+00:00",
+      "duration_seconds": 0.9776728750002803,
+      "returncode": 0,
+      "requested": [
+        "tests",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 139,
+        "total": 139
+      },
+      "python": "3.15.0",
+      "versions": {
+        "policy-decision-api": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api/reports/a161d6a6c6ee4b2b9fc1f3a8b1656960/summary.md",
+          "sha256": "1b99d5bbfd4bdb4a875b8eb51c965d6bc4035e6992ab59db44da9f804d30169f"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api/reports/a161d6a6c6ee4b2b9fc1f3a8b1656960/pytest.log",
+          "sha256": "d8d75b85800bd7fa593c5a00c0ea649df0a9f3c84c6b052187370c9262ebc244"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api/reports/a161d6a6c6ee4b2b9fc1f3a8b1656960/junit.xml",
+          "sha256": "eeeafe02b95dfe621f5ec144532ee9badb4b564ea3e7765a1e86b45e6d48a565"
+        }
+      }
+    },
+    {
+      "label": "TamarixTests runner unit suite",
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/1b5b67967994482c862b2ae15ac526b8/results.json",
+      "sha256": "3bc329c83b7709389e7d71db0bdc79ef42992c599bcd8cb3b39acfb5fe109cb8",
+      "report_type": "component",
+      "run_id": "1b5b67967994482c862b2ae15ac526b8",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:40:16.801443+00:00",
+      "finished_at": "2026-10-15T13:40:45.218734+00:00",
+      "duration_seconds": 28.417547707998892,
+      "returncode": 0,
+      "requested": [
+        "tests/unit",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 79,
+        "total": 79
+      },
+      "python": "3.15.0",
+      "versions": {
+        "tamarix-tests": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/1b5b67967994482c862b2ae15ac526b8/summary.md",
+          "sha256": "ee4c36fc6b9a9f41c3070aa33f3d55397b7048d9377b9ec9d213fa19577e7c07"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/1b5b67967994482c862b2ae15ac526b8/pytest.log",
+          "sha256": "f6149d6b9d36904d179e65047941b895eaabf701ee04fd98f6a09ea2973ba4d6"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/1b5b67967994482c862b2ae15ac526b8/junit.xml",
+          "sha256": "60b8f1704a00058fae67b13b182be1e7b847037990c9e1a784f5b96a054e2bef"
+        }
+      }
+    },
+    {
+      "label": "TamarixTests PostgreSQL environment component",
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/dc0d8a6c50914a7bbb0445f6a4b802e8/results.json",
+      "sha256": "c45e65b7ac609985218d3cb77eebdfd4344372293a10e85ce3e7b41b416db3e5",
+      "report_type": "component",
+      "run_id": "dc0d8a6c50914a7bbb0445f6a4b802e8",
+      "status": "PASS",
+      "complete": true,
+      "started_at": "2026-10-15T13:39:38.963941+00:00",
+      "finished_at": "2026-10-15T13:39:42.371412+00:00",
+      "duration_seconds": 3.4075263749982696,
+      "returncode": 0,
+      "requested": [
+        "tests/component/test_postgresql_environment.py",
+        "-q"
+      ],
+      "counts": {
+        "PASS": 4,
+        "total": 4
+      },
+      "python": "3.15.0",
+      "versions": {
+        "tamarix-tests": "0.1.0",
+        "SQLAlchemy": "2.1.4",
+        "psycopg": "3.3.6",
+        "psycopg-binary": "3.3.6",
+        "alembic": null,
+        "pytest": "9.1.1"
+      },
+      "source_commit": null,
+      "source_hashes": null,
+      "source_binding": "Component wrapper does not bind commit/source hashes; this is local-run evidence, not final immutable integration evidence.",
+      "artifacts": {
+        "summary.md": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/dc0d8a6c50914a7bbb0445f6a4b802e8/summary.md",
+          "sha256": "6e026e6fb6f7522d13f63b2e7a2c489c606d81d7d6b5e97e58ab2f4d56f25ab2"
+        },
+        "pytest.log": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/dc0d8a6c50914a7bbb0445f6a4b802e8/pytest.log",
+          "sha256": "587fe65ff7dcdb78d625c2325179081a90274994fba614ed3bd1b25f578c068d"
+        },
+        "junit.xml": {
+          "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/dc0d8a6c50914a7bbb0445f6a4b802e8/junit.xml",
+          "sha256": "47b3719d7abcb0e1b963b00248c8cfdf1e8e629cc1b89592e0e3bfbe5d918d0a"
+        }
+      }
+    }
+  ],
+  "retained_nonpassing_local_reports": [
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/312dd4a9f73a41039977caab90da13b5/results.json",
+      "sha256": "bb91b309a445f969150616f55d4098e370e43ee3e2f5ee04812b923093f6b5d0",
+      "run_id": "312dd4a9f73a41039977caab90da13b5",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 128,
+        "total": 128
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/container-adm-api/reports/3e19f1ea30c14a009b449d7b600e9192/results.json",
+      "sha256": "54d3bd44a558c4c03060c6f0f27def234616b217ca3be0bb065ef34c7c845c43",
+      "run_id": "3e19f1ea30c14a009b449d7b600e9192",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "ERROR": 3,
+        "total": 3
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/8a5f3a1d89514faf83a533370b2c544f/results.json",
+      "sha256": "3f5a5278c9682185bb58249d12306e7359ecbf83a7dd9f11bdc4a28b6ab9e2ad",
+      "run_id": "8a5f3a1d89514faf83a533370b2c544f",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "ERROR": 1,
+        "total": 1
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/cf44d90735a14531b2283da452e392b6/results.json",
+      "sha256": "4b0681364a2e511b0b6cedf9c997a1191eb0dca9fdf96fc4d1e5ce260eb0b624",
+      "run_id": "cf44d90735a14531b2283da452e392b6",
+      "status": "FAIL",
+      "complete": false,
+      "counts": {
+        "NOT_RUN": 2,
+        "total": 2
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/623a2b899b52493d811a9225e4ab0d5f/results.json",
+      "sha256": "42f6607c6432fabfdaa62c6201be9b9383c2d123bdb679c5e0693aa790503a68",
+      "run_id": "623a2b899b52493d811a9225e4ab0d5f",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 70,
+        "FAIL": 1,
+        "total": 71
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/component/7fe1cae94ae3462e8d5dada61e92fb39/results.json",
+      "sha256": "5f2e10dc5f1379f1437eb9f9bca265c92e8d11c141bacb36340ecd302447984b",
+      "run_id": "7fe1cae94ae3462e8d5dada61e92fb39",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 68,
+        "FAIL": 3,
+        "total": 71
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/f488bf1dd52d4f8faf7aeef2934c4616/results.json",
+      "sha256": "9462b8a2a02b7b971e0f79b03dc0b38faa4ba431435b4013269c8b4a84984819",
+      "run_id": "f488bf1dd52d4f8faf7aeef2934c4616",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 19,
+        "FAIL": 6,
+        "total": 25
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/db-control/reports/f537d2d8913e424490a4faee050f43c6/results.json",
+      "sha256": "9ae7124842be296be1722138a8f31bf3af3b0854683ce2033d43cca0bccf3e17",
+      "run_id": "f537d2d8913e424490a4faee050f43c6",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "FAIL": 1,
+        "total": 1
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/21c0b297fbbd42f6ab5c853a89fc76b5/results.json",
+      "sha256": "8d703b80ae1dcabdb32c0a92631d91f6122fab6c80990c2733cd2163128329c0",
+      "run_id": "21c0b297fbbd42f6ab5c853a89fc76b5",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "ERROR": 3,
+        "total": 3
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-object-adm-api/reports/6fc157e9fe384fcc8d94c3b6854fcfc8/results.json",
+      "sha256": "471326c0013293a6cb757f384c14567f4a7fd26b120becde11e83a68f6ec2059",
+      "run_id": "6fc157e9fe384fcc8d94c3b6854fcfc8",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 52,
+        "total": 52
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/bfeb1018421d4265bb24f5fd4b7af9dd/results.json",
+      "sha256": "574277f5b5a14d9629a84f3976866fba61572590d181248ac3bc58c73e8a351c",
+      "run_id": "bfeb1018421d4265bb24f5fd4b7af9dd",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 56,
+        "total": 56
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/entity-subject-adm-api/reports/c1b31e777fda4d1f951e351e8f90e937/results.json",
+      "sha256": "6282d089e710398f0188c3cf8a80e962f073508ebef000b22543aa9794b774b1",
+      "run_id": "c1b31e777fda4d1f951e351e8f90e937",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "ERROR": 3,
+        "total": 3
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/6f5a0c8f799e43eb90dcfce851a468cb/results.json",
+      "sha256": "a9682a58da32db6ba469d12580dc01275c1f1083f2b96b93c4552553dee022f8",
+      "run_id": "6f5a0c8f799e43eb90dcfce851a468cb",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 149,
+        "FAIL": 1,
+        "total": 150
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-adm-api/reports/ca48ab3c184c4a7186db70621dac17b6/results.json",
+      "sha256": "2f0f268322c78c7cb2e1874930df563e4fb925e5c3fa283f5142b611ebb02325",
+      "run_id": "ca48ab3c184c4a7186db70621dac17b6",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 96,
+        "total": 96
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/policy-decision-api/reports/d35b3aea74c24581a2f230b673325686/results.json",
+      "sha256": "7b80e110ee059d7d89d986c5976fab3edde4ebecaed476253412c60279a36e4e",
+      "run_id": "d35b3aea74c24581a2f230b673325686",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 134,
+        "total": 134
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/acbb02cec36641f9a57edbf0b9ea8255/results.json",
+      "sha256": "3f6ab5bde83950d97383d5bdd78cb1fea06e4ff0b4d1e271af61b5389c3d6715",
+      "run_id": "acbb02cec36641f9a57edbf0b9ea8255",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 82,
+        "FAIL": 1,
+        "total": 83
+      }
+    },
+    {
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixTests/reports/cb29a6a394f4480ab44db978c54632c5/results.json",
+      "sha256": "7de675f3a3137db4fb9fac9978b2d6fd551e965834b281da09b3d906d5e6244e",
+      "run_id": "cb29a6a394f4480ab44db978c54632c5",
+      "status": "FAIL",
+      "complete": true,
+      "counts": {
+        "PASS": 82,
+        "FAIL": 1,
+        "total": 83
+      }
+    }
+  ],
+  "integration": {
+    "candidate": null,
+    "final_after_promotion": null,
+    "root_report_handoff_pending": true,
+    "required_case_count_at_draft": 101,
+    "required_assertions": [
+      "complete=true and status=PASS",
+      "all required IDs/nodes requested, collected and executed exactly once",
+      "no ids/level diagnostic filter",
+      "no FAIL/ERROR/SKIP/XFAIL/XPASS/NOT_RUN",
+      "manifest and registry/artifact SHA256 match",
+      "immutable clean source and db-control resource fingerprints verified by runner"
+    ]
+  },
+  "promotion": {
+    "status": "PENDING",
+    "report_path": null,
+    "tests_commit": null,
+    "registry_sha256_after": null
+  },
+  "archive_gate": {
+    "status": "NOT_RUN",
+    "command": "../../TamarixTests/.venv/bin/python tools/archive_gate.py check --tests ../../TamarixTests --change t-3-persistent --report \"$TAMARIX_FINAL_REPORT\"",
+    "report_path": null,
+    "run_id": null,
+    "output": null,
+    "generated_archive_evidence_filename": "regression-evidence.json",
+    "generated_archive_evidence_schema": {
+      "schema_version": "1",
+      "operation_id": "string",
+      "change": "string",
+      "run_id": "string",
+      "report_sha256": "SHA256",
+      "registry_sha256": "SHA256",
+      "tested_store_commit": "40-character SHA"
+    },
+    "tasks_status": "Not changed by this draft; archive additionally requires every checkbox complete."
+  },
+  "pending_completion": [
+    "Root supplies successful full candidate integration report and immutable manifest.",
+    "Promote all 81 cases, commit registry, record promotion commit/hash.",
+    "Run full change plus regression again with final source-pinned manifest; attach report/summary/manifest/hash.",
+    "Record latest final component results/versions as appropriate; old component runs do not prove changed sources.",
+    "Perform explicit read-only archive gate check against final report; archive remains a separate action."
+  ]
+}
