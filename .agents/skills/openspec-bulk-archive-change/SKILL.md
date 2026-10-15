@@ -1,14 +1,41 @@
 ---
 name: openspec-bulk-archive-change
 description: Archive multiple completed OpenSpec changes at once. Use when archiving several parallel changes. Also use for a plural archive request - "openspec bulk-archive", "opsx bulk-archive", "openspec archive all", or "openspec archive these changes".
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(openspec:*) Bash(python3:*) Bash(python:*)
 license: MIT
-compatibility: Requires openspec CLI.
 metadata:
+  compatibility: Requires openspec CLI and the Tamarix project Python archive gate.
   author: openspec
   version: "1.0"
   generatedBy: "1.14.1"
 ---
+
+## Tamarix project archive contract
+
+When the selected store is `tamarix-specs`, read its `AGENTS.md`,
+`docs/development.md` and `tools/ARCHIVE_GATE.md`. Before any sync/move, prepare
+the documentation update for every confirmed change in the resolved order.
+For each change, update affected `docs/` pages from its actual implementation,
+review all eight sections, maintain Mermaid/API/DB examples and links, and
+complete `docs-review.json` plus its content snapshot. Preserve that change's
+Git baseline from before docs edits and validate review after all artifact edits.
+Perform these updates as part of the authorized archive operation.
+
+The project wrapper replaces generic step 8's direct sync/move for this store:
+run `tools/archive_gate.py check` before the first main-spec write, then
+`tools/archive_gate.py archive` sequentially for each confirmed change, using
+its completed regression report and a distinct operation ID. It runs OpenSpec
+sync/move and verifies the result. Never replace it with raw `mv` or direct
+`openspec archive`. Missing/stale docs or regression evidence fails that change
+and leaves it active; do not implicitly start tests or bypass the gate after a
+generic warning/confirmation. Do not race archive with a background docs update.
+
+Preserve generic selection, dependency/conflict analysis and completion checks.
+If per-delta exclusions conflict with the wrapper's full-sync verification,
+leave that change active and explain the conflict; do not bypass verification.
+Later docs updates do not overwrite earlier archive snapshots. Report each
+change's docs/gate/archive outcome. Detailed commands, batch CI snapshot rules
+and schema live in `tools/ARCHIVE_GATE.md`; other stores retain the workflow below.
 
 Archive multiple completed changes in a single operation.
 

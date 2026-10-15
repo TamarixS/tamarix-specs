@@ -1,5 +1,14 @@
 # Integration/e2e и регресс Tamarix
 
+Актуализация 2026-10-15 после T-3: integration включает реальный PostgreSQL
+scope с отдельными LOGIN, миграциями и snapshot проверками; исторический
+T-3 итог 101/101 PASS хранится в [архиве](../changes/archive/2026-10-15-t-3-persistent/README.md).
+HTTP runtime остаётся health-only. Команды подготовки и scope — в
+[docs/operations.md](../../docs/operations.md). Перед каждым новым archive,
+включая tooling/docs-only, дополнительно обязательны обновление `docs/` и
+documentation review gate из [tools/ARCHIVE_GATE.md](../../tools/ARCHIVE_GATE.md).
+Это дополняет, а не заменяет требования regression evidence ниже.
+
 ## Решение и состояние реализации
 
 Пользователь 2026-10-14 запросил процесс создания integration/e2e тестов

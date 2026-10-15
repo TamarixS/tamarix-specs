@@ -1,5 +1,12 @@
 # API conventions
 
+> Реальные контракты на 2026-10-15: [docs/api.md](../../docs/api.md).
+> T-3 добавляет synchronous Python commands/readers и SQL interfaces, но
+> не business HTTP endpoints. Runtime объявляет только `GET /health`.
+> Утверждение ниже о заготовках subjects/objects — историческое состояние
+> до T-1/T-3: основные specs теперь содержат реальные требования.
+> AuthZEN conformance и wire mapping по-прежнему не приняты.
+
 Статусы — в [README](README.md). Установлены предметная область и статус
 рассмотрения AuthZEN; для REST API утверждён FastAPI, для валидации и
 сериализации — Pydantic. Конкретных wire API-контрактов в проекте пока нет.

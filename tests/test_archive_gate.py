@@ -119,6 +119,15 @@ class Workspace:
                                      status="PASS", duration_seconds=0.01, error=None, artifacts=[]) for case in expected]
         self.report["counts"] = {"PASS": len(expected), "total": len(expected)}
         self.save_report()
+        self.review_docs()
+
+    def review_docs(self):
+        """Обновить только fixture review после осознанного изменения исходных артефактов."""
+        path = self.active / "docs-review.json"
+        value = gate.docs.prepare_review(self.store, CHANGE, "HEAD~1", refresh=path.exists())
+        for page, section in value["sections"].items():
+            section.update(status="updated", reason="Страница проверена по согласованным исходным артефактам тестовой среды.")
+        gate.atomic_json(path, value)
 
 
 @pytest.fixture
@@ -126,6 +135,11 @@ def workspace(tmp_path):
     store, tests, cd, service = (tmp_path / name for name in ("store", "tests-repo", "cd", "service"))
     for root in (store, tests, cd, service):
         init_repo(root)
+    commit(store)
+    for relative in gate.docs.REQUIRED_PAGES:
+        path = store / relative
+        path.parent.mkdir(exist_ok=True)
+        path.write_text("# Тестовая документация\n\nОписание изолированной среды.\n\n```mermaid\nflowchart LR\n  A --> B\n```\n")
     path = store / SPEC_PATH
     path.parent.mkdir(parents=True)
     path.write_text(spec_text())
@@ -336,6 +350,7 @@ def test_russian_descriptions_and_promotion_required(workspace, missing, descrip
 def test_open_task_blocks_before_archive(workspace):
     """При незавершённой задаче даже полный PASS не архивируется; защищает критерии завершения change."""
     (workspace.active / "tasks.md").write_text("# Tasks\n\n- [ ] 1.1 Незавершённая задача\n")
+    workspace.review_docs()
     called = []
     with pytest.raises(gate.GateError, match="Tasks"):
         gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "open-task", execute=lambda *a, **k: called.append(a))
@@ -735,3 +750,174 @@ def test_partial_cli_spec_merge_resumes_before_archive_move(workspace):
     assert not workspace.active.exists()
     commit(workspace.store)
     assert gate.validate_archived(workspace.store, base)["archives_checked"] == 1
+
+
+@pytest.mark.parametrize("mutation,description", [
+    pytest.param("missing", "Без docs-review.json новый archive не должен вызывать CLI.", id="missing-docs-review"),
+    pytest.param("docs", "Правка docs после review должна остановить archive до записи evidence.", id="stale-docs"),
+    pytest.param("change", "Правка design после review должна потребовать нового review всей документации.", id="stale-change"),
+])
+def test_docs_review_blocks_archive_before_any_mutation(workspace, mutation, description):
+    """Делает review непригодным согласно описанию параметра и ожидает отказ без вызова OpenSpec и изменения активного change; защищает docs lifecycle."""
+    assert description
+    if mutation == "missing":
+        (workspace.active / "docs-review.json").unlink()
+    elif mutation == "docs":
+        page = workspace.store / "docs/api.md"
+        page.write_text(page.read_text() + "\nНовый API контракт.\n")
+    else:
+        (workspace.active / "design.md").write_text("Изменённый дизайн после review.\n")
+    before = active_snapshot(workspace)
+    calls = []
+    with pytest.raises(gate.GateError):
+        gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "docs-not-ready",
+                     execute=lambda *args, **kwargs: calls.append(args))
+    assert calls == []
+    assert active_snapshot(workspace) == before
+    assert not (workspace.store / ".archive-operations/docs-not-ready.json").exists()
+
+
+def test_ci_rejects_new_archive_without_docs_review(workspace):
+    """Удаляет docs-review и его hash из нового archive при полном regression evidence; CI обязан отказать и закрыть обход прямым OpenSpec CLI."""
+    base = git(workspace.store, "rev-parse", "HEAD")
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "missing-docs-ci", execute=fake_archive(workspace))
+    destination = Path(value["archive_path"])
+    (destination / "docs-review.json").unlink()
+    evidence_path = destination / "regression-evidence.json"
+    evidence = gate.read_json(evidence_path)
+    del evidence["docs_review_sha256"]
+    gate.atomic_json(evidence_path, evidence)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="без docs-review"):
+        gate.validate_archived(workspace.store, base)
+
+
+def test_ci_rejects_deleting_previous_docs_evidence(workspace):
+    """В уже принятом archive удаляет docs-review и hash одновременно; CI видит прежнее evidence в base и запрещает ослабление завершённого gate."""
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "deleted-docs-ci", execute=fake_archive(workspace))
+    base = commit(workspace.store)
+    destination = Path(value["archive_path"])
+    (destination / "docs-review.json").unlink()
+    evidence_path = destination / "regression-evidence.json"
+    evidence = gate.read_json(evidence_path)
+    del evidence["docs_review_sha256"]
+    gate.atomic_json(evidence_path, evidence)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="без docs-review"):
+        gate.validate_archived(workspace.store, base)
+
+
+def test_later_docs_updates_do_not_invalidate_historical_archive(workspace):
+    """После успешного archive меняет docs и проверяет CI с историческим base без новых archives; прежние hashes остаются историческими и не требуют переписывать архив."""
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "historical-docs", execute=fake_archive(workspace))
+    base = commit(workspace.store)
+    archived = Path(value["archive_path"]) / "docs-review.json"
+    before = archived.read_bytes()
+    page = workspace.store / "docs/api.md"
+    page.write_text(page.read_text() + "\nКонтракт последующего change.\n")
+    commit(workspace.store)
+    assert gate.validate_archived(workspace.store, base)["archives_checked"] == 0
+    assert archived.read_bytes() == before
+
+
+def test_existing_legacy_archive_does_not_require_retroactive_docs_review(workspace):
+    """Моделирует archive прежней версии без docs evidence в base, затем меняет только его tasks; CI сохраняет прежний regression gate без навязывания нового review задним числом."""
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "legacy-docs", execute=fake_archive(workspace))
+    destination = Path(value["archive_path"])
+    (destination / "docs-review.json").unlink()
+    (destination / "docs-snapshot.json").unlink()
+    path = destination / "regression-evidence.json"
+    evidence = gate.read_json(path)
+    del evidence["docs_review_sha256"]
+    del evidence["docs_snapshot_sha256"]
+    gate.atomic_json(path, evidence)
+    base = commit(workspace.store)
+    tasks = destination / "tasks.md"
+    tasks.write_text(tasks.read_text() + "\nИсторическое пояснение завершённой задачи.\n")
+    commit(workspace.store)
+    assert gate.validate_archived(workspace.store, base)["archives_checked"] == 1
+
+
+def test_ci_accepts_two_sequential_archives_with_distinct_docs_snapshots(workspace):
+    """Архивирует A, затем обновляет docs и архивирует B, проверяя общий base до обоих; CI должен принять оба immutable snapshots при текущем docs B."""
+    base = git(workspace.store, "rev-parse", "HEAD")
+    first = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "batch-a", execute=fake_archive(workspace))
+    first_root = Path(first["archive_path"])
+    second_baseline = commit(workspace.store)
+    second_change = "demo-change-b"
+    second_root = workspace.store / "openspec/changes" / second_change
+    second_root.mkdir()
+    for filename in (".openspec.yaml", "proposal.md", "design.md", "tasks.md"):
+        (second_root / filename).write_bytes((first_root / filename).read_bytes())
+    page = workspace.store / "docs/api.md"
+    page.write_text(page.read_text() + "\nНовый API для второго change в batch.\n")
+    commit(workspace.store)
+    review = gate.docs.prepare_review(workspace.store, second_change, second_baseline)
+    for relative, section in review["sections"].items():
+        section.update(status="updated" if relative in review["changed_pages"] else "reviewed",
+                       reason="API обновлён по второму change; остальные разделы сверены с текущим продуктом.")
+    gate.atomic_json(second_root / "docs-review.json", review)
+    workspace.report = json.loads(json.dumps(workspace.report))
+    workspace.report["selection"]["change"] = second_change
+    workspace.report["run_id"] = "batch-b-fixture-run"
+    workspace.report["manifest"]["store"]["commit"] = git(workspace.store, "rev-parse", "HEAD")
+    workspace.report_path = workspace.report_path.parent.parent / "batch-b-reports/results.json"
+    workspace.report_path.parent.mkdir()
+    workspace.save_report()
+
+    def archive_second(command, **kwargs):
+        assert command[:3] == ["openspec", "archive", second_change]
+        operation = gate.read_json(workspace.store / ".archive-operations/batch-b.json")
+        shutil.move(second_root, operation["archive_path"])
+        return SimpleNamespace(returncode=0, stdout="fixture second archive", stderr="")
+
+    second = gate.archive(workspace.store, workspace.tests, second_change, workspace.report_path, "batch-b", execute=archive_second)
+    commit(workspace.store)
+    assert gate.validate_archived(workspace.store, base)["archives_checked"] == 2
+    assert gate.read_json(first_root / "docs-review.json")["docs_sha256"] != review["docs_sha256"]
+    assert Path(second["archive_path"]).is_dir()
+
+
+def test_ci_rejects_stale_docs_after_single_new_archive(workspace):
+    """После единственного нового archive меняет docs без нового review; CI относительно исходного base должен отказать, даже если сохранённый snapshot структурно корректен."""
+    base = git(workspace.store, "rev-parse", "HEAD")
+    gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "single-stale-docs", execute=fake_archive(workspace))
+    page = workspace.store / "docs/api.md"
+    page.write_text(page.read_text() + "\nНовая неподтверждённая версия API после archive.\n")
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="не соответствует ни одному"):
+        gate.validate_archived(workspace.store, base)
+
+
+@pytest.mark.parametrize("mutation,description", [
+    pytest.param("review", "Новые hashes в прежнем review даже с согласованным regression hash не должны переписывать историю.", id="rewrite-review-hashes"),
+    pytest.param("snapshot", "Самосогласованная подмена content, page hash, review и regression evidence должна блокироваться по base.", id="rewrite-content-and-all-hashes"),
+])
+def test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence(workspace, mutation, description):
+    """Подделывает прежние docs evidence согласно описанию параметра и пересчитывает связанные hashes; ожидается отказ CI по неизменяемости исторического snapshot относительно base."""
+    assert description
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "immutable-docs", execute=fake_archive(workspace))
+    root = Path(value["archive_path"])
+    base = commit(workspace.store)
+    review_path = root / "docs-review.json"
+    review = gate.read_json(review_path)
+    if mutation == "review":
+        review["docs_sha256"]["docs/api.md"] = "f" * 64
+    else:
+        snapshot_path = root / "docs-snapshot.json"
+        snapshot = gate.read_json(snapshot_path)
+        entry = snapshot["files"]["docs/api.md"]
+        entry["content"] += "\nПодменённый исторический контракт API.\n"
+        entry["sha256"] = gate.digest(entry["content"].encode())
+        review["docs_sha256"]["docs/api.md"] = entry["sha256"]
+        gate.atomic_json(snapshot_path, snapshot)
+        review["snapshot_sha256"] = gate.digest(snapshot_path.read_bytes())
+    gate.atomic_json(review_path, review)
+    evidence_path = root / "regression-evidence.json"
+    evidence = gate.read_json(evidence_path)
+    evidence["docs_review_sha256"] = gate.digest(review_path.read_bytes())
+    evidence["docs_snapshot_sha256"] = gate.digest((root / "docs-snapshot.json").read_bytes())
+    gate.atomic_json(evidence_path, evidence)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="неизменяем"):
+        gate.validate_archived(workspace.store, base)

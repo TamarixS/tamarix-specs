@@ -6,6 +6,7 @@ import argparse
 import ast
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -15,6 +16,10 @@ import sys
 from typing import Any
 
 import yaml
+
+_DOCS_SPEC = importlib.util.spec_from_file_location("tamarix_docs_check", Path(__file__).with_name("docs_check.py"))
+docs = importlib.util.module_from_spec(_DOCS_SPEC)
+_DOCS_SPEC.loader.exec_module(docs)
 
 
 class GateError(ValueError):
@@ -261,6 +266,7 @@ def verify_repo_version(entry: dict, label: str, require_clean: bool = True) -> 
 
 def check(store: Path, tests: Path, change: str, report_path: Path, promoted: bool = True, allow_synced: bool = False) -> dict:
     require(bool(re.fullmatch(r"[a-z0-9][a-z0-9-]*", change)), "Некорректное имя change")
+    check_documentation(store, change)
     require(report_path.is_file(), "Отчёт отсутствует; инициируйте прогон по требованию")
     report = read_json(report_path)
     registry_path = tests / "registry.yaml"
@@ -310,6 +316,13 @@ def check(store: Path, tests: Path, change: str, report_path: Path, promoted: bo
     return report
 
 
+def check_documentation(store: Path, change: str, root: Path | None = None, current_docs: bool = True) -> dict:
+    try:
+        return docs.validate_review(store, change, root, current_docs)
+    except docs.DocsError as exc:
+        raise GateError(str(exc)) from exc
+
+
 def atomic_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -328,14 +341,22 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
         destination = Path(previous.get("archive_path", ""))
         if previous.get("state") == "complete":
             require(destination.is_dir() and not active.exists(), "Завершённая операция не соответствует состоянию файлов")
+            check_documentation(store, change, destination, current_docs=False)
+            require(previous.get("docs_review_sha256") == digest((destination / "docs-review.json").read_bytes()), "Evidence документации завершённой операции изменён")
             return previous
         if not active.exists() and destination.is_dir():
             require((destination / "regression-evidence.json").is_file(), "Archive без evidence")
+            check_documentation(store, change, destination, current_docs=False)
+            require(previous.get("docs_review_sha256") == digest((destination / "docs-review.json").read_bytes()), "Evidence документации операции изменён")
             previous["state"] = "complete"
             atomic_json(record, previous)
             return previous
     require(active.is_dir(), "Активный change отсутствует")
     report = check(store, tests, change, report_path, allow_synced=previous is not None)
+    docs_review_sha = digest((active / "docs-review.json").read_bytes())
+    docs_snapshot_sha = digest((active / "docs-snapshot.json").read_bytes())
+    if previous:
+        require(previous.get("docs_review_sha256") == docs_review_sha, "Review документации изменён; нужен новый operation ID")
     tasks = active / "tasks.md"
     require(tasks.is_file(), "Tasks отсутствуют")
     boxes = re.findall(r"^\s*-\s*\[([^]]*)\]", tasks.read_text(), re.M)
@@ -343,13 +364,13 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
     date = datetime.now(timezone.utc).date().isoformat()
     archive_path = store / "openspec/changes/archive" / f"{date}-{change}"
     require(not archive_path.exists(), "Целевой archive уже существует")
-    value = {"schema_version": 1, "operation_id": operation_id, "change": change, "report_sha256": report_sha, "archive_path": str(archive_path), "state": "validated"}
+    value = {"schema_version": 1, "operation_id": operation_id, "change": change, "report_sha256": report_sha, "docs_review_sha256": docs_review_sha, "docs_snapshot_sha256": docs_snapshot_sha, "archive_path": str(archive_path), "state": "validated"}
     atomic_json(record, value)
     (active / "run-results.json").write_bytes(report_path.read_bytes())
     (active / "run-manifest.json").write_bytes((report_path.parent / "manifest.json").read_bytes())
     (active / "run-summary.md").write_bytes((report_path.parent / "summary.md").read_bytes())
     (active / "regression-registry.yaml").write_bytes((tests / "registry.yaml").read_bytes())
-    evidence = {"schema_version": 1, "operation_id": operation_id, "change": change, "run_id": report["run_id"], "report_sha256": report_sha, "registry_sha256": report["registry_sha256"], "tested_store_commit": report["manifest"]["store"]["commit"]}
+    evidence = {"schema_version": 1, "operation_id": operation_id, "change": change, "run_id": report["run_id"], "report_sha256": report_sha, "docs_review_sha256": docs_review_sha, "docs_snapshot_sha256": docs_snapshot_sha, "registry_sha256": report["registry_sha256"], "tested_store_commit": report["manifest"]["store"]["commit"]}
     atomic_json(active / "regression-evidence.json", evidence)
     command = ["openspec", "archive", change, "--yes", "--json"]
     identity = store / ".openspec-store/store.yaml"
@@ -367,6 +388,7 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
     names = git(store, "diff", "--name-only", "--no-renames", "--diff-filter=AMD", base, head, "--", "openspec/changes/archive").splitlines()
     roots = sorted({str(Path(name).parent) for name in names if Path(name).name == "regression-evidence.json"})
     changed_roots = sorted({"/".join(Path(name).parts[:4]) for name in names if len(Path(name).parts) >= 5})
+    new_docs_reviews = []
     for relative in changed_roots:
         root = safe_path(store, relative)
         require((root / "regression-evidence.json").is_file(), f"Прямой archive без evidence: {relative}")
@@ -383,6 +405,25 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
         require(evidence.get("run_id") == report.get("run_id"), "Archived run ID не совпадает")
         change = evidence.get("change")
         require(isinstance(change, str) and relative.endswith("-" + change), "Archive change ID не совпадает")
+        existed = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}"], capture_output=True).returncode == 0
+        had_docs_review = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}/docs-review.json"], capture_output=True).returncode == 0
+        docs_review = root / "docs-review.json"
+        if not existed or had_docs_review or docs_review.exists() or evidence.get("docs_review_sha256"):
+            require(docs_review.is_file(), "Новый archive без docs-review.json")
+            require(evidence.get("docs_review_sha256") == digest(docs_review.read_bytes()), "Archived docs review hash отсутствует/не совпадает")
+            snapshot = root / "docs-snapshot.json"
+            require(snapshot.is_file() and evidence.get("docs_snapshot_sha256") == digest(snapshot.read_bytes()), "Archived docs snapshot/hash отсутствует или изменён")
+            if had_docs_review:
+                for filename in ("docs-review.json", "docs-snapshot.json"):
+                    previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{relative}/{filename}"], capture_output=True)
+                    require(previous.returncode == 0 and previous.stdout == (root / filename).read_bytes(),
+                            f"Исторический docs evidence неизменяем: {filename}")
+                previous_evidence = json.loads(git_text(store, base, relative + "/regression-evidence.json"))
+                for field in ("docs_review_sha256", "docs_snapshot_sha256"):
+                    require(previous_evidence.get(field) == evidence.get(field), "Исторический docs evidence hash изменён")
+            review = check_documentation(store, change, root, current_docs=False)
+            if not existed:
+                new_docs_reviews.append(review)
         cases = registry_from_bytes(data)
         manifest_path = root / "run-manifest.json"
         require(manifest_path.is_file(), "Archived manifest snapshot отсутствует")
@@ -413,6 +454,14 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
         assert_merged_specs(store, source_commit, report["manifest"]["store"]["spec_hashes"], deltas)
         for case in expected_cases(cases, change):
             assert_traceability(case, store)
+    if new_docs_reviews:
+        try:
+            docs.validate_docs(store)
+            current_docs = docs.docs_hashes(store)
+        except docs.DocsError as exc:
+            raise GateError(str(exc)) from exc
+        require(any(review["docs_sha256"] == current_docs for review in new_docs_reviews),
+                "Текущая документация не соответствует ни одному новому archive snapshot")
     return {"schema_version": 1, "status": "PASS", "archives_checked": len(changed_roots)}
 
 

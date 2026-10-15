@@ -4,6 +4,20 @@
 SDD-разработки Tamarix. Он помогает проектировать изменения, но не заменяет
 требования capabilities в `openspec/specs/` и артефакты `openspec/changes/`.
 
+## Актуальное руководство продукта
+
+Начинать знакомство с продуктом нужно с [`docs/README.md`](../../docs/README.md).
+В docs описаны текущие T-1/T-3 сервисы, Python/HTTP границы, PostgreSQL,
+эксплуатация и разработка с Mermaid-схемами. Этот context сохраняет историю
+решений и рекомендации; датированные наблюдения ниже не означают отсутствия
+позднейшей реализации. В T-3 добавлены `attributes` и `access-model/models`,
+постоянное хранение и transactional adapters; факты — в
+[архиве T-3](../changes/archive/2026-10-15-t-3-persistent/README.md) и docs.
+
+По запросу пользователя от 2026-10-15 docs обновляются до каждого нового archive.
+Процесс: [development](../../docs/development.md),
+[исполняемый gate](../../tools/ARCHIVE_GATE.md).
+
 ## Статусы сведений
 
 | Статус | Как использовать |
@@ -96,7 +110,8 @@ SDD-разработки Tamarix. Он помогает проектироват
 | `entities/objects` | Capability объектов | Основная [спецификация](../specs/entities/objects/spec.md) содержит требования к держателю; [delta T-1](../changes/archive/2026-10-13-t-1-container-definition/specs/entities/objects/spec.md) сохранена в архиве |
 | `containers` | Capability без второго уровня | Основная [спецификация](../specs/containers/spec.md) содержит принятую семантику T-1; [delta T-1](../changes/archive/2026-10-13-t-1-container-definition/specs/containers/spec.md) сохранена в архиве |
 | `authorization/access-check` | Проверка доступа переданного субъекта | Основная [спецификация](../specs/authorization/access-check/spec.md) содержит принятую семантику T-1; [delta T-1](../changes/archive/2026-10-13-t-1-container-definition/specs/authorization/access-check/spec.md) сохранена в архиве |
-| `access-model` | Только группирующий домен | [Каталог](../specs/access-model/), только `.gitkeep`; capabilities TBD |
+| `attributes` | Общие типизированные атрибуты | [Спецификация T-3](../specs/attributes/spec.md) |
+| `access-model/models` | Постоянная идентичность и metadata моделей | [Спецификация T-3](../specs/access-model/models/spec.md); access-model остаётся группирующим доменом |
 
 Не создавать `spec.md` или новые capabilities для заполнения дерева. Для
 `containers` не требуется выдумывать второй уровень. Новые требования и
