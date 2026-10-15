@@ -114,5 +114,32 @@
   },
   "tests_started_by_archive": false,
   "source_test_locations_changed": false,
-  "validation_status": "PENDING_COMMIT_VALIDATION"
+  "validation_status": "PASS",
+  "archive_commit": "8c708970297166944afa754f61de95117582e98a",
+  "validation": {
+    "checked_at": "2026-10-15T14:37:56.316144+00:00",
+    "command": [
+      "../../TamarixTests/.venv/bin/python",
+      "tools/archive_gate.py",
+      "validate-archives",
+      "--base",
+      "05e741be51fcdc9e4b6119e03db7c7366951e301"
+    ],
+    "output": {
+      "schema_version": 1,
+      "status": "PASS",
+      "archives_checked": 1
+    },
+    "strict_specs": {
+      "status": "PASS",
+      "specs_checked": 6
+    },
+    "independent_review": {
+      "status": "PASS",
+      "requirements": 60,
+      "registry_cases": 101,
+      "registry_links": 105,
+      "all_links_resolve_in_main_without_delta": true
+    }
+  }
 }
