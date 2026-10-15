@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "change": "t-3-persistent",
+  "operation": "archive",
+  "operation_id": "t-3-persistent-20261015T142314-ee85d1c224a3",
+  "status": "ARCHIVED",
+  "completed_at": "2026-10-15T14:36:50.347181+00:00",
+  "archive_path": "/Users/mfedotenko/Projects/TamarixS/Tamarix/tamarix-specs/openspec/changes/archive/2026-10-15-t-3-persistent",
+  "base_commit": "05e741be51fcdc9e4b6119e03db7c7366951e301",
+  "test_run_id": "20261015T142314-ee85d1c224a3",
+  "report_sha256": "d9f83196ed2140d6ccae53f94e6ce05c5785cd6d31a68eff91929e866bee268c",
+  "manifest_sha256": "ea0580d0db13f9187bebec24e0b2c1ae6b7fc37bda0be9f2dbc4f722053a95d7",
+  "registry_sha256": "064e31fcf452a9a07f98fd57c02602fd22e1f4a6b32426d604874f9bfca609a3",
+  "merge_verification": {
+    "status": "PASS",
+    "checks": [
+      {
+        "capability": "access-model/models",
+        "requirements": 4,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      },
+      {
+        "capability": "attributes",
+        "requirements": 10,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      },
+      {
+        "capability": "authorization/access-check",
+        "requirements": 14,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      },
+      {
+        "capability": "containers",
+        "requirements": 19,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      },
+      {
+        "capability": "entities/objects",
+        "requirements": 6,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      },
+      {
+        "capability": "entities/subjects",
+        "requirements": 7,
+        "purpose_verbatim": true,
+        "unchanged_requirements_preserved": true
+      }
+    ]
+  },
+  "markdown_link_relocations": {
+    "requirements.md": [
+      {
+        "before": "../../specs/containers/spec.md",
+        "after": "../../../specs/containers/spec.md"
+      },
+      {
+        "before": "../../specs/entities/subjects/spec.md",
+        "after": "../../../specs/entities/subjects/spec.md"
+      },
+      {
+        "before": "../../specs/entities/objects/spec.md",
+        "after": "../../../specs/entities/objects/spec.md"
+      },
+      {
+        "before": "../../specs/authorization/access-check/spec.md",
+        "after": "../../../specs/authorization/access-check/spec.md"
+      },
+      {
+        "before": "../archive/2026-10-13-t-1-container-definition/",
+        "after": "../2026-10-13-t-1-container-definition"
+      }
+    ],
+    "dependency-baseline.md": [
+      {
+        "before": "../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md",
+        "after": "../../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md"
+      },
+      {
+        "before": "../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md",
+        "after": "../../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md"
+      },
+      {
+        "before": "../../../../../TamarixCD/reports/postgresql/f263aaf8dce94140aeda313a6a39437b/results.json",
+        "after": "../../../../../../TamarixCD/reports/postgresql/f263aaf8dce94140aeda313a6a39437b/results.json"
+      },
+      {
+        "before": "../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md",
+        "after": "../../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md"
+      }
+    ],
+    "tasks.md": [
+      {
+        "before": "../../../../db-control/reports/b2fa306d25a3415b9a85e83885efa53a/summary.md",
+        "after": "../../../../../db-control/reports/b2fa306d25a3415b9a85e83885efa53a/summary.md"
+      },
+      {
+        "before": "../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md",
+        "after": "../../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md"
+      },
+      {
+        "before": "../../../../db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/summary.md",
+        "after": "../../../../../db-control/reports/25e087ccba9345d5a7aaaeb38f8e7c15/summary.md"
+      },
+      {
+        "before": "../../../../db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/summary.md",
+        "after": "../../../../../db-control/reports/component/c3ce7f52b1c14421b6173afd64dfe6e8/summary.md"
+      }
+    ]
+  },
+  "tests_started_by_archive": false,
+  "source_test_locations_changed": false,
+  "validation_status": "PENDING_COMMIT_VALIDATION"
+}

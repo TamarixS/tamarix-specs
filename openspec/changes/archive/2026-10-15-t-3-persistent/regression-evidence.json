@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "operation_id": "t-3-persistent-20261015T142314-ee85d1c224a3",
+  "change": "t-3-persistent",
+  "run_id": "20261015T142314-ee85d1c224a3",
+  "report_sha256": "d9f83196ed2140d6ccae53f94e6ce05c5785cd6d31a68eff91929e866bee268c",
+  "registry_sha256": "064e31fcf452a9a07f98fd57c02602fd22e1f4a6b32426d604874f9bfca609a3",
+  "tested_store_commit": "8b3066d6e604e4670b9fc5dda46ded3fc2b63514"
+}

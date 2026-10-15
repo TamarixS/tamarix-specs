@@ -19,8 +19,8 @@ disposable downgrade-upgrade и ограничения runtime roles прошл�
   libpq 180006; Alembic 1.20.0 в db-control. `pyproject.toml`, `uv.lock`,
   `.python-version` согласованы, прежние Python/uv/pytest pins сохранены.
 - Локальный CD change создан и реализуется по отдельному явному разрешению
-  пользователя: [postgresql-integration](../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md),
-  [контракт executor/readiness](../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md).
+  пользователя: [postgresql-integration](../../../../../../TamarixCD/openspec/changes/postgresql-integration/proposal.md),
+  [контракт executor/readiness](../../../../../../TamarixCD/openspec/changes/postgresql-integration/design.md).
   Его незавершённые задачи не объявляются завершёнными центральным change.
 - Реальная среда `f263aaf8dce94140aeda313a6a39437b`: отдельный Compose project
   `tamarix-pg-f263aaf8dce94140aeda313a6a39437b`, БД
@@ -31,14 +31,14 @@ disposable downgrade-upgrade и ограничения runtime roles прошл�
   в private env JSON вне reports; публичны лишь имена env.
 - Официальный образ `postgres:18.6`, фактический digest
   `sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336`,
-  platform `linux/arm64`. [Публичный state среды](../../../../../TamarixCD/reports/postgresql/f263aaf8dce94140aeda313a6a39437b/results.json)
+  platform `linux/arm64`. [Публичный state среды](../../../../../../TamarixCD/reports/postgresql/f263aaf8dce94140aeda313a6a39437b/results.json)
   подтверждает READY и Alembic head `20261015_0003`. Это рабочая среда проверки;
   manifest чистых окончательных commits ещё требуется перед итоговым прогоном.
 - Deployment executor: `.venv/bin/python -m db_control upgrade --dsn-env
   TAMARIX_TEST_ADMIN_DSN`. Version table `public.alembic_version`.
   CLI возвращает JSON `heads`, не печатает DSN/SQL/пароли. Test logins
   provision-ит отдельная disposable-only команда того же владельца DDL.
-- [Migration component report](../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md):
+- [Migration component report](../../../../../db-control/reports/9fac3af90b25460bbc26f82cd95f154a/summary.md):
   полный `tests/component/test_migrations.py`, 11 PASS. До исправления CASE
   expression были сохранены отдельные неуспешные отчёты; они не используются
   как подтверждение успешного upgrade.

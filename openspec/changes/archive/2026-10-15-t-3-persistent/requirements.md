@@ -498,11 +498,11 @@ PDP сохраняет полный фактический путь от кор�
 Основной источник новых решений — ответы пользователя в текущем обсуждении.
 Действующая нормативная база T-1:
 
-- [containers](../../specs/containers/spec.md);
-- [entities/subjects](../../specs/entities/subjects/spec.md);
-- [entities/objects](../../specs/entities/objects/spec.md);
-- [authorization/access-check](../../specs/authorization/access-check/spec.md);
-- [архив T-1](../archive/2026-10-13-t-1-container-definition/).
+- [containers](../../../specs/containers/spec.md);
+- [entities/subjects](../../../specs/entities/subjects/spec.md);
+- [entities/objects](../../../specs/entities/objects/spec.md);
+- [authorization/access-check](../../../specs/authorization/access-check/spec.md);
+- [архив T-1](../2026-10-13-t-1-container-definition).
 
 Этот файл не изменяет основные specs. Новые правила идентичности, атрибутов,
 жизненного цикла и хранения требуется отразить в последующих артефактах change
