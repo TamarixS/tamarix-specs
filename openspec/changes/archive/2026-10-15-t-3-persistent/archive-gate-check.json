@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "operation": "check",
+  "change": "t-3-persistent",
+  "checked_at": "2026-10-15T14:26:35.091823+00:00",
+  "command": [
+    "../../TamarixTests/.venv/bin/python",
+    "tools/archive_gate.py",
+    "check",
+    "--tests",
+    "../../TamarixTests",
+    "--change",
+    "t-3-persistent",
+    "--report",
+    "/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/results.json"
+  ],
+  "returncode": 0,
+  "output": {
+    "status": "PASS",
+    "run_id": "20261015T142314-ee85d1c224a3"
+  },
+  "report_path": "/private/tmp/tamarix-t3-final-runs/09693f0d07684f16992ade4a5ce0b668/reports/20261015T142314-ee85d1c224a3/results.json",
+  "report_sha256": "d9f83196ed2140d6ccae53f94e6ce05c5785cd6d31a68eff91929e866bee268c",
+  "tested_store_commit": "8b3066d6e604e4670b9fc5dda46ded3fc2b63514"
+}
