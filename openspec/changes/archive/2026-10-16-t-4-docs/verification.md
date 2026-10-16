@@ -1,4 +1,4 @@
-# Проверка project-documentation-lifecycle
+# Проверка t-4-docs
 
 Дата: 2026-10-15. Изменён только центральный `tamarix-specs`.
 Предметный код, DDL, миграции, GitHub settings и исторические архивы не менялись.
