@@ -54,6 +54,36 @@ flowchart TD
 и [TamarixTests](../../../TamarixTests/README.md). Способы подготовки manifest —
 [эксплуатация](operations.md).
 
+## Изменение форм атрибутов и проверка миграции
+
+Контракт формы хранится в immutable attributes.shapes. Новый validator или его
+параметры требуют отдельного change, нового shape и общего закрытого validation
+path; не добавляйте копии параметров в четыре instance families и не меняйте
+существующий shape. Regex/length/range и UI ещё не входят в реализованный scope.
+Основание — [ADR 0005](../openspec/context/adr/0005-immutable-shared-attribute-shapes.md).
+
+DDL/migration/component tests принадлежат db-control. Для изменения T-5 нужны
+реальный seeded upgrade 0003→head и disposable round trip head→0003→head,
+проверки отказа до мутаций без safeguard, rollback при lock/error, сохранение
+IDs/payload/revisions/mutation_version/view signatures и старых wrappers.
+Общий integration fixture, всегда ставящий head, seeded transition не заменяет.
+
+Межсервисные cases находятся постоянно в TamarixTests/tests/integration/persistence/
+test_shapes.py; stable registry IDs — persistent-shapes-cNN. Existing attributes
+c17/c18 сохраняют empty/tombstone смысл и проверяют точный shape pin. Запуск через
+--change t-5-persistant-change-1 включает новые случаи и текущий regression;
+результат не выводится из самого наличия исходников. Отдельный отчёт содержит
+actual head, hashes SQL resources, manifests, case descriptions и статусы.
+Promotion меняет registry commit, поэтому финальный полный прогон относится
+к обновлённому manifest. Не объявляйте PASS до готового отчёта.
+
+При уже изменённых пользовательских docs фиксируйте baseline текущего рабочего
+текста до собственных T-5 правок. Объяснения назначения таблиц и процесса archive
+из предыдущего change сохраняются; изменившееся устройство схемы обновляется
+поверх них. Отдельная атрибуция T-5 diff не позволяет присвоить прежние правки
+новому change или затереть их checkout/reset. Evidence формируется только после
+окончательных code/docs changes и review всего комплекта.
+
 ## Обязательное обновление docs перед archive
 
 Правило действует для каждого нового change, включая tooling/docs-only,

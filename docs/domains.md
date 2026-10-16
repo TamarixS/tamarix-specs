@@ -17,6 +17,8 @@
 | Объект | Идентифицируемый защищаемый ресурс; содержимое внешнего файла/документа Tamarix не хранит этим фактом |
 | Модель | Логическая единица правил доступа с одним держателем; T-3 сохраняет только metadata |
 | Атрибут | Типизированное свойство конкретного владельца по общему definition |
+| Shape | Именованная immutable форма: тип, кратность, профиль и закреплённая версия сравнения |
+| Definition | Предметная identity атрибута: id/key, точный shape_id и отдельная applicability |
 | Revision | Версия агрегата для compare-and-swap, повышается при успешном логическом изменении |
 | Fact | Сведения от явно заданного источника; DTO сам не подтверждает доверие к источнику |
 | Complete / Unknown | Подтверждённая полнота / невозможность установить обязательный состав |
@@ -34,7 +36,7 @@ PAP/PDP/PEP/PIP — роли в архитектуре авторизации; �
 | [containers](../openspec/specs/containers/spec.md) | Forest, адресация, DN/admission, область управления и lifecycle | container-adm-api + db-control |
 | entities / [subjects](../openspec/specs/entities/subjects/spec.md) | Типы субъектов, один держатель, identity, attrs, soft delete/restore | entity-subject-adm-api + db-control |
 | entities / [objects](../openspec/specs/entities/objects/spec.md) | Защищаемые объекты, точная identity, attrs, hard delete | entity-object-adm-api + db-control |
-| [attributes](../openspec/specs/attributes/spec.md) | Definition/applicability, native typed values, scalar/set и comparison | Четыре admin-пакета + reader + db-control |
+| [attributes](../openspec/specs/attributes/spec.md) | Общие shapes, definition/applicability, typed values, scalar/set и comparison | Четыре admin-пакета + reader + db-control |
 | access-model / [models](../openspec/specs/access-model/models/spec.md) | Постоянная identity и metadata моделей | policy-adm-api + db-control |
 | authorization / [access-check](../openspec/specs/authorization/access-check/spec.md) | Субъект, scope, полный состав, агрегация T-1; snapshot T-3 | policy-decision-api |
 
@@ -110,12 +112,20 @@ subject key при tombstone возвращает `RestoreRequired`.
 
 ## Атрибуты и DN
 
-Сначала catalog operator регистрирует definition: key, native value type,
-cardinality, comparison profile; затем задаёт явную applicability к типам
-контейнеров, субъектов, объектов или моделей. Владелец контейнера не получает
+Catalog operator регистрирует именованный immutable shape с native type,
+cardinality и закреплённым comparison; затем definition со своим key и точным
+shape_id и его явную applicability к типам контейнеров, субъектов, объектов или
+моделей. Несколько definitions могут явно выбрать одну форму; одинаковые
+параметры двух отдельно именованных форм не объединяют их автоматически. Владелец контейнера не получает
 глобальное право менять эти каталоги.
 
-Instance связывает definition с одним owner. Scalar требует ровно одно
+Instance связывает definition с одним owner и закрепляет его точный shape.
+Любой instance, даже empty set или retained tombstone, запрещает rebind definition.
+Сам shape immutable с момента регистрации, включая key; новая семантика требует
+отдельной формы. Key — ASCII 1–512, глобально ASCII-CI unique; это имя выбора,
+а не плавающая ссылка на latest. UI и будущие regex/range rules не реализованы.
+
+Instance хранит structural copies типа и кратности. Scalar требует ровно одно
 значение; set не упорядочен и устраняет равные элементы по профилю сравнения.
 Отсутствующий attribute, существующий пустой set и `null` — разные случаи:
 первые два разрешены по своей семантике; `null` не является значением.

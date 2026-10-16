@@ -119,13 +119,15 @@ def merge_requirement_text(text: str, delta_text: str) -> str:
     return "\n\n".join(requirements.values())
 
 
-def effective_spec(store: Path, relative: str, change: str | None = None) -> str:
+def effective_spec(store: Path, relative: str, change: str | None = None,
+                   delta_root: Path | None = None, source_commit: str | None = None) -> str:
     """Собрать prospective требования основной capability и одного active delta."""
     main = safe_path(store, relative)
-    text = main.read_text() if main.is_file() else ""
+    text = git_text(store, source_commit, relative, optional=True) if source_commit else (main.read_text() if main.is_file() else "")
     if not change:
         return text
-    delta = safe_path(store, f"openspec/changes/{change}/specs/" + relative.removeprefix("openspec/specs/"))
+    delta = (safe_path(delta_root, "specs/" + relative.removeprefix("openspec/specs/")) if delta_root else
+             safe_path(store, f"openspec/changes/{change}/specs/" + relative.removeprefix("openspec/specs/")))
     return merge_requirement_text(text, delta.read_text()) if delta.is_file() else text
 
 
@@ -151,9 +153,10 @@ def delta_criteria(delta: str, spec: str) -> set[tuple[str, str, str, str]]:
     return required
 
 
-def assert_delta_coverage(cases: list[dict], deltas: dict[str, str], change: str) -> None:
+def assert_delta_coverage(cases: list[dict], deltas: dict[str, str], change: str,
+                          component_cases: list[dict] | None = None) -> None:
     covered = {(link["spec"], link["requirement"], link["scenario"], criterion_text(link["criterion"]))
-               for case in expected_cases(cases, change) for link in case["links"]}
+               for case in [*expected_cases(cases, change), *(component_cases or [])] for link in case["links"]}
     for relative, text in deltas.items():
         spec = "openspec/specs/" + relative.split("/specs/", 1)[1]
         missing = delta_criteria(text, spec) - covered
@@ -186,12 +189,13 @@ def assert_merged_specs(store: Path, source_commit: str, spec_hashes: dict, delt
             require(normalize_blocks(actual) in allowed, f"Результат delta merge не соответствует проверенной spec: {relative}")
 
 
-def assert_traceability(case: dict, store: Path, change: str | None = None) -> None:
+def assert_traceability(case: dict, store: Path, change: str | None = None,
+                        delta_root: Path | None = None, source_commit: str | None = None) -> None:
     for link in case["links"]:
         require(isinstance(link, dict), "Некорректная связь с criterion")
         relative = link.get("spec", "")
         require(isinstance(relative, str) and relative.startswith("openspec/specs/") and relative.endswith("/spec.md"), "Связь должна указывать на основную spec")
-        text = effective_spec(store, relative, change)
+        text = effective_spec(store, relative, change, delta_root, source_commit)
         require(bool(text), f"Spec отсутствует: {relative}")
         requirement, scenario, criterion = (link.get(k, "") for k in ("requirement", "scenario", "criterion"))
         require(all(isinstance(v, str) and v.strip() for v in (requirement, scenario, criterion)), "Неполная связь criterion")
@@ -264,6 +268,105 @@ def verify_repo_version(entry: dict, label: str, require_clean: bool = True) -> 
         require(entry["source_hashes"] == actual, f"Исходники {label} не соответствуют manifest")
 
 
+COMPONENT_FILES = ("component-evidence.json", "component-results.json", "component-summary.md")
+COMPONENT_PROVENANCE = ("repository", "commit", "clean", "source_hashes", "resource_hashes", "test_hashes")
+
+
+def component_bundle(root: Path) -> dict[str, str]:
+    """Дополнительные component snapshots необязательны, но принимаются только полным комплектом."""
+    present = [name for name in COMPONENT_FILES if (root / name).exists()]
+    if not present:
+        return {}
+    require(len(present) == len(COMPONENT_FILES), "Component evidence bundle неполон")
+    require(all((root / name).is_file() and not (root / name).is_symlink() for name in COMPONENT_FILES), "Некорректный component snapshot")
+    return {name: digest((root / name).read_bytes()) for name in COMPONENT_FILES}
+
+
+def validate_component_evidence(store: Path, root: Path, manifest: dict, change: str,
+                                archived: bool = False) -> list[dict]:
+    """Проверить отдельный PASS db-control, не меняя обязательный integration набор.
+
+    Run-start provenance связывает отчёт с тем же artifact и неизменными tests;
+    source snapshots позволяют проверить архив без db-control checkout.
+    """
+    if not component_bundle(root):
+        return []
+    evidence = read_json(root / "component-evidence.json")
+    report_path, summary_path = root / "component-results.json", root / "component-summary.md"
+    report = read_json(report_path)
+    require(evidence.get("schema_version") == 1 and evidence.get("repository") == "db-control", "Некорректный component evidence")
+    require(evidence.get("report_sha256") == digest(report_path.read_bytes()), "Component report hash не совпадает")
+    require(evidence.get("summary_sha256") == digest(summary_path.read_bytes()), "Component summary hash не совпадает")
+    require(bool(re.search(r"[А-Яа-яЁё]", summary_path.read_text())), "Component summary должен быть на русском")
+    require(report.get("schema_version") == 1 and report.get("report_type") == "component", "Некорректный component report")
+    require(report.get("complete") is True and report.get("status") == "PASS" and report.get("returncode") == 0, "Component прогон не завершён PASS")
+    require(report.get("errors") == [] and all(report.get(field) for field in ("run_id", "started_at", "finished_at", "requested")), "Component прогон неполон/содержит ошибки")
+    require(isinstance(report.get("duration_seconds"), (int, float)) and math.isfinite(report["duration_seconds"]) and report["duration_seconds"] >= 0, "Некорректная component длительность")
+    provenance = report.get("provenance")
+    require(isinstance(provenance, dict) and all(evidence.get(field) == provenance.get(field) for field in COMPONENT_PROVENANCE), "Component run-start provenance не совпадает")
+    require(provenance.get("repository") == "db-control" and provenance.get("clean") is True, "Component прогон выполнен не на чистом db-control commit")
+    require_sha(provenance.get("commit"), "component db-control")
+    artifact = manifest.get("db_control")
+    require(isinstance(artifact, dict), "Integration manifest не фиксирует db-control artifact")
+    for field in ("commit", "source_hashes", "resource_hashes"):
+        require(provenance.get(field) == artifact.get(field), "Component и integration db-control различаются: " + field)
+    for field in ("source_hashes", "resource_hashes", "test_hashes"):
+        hashes = provenance.get(field)
+        require(isinstance(hashes, dict) and bool(hashes), "Component hashes отсутствуют: " + field)
+        for path, sha in hashes.items():
+            require(isinstance(path, str) and not Path(path).is_absolute() and ".." not in Path(path).parts, "Некорректный component source path")
+            require(path.startswith("src/") if field != "test_hashes" else (path.startswith("tests/") and path.endswith(".py") or path == "tools/run_tests.py"), "Неверный namespace component hashes")
+            require(isinstance(sha, str) and bool(re.fullmatch(r"[0-9a-f]{64}", sha)), "Некорректный component source hash")
+    versions, installed = report.get("versions"), artifact.get("artifact")
+    require(isinstance(versions, dict) and isinstance(installed, dict), "Component/integration версии отсутствуют")
+    require(report.get("python") == installed.get("python") and versions.get("db-control") == installed.get("version"), "Component Python/package версия отличается от integration")
+    require(isinstance(installed.get("packages"), dict) and bool(installed["packages"]) and all(versions.get(name) == version for name, version in installed["packages"].items()), "Component dependency версии отличаются от integration")
+    rows, collected = report.get("cases"), report.get("collected_node_ids")
+    require(isinstance(rows, list) and bool(rows) and all(isinstance(row, dict) for row in rows), "Component cases отсутствуют")
+    by_node = {row.get("node_id"): row for row in rows}
+    require(len(by_node) == len(rows) and all(isinstance(node, str) and "::" in node for node in by_node), "Повтор/некорректный component node ID")
+    require(isinstance(collected, list) and len(collected) == len(rows) and set(collected) == set(by_node), "Component collection не совпадает с полным отчётом")
+    for node, row in by_node.items():
+        require(row.get("test_id") == node and row.get("status") == "PASS" and row.get("error") is None, "Component случай не PASS: " + node)
+        require(isinstance(row.get("description"), str) and bool(re.search(r"[А-Яа-яЁё]", row["description"])), "Нет русского component описания: " + node)
+    linked = evidence.get("cases")
+    require(isinstance(linked, list) and bool(linked) and all(isinstance(case, dict) for case in linked), "Component links отсутствуют")
+    nodes = [case.get("node_id") for case in linked]
+    require(all(isinstance(node, str) and node in by_node for node in nodes), "Component link node отсутствует в PASS report")
+    require(len(set(nodes)) == len(nodes), "Component evidence содержит повторяющиеся node IDs")
+    sources = evidence.get("test_sources")
+    needed = {node.split("::", 1)[0] for node in nodes}
+    require(isinstance(sources, dict) and set(sources) == needed, "Component test source snapshot неполон")
+    if not archived:
+        verify_repo_version(artifact, "component db-control")
+        checkout = Path(artifact["repo_root"])
+        actual_resources = {path.relative_to(checkout).as_posix(): digest(path.read_bytes()) for path in sorted((checkout / "src").rglob("*"))
+                            if path.is_file() and path.suffix not in {".py", ".pyc"} and "__pycache__" not in path.parts}
+        require(actual_resources == provenance["resource_hashes"], "Component resources изменены после прогона")
+        for relative, sha in provenance["test_hashes"].items():
+            source = safe_path(checkout, relative)
+            require(source.is_file() and digest(source.read_bytes()) == sha, "Component tests изменены после прогона: " + relative)
+    result = []
+    for case in linked:
+        node = case["node_id"]
+        require(case.get("description") == by_node[node]["description"], "Component link description изменён")
+        require(isinstance(case.get("links"), list) and bool(case["links"]), "Component criterion links отсутствуют")
+        relative, function = node.split("::", 1)[0], node.split("::")[-1].split("[", 1)[0]
+        require(relative.startswith("tests/") and relative.endswith(".py"), "Component node должен указывать на Python test source")
+        content = sources[relative]
+        require(isinstance(content, str) and digest(content.encode()) == provenance["test_hashes"].get(relative), "Component source snapshot hash не совпадает")
+        try:
+            tree = ast.parse(content)
+        except SyntaxError as exc:
+            raise GateError("Component source snapshot не читается") from exc
+        descriptions = [ast.get_docstring(item) for item in ast.walk(tree) if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)) and item.name == function]
+        require(case["description"] in descriptions, "Component source docstring не соответствует отчёту: " + node)
+        validated = {"id": "component:" + node, "test": node, "description": case["description"], "links": case["links"]}
+        assert_traceability(validated, store, change, root if archived else None, manifest["store"]["commit"] if archived else None)
+        result.append(validated)
+    return result
+
+
 def check(store: Path, tests: Path, change: str, report_path: Path, promoted: bool = True, allow_synced: bool = False) -> dict:
     require(bool(re.fullmatch(r"[a-z0-9][a-z0-9-]*", change)), "Некорректное имя change")
     check_documentation(store, change)
@@ -301,7 +404,8 @@ def check(store: Path, tests: Path, change: str, report_path: Path, promoted: bo
     if manifest["store"].get("spec_hashes") != hash_specs(store):
         require(allow_synced, "Основные specs изменены после прогона")
         assert_merged_specs(store, source_commit, manifest["store"]["spec_hashes"], deltas, allow_original=True)
-    assert_delta_coverage(cases, deltas, change)
+    components = validate_component_evidence(store, store / "openspec/changes" / change, manifest, change)
+    assert_delta_coverage(cases, deltas, change, components)
     for case in expected_cases(cases, change):
         assert_traceability(case, store, change)
         source = safe_path(tests, case["test"].split("::", 1)[0])
@@ -343,11 +447,13 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
             require(destination.is_dir() and not active.exists(), "Завершённая операция не соответствует состоянию файлов")
             check_documentation(store, change, destination, current_docs=False)
             require(previous.get("docs_review_sha256") == digest((destination / "docs-review.json").read_bytes()), "Evidence документации завершённой операции изменён")
+            require(previous.get("component_sha256", {}) == component_bundle(destination), "Component evidence завершённой операции изменён")
             return previous
         if not active.exists() and destination.is_dir():
             require((destination / "regression-evidence.json").is_file(), "Archive без evidence")
             check_documentation(store, change, destination, current_docs=False)
             require(previous.get("docs_review_sha256") == digest((destination / "docs-review.json").read_bytes()), "Evidence документации операции изменён")
+            require(previous.get("component_sha256", {}) == component_bundle(destination), "Component evidence операции изменён")
             previous["state"] = "complete"
             atomic_json(record, previous)
             return previous
@@ -355,8 +461,10 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
     report = check(store, tests, change, report_path, allow_synced=previous is not None)
     docs_review_sha = digest((active / "docs-review.json").read_bytes())
     docs_snapshot_sha = digest((active / "docs-snapshot.json").read_bytes())
+    component_sha = component_bundle(active)
     if previous:
         require(previous.get("docs_review_sha256") == docs_review_sha, "Review документации изменён; нужен новый operation ID")
+        require(previous.get("component_sha256", {}) == component_sha, "Component evidence изменён; нужен новый operation ID")
     tasks = active / "tasks.md"
     require(tasks.is_file(), "Tasks отсутствуют")
     boxes = re.findall(r"^\s*-\s*\[([^]]*)\]", tasks.read_text(), re.M)
@@ -365,12 +473,16 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
     archive_path = store / "openspec/changes/archive" / f"{date}-{change}"
     require(not archive_path.exists(), "Целевой archive уже существует")
     value = {"schema_version": 1, "operation_id": operation_id, "change": change, "report_sha256": report_sha, "docs_review_sha256": docs_review_sha, "docs_snapshot_sha256": docs_snapshot_sha, "archive_path": str(archive_path), "state": "validated"}
+    if component_sha:
+        value["component_sha256"] = component_sha
     atomic_json(record, value)
     (active / "run-results.json").write_bytes(report_path.read_bytes())
     (active / "run-manifest.json").write_bytes((report_path.parent / "manifest.json").read_bytes())
     (active / "run-summary.md").write_bytes((report_path.parent / "summary.md").read_bytes())
     (active / "regression-registry.yaml").write_bytes((tests / "registry.yaml").read_bytes())
     evidence = {"schema_version": 1, "operation_id": operation_id, "change": change, "run_id": report["run_id"], "report_sha256": report_sha, "docs_review_sha256": docs_review_sha, "docs_snapshot_sha256": docs_snapshot_sha, "registry_sha256": report["registry_sha256"], "tested_store_commit": report["manifest"]["store"]["commit"]}
+    if component_sha:
+        evidence["component_sha256"] = component_sha
     atomic_json(active / "regression-evidence.json", evidence)
     command = ["openspec", "archive", change, "--yes", "--json"]
     identity = store / ".openspec-store/store.yaml"
@@ -406,6 +518,16 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
         change = evidence.get("change")
         require(isinstance(change, str) and relative.endswith("-" + change), "Archive change ID не совпадает")
         existed = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}"], capture_output=True).returncode == 0
+        component_sha = component_bundle(root)
+        require(evidence.get("component_sha256", {}) == component_sha, "Archived component bundle hash отсутствует/изменён")
+        had_component = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}/component-evidence.json"], capture_output=True).returncode == 0
+        if had_component:
+            for filename in COMPONENT_FILES:
+                previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{relative}/{filename}"], capture_output=True)
+                require(previous.returncode == 0 and (root / filename).is_file() and previous.stdout == (root / filename).read_bytes(),
+                        "Исторический component evidence неизменяем: " + filename)
+            previous_evidence = json.loads(git_text(store, base, relative + "/regression-evidence.json"))
+            require(previous_evidence.get("component_sha256") == evidence.get("component_sha256"), "Исторический component bundle hash изменён")
         had_docs_review = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}/docs-review.json"], capture_output=True).returncode == 0
         docs_review = root / "docs-review.json"
         if not existed or had_docs_review or docs_review.exists() or evidence.get("docs_review_sha256"):
@@ -450,7 +572,8 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
             archived_delta = root / "specs" / relative_delta.split("/specs/", 1)[1]
             require(archived_delta.is_file() and digest(archived_delta.read_bytes()) == expected_hash, "Archived delta hash не совпадает")
             deltas[relative_delta] = archived_delta.read_text()
-        assert_delta_coverage(cases, deltas, change)
+        components = validate_component_evidence(store, root, report["manifest"], change, archived=True)
+        assert_delta_coverage(cases, deltas, change, components)
         assert_merged_specs(store, source_commit, report["manifest"]["store"]["spec_hashes"], deltas)
         for case in expected_cases(cases, change):
             assert_traceability(case, store)

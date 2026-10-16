@@ -1,6 +1,6 @@
 # Сервисы, слои и взаимодействия
 
-Состояние описано по исходникам на 2026-10-15 после T-1 и T-3. Для первого
+Состояние описано по исходникам на 2026-10-16 после T-1/T-3 и форм T-5. Для первого
 знакомства начните с [общего устройства](architecture.md), затем прочитайте
 [контракты API](api.md) и [устройство БД](database.md).
 Ниже «сервис» обозначает предметную ответственность и Python-пакет. Наличие
@@ -37,6 +37,7 @@ flowchart TB
     PA --> Routines
     Views --> Tables
     Routines --> Tables
+    Catalog[Глобальный catalog operator<br/>shapes / definitions / applicability] --> Routines
     DBControl[db-control<br/>deployment CLI, DDL / migrations / grants] -->|поставляет| Storage
     Runtime[TamarixCD runtime<br/>GET /health] -.->|проверяет импорт core / facts / ports| Libraries
     AA[access-assignment-api<br/>только store pointer]
@@ -58,7 +59,7 @@ T-3 читает разрешённые DB views в общей транзакц�
 | `entity-object-adm-api` | Предоставляет исходный объект и держателя; T-3 создаёт объект с точным произвольным Unicode key, меняет attrs, физически удаляет | `objects`, attributes, факты containers/DN | Сервис не хранит содержимое внешнего защищаемого ресурса. Holder/key неизменяемы; повтор удаления не обещает идемпотентный успех |
 | `policy-adm-api` | T-1 проверяет держателя и статические ссылки логической модели, выдаёт полный набор моделей контейнеров. T-3 управляет только metadata и attrs | В T-1 читающие entity/container ports. В T-3 `policies.models` / `policies.model_metadata_facts`, attributes, container/DN views | `ModelRecord.content` и `ModelReferences` не сериализуются в БД; persistent metadata не исполнимая политика |
 | `policy-decision-api` | T-1 собирает полный путь и модели и вычисляет результат. T-3 отдельно материализует prepared snapshot из одной read-only транзакции | Admission, entity/container/model facts и evaluator через T-1 ports; T-3 прямые разрешённые DB views | Reader не подключён к `AccessCheckService`; persistent evaluator и полный persistent PDP отсутствуют |
-| `db-control` | Единственный владелец DDL, Alembic revisions, SQL functions, triggers, views, grants и versioned comparison codecs | PostgreSQL; вызывается deployment executor; поставляет контракт хранилища пяти пакетам | Deployment-only инструмент. Предметные сервисы не отправляют в него CRUD-команды и не запускают миграции |
+| `db-control` | Единственный владелец DDL, Alembic revisions, SQL functions, triggers, views, grants, immutable shapes и versioned comparison codecs | PostgreSQL; вызывается deployment executor; поставляет контракт хранилища пяти пакетам | Deployment-only инструмент. Предметные сервисы не отправляют в него CRUD-команды и не запускают миграции |
 | `access-assignment-api` | Зарезервированный компонент установленного состава | Найден только [указатель store](../../access-assignment-api/openspec/config.yaml) | Исходников, Python-пакета, HTTP routes и реализованного lifecycle назначений нет. Назначать ему RBAC/ReBAC обязанности по имени нельзя |
 | `TamarixCD` | Подготавливает и запускает выбранные пакеты, среду БД и внешний runner; предоставляет общую HTTP оболочку разработки | Отдельные конфигурация и runtime dependencies; библиотеки сервисов устанавливаются отдельно | `GET /health` проверяет процесс и импорт ядра. Он не выполняет business commands, не открывает БД и не проверяет PKI |
 | `TamarixTests` | Межсервисные integration/e2e, registry с постоянными ID, регресс, reports и evidence | Подготовленная среда CD, реальные пакеты и проверяемые публичные контракты | Unit/component остаются в сервисах. Health-check не доказывает предметное e2e |
@@ -71,6 +72,20 @@ T-3 читает разрешённые DB views в общей транзакц�
 [db-control README](../../db-control/README.md),
 [CD README](../../../TamarixCD/README.md),
 [Tests README](../../../TamarixTests/README.md).
+
+## Каталоги форм и граница полномочий
+
+Catalog operator вызывает register_shape/register_definition_with_shape/
+bind_unused_shape и set_applicability через отдельные SECURITY DEFINER routines.
+Это SQL actor, а не новый runtime-сервис. Shape metadata доступна через
+shape_facts/definition_shape_facts; старые definition/instance/DN facts сохраняют
+columns через JOIN. Сервисы продолжают прежние DTO и command contracts.
+
+Глобальное полномочие каталогов не даёт права менять attributes владельцев.
+Owner admission по certificate/DN и O ≼ C ≼ D остаётся application responsibility.
+Общий immutable shape не становится общей mutation row: values разных агрегатов
+сохраняют собственные instance fencing/CAS. Подробные signatures и compatibility
+wrappers — в [API](api.md#sql-интерфейсы-каталогов-и-bootstrap), FK — в [БД](database.md).
 
 ## Как устроен Python пакет
 

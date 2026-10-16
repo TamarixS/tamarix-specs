@@ -11,7 +11,7 @@ Tamarix отделяет управление данными доступа от
 
 Единицей области служит контейнер с типом `organization`, `environment`,
 `system` или `module`. Субъект, объект и модель принадлежат одному держателю.
-Общие каталоги типов субъектов и определений атрибутов управляются отдельно.
+Общие каталоги типов субъектов, форм и определений атрибутов управляются отдельно.
 Подробные инварианты и пример предметной области — в [domains.md](domains.md).
 
 ## Три разных контура исполнения
@@ -27,6 +27,7 @@ flowchart LR
     subgraph T3["Хранение T-3: локальные Python-вызовы"]
         Command["Административная команда"] --> Tx["SERIALIZABLE: admission + scope + CAS + write"]
         Tx --> PG[("PostgreSQL")]
+        Catalog["Catalog operator: shapes / definitions / applicability"] --> PG
         Reader["PreparedFactsReader"] --> Snap["READ ONLY REPEATABLE READ"]
         Snap --> PG
         Snap --> DTO["PreparedFactsSnapshot: данные и metadata"]
@@ -78,6 +79,21 @@ T-3 SQL-адаптеры обращаются к одной согласован
 Схема показывает реализацию кода и integration-среды, не HA deployment.
 У `access-assignment-api` пока только store pointer; его нельзя добавлять
 в существующий исполняемый поток как готовый сервис.
+
+## Формы атрибутов T-5
+
+Контракт значения централизован в attributes.shapes: неизменяемые id/key,
+type/cardinality/profile/version. Definition сохраняет собственную идентичность
+и applicability. Явный reuse одной формы несколькими definitions не переносит
+применимость или данные между ними. Instances закрепляют точный shape_id и
+structural copies через два составных FK; values сохраняют локальные CHECK и
+scalar guarantees. Comparison fields доступны старым views через JOIN.
+
+Shared shape не обновляется при value write: fencing/CAS остаются у конкретных
+instance/aggregate. DDL и миграция 0004 принадлежат db-control, catalog mutations —
+отдельному глобальному полномочию. Новый HTTP/UI-контур не появляется. Основание:
+[ADR 0005](../openspec/context/adr/0005-immutable-shared-attribute-shapes.md),
+детали [схемы](database.md#5-атрибуты-definition--applicability--instance--values).
 
 ## Слои внутри пакета
 

@@ -6,6 +6,17 @@ review всех её разделов и предоставить готовый
 распространяются и на tooling/docs-only changes без предметных delta specs.
 Обёртка и CI проверяют предоставленные файлы; тесты и генерацию текста они не запускают.
 
+Для component-only критериев допускается дополнительный комплект в change:
+`component-evidence.json`, `component-results.json`, `component-summary.md`.
+Raw component PASS должен содержать снятые до collection commit/clean/source,
+resource и test hashes и подтверждение неизменности после выполнения. Commit,
+runtime source/resources и Python/package versions совпадают с integration
+manifest.db_control; evidence связывает точные THEN с реальными PASS node IDs,
+русскими описаниями и immutable test source snapshots. Это дополняет покрытие
+критериев, сохраняя обязательность полного integration/regression отчёта.
+Неполный, подменённый или устаревший bundle отклоняется; archive фиксирует
+его hashes и проверяет snapshots без обращения к изменившемуся checkout.
+
 ## Документация и review
 
 В `docs/` обязательны восемь страниц: `README.md`, `architecture.md`, `domains.md`,

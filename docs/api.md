@@ -1,6 +1,6 @@
 # API и локальные контракты
 
-Документ описывает фактический код на 2026-10-15. Сейчас доступны три разные
+Документ описывает код на 2026-10-16, включая каталоги форм T-5. Сейчас доступны три разные
 границы: HTTP health endpoint в CD runtime, локальные Python интерфейсы
 предметных пакетов и deployment/SQL интерфейсы `db-control`.
 Бизнес REST API пока не подключён. Имена команд ниже не являются URL.
@@ -610,6 +610,13 @@ assert aggregate_models([]).effect is DecisionEffect.DENY
 
 ```sql
 subjects.register_type(new_key TEXT) RETURNS BIGINT
+attributes.register_shape(
+  new_key TEXT, kind attributes.value_type, mode attributes.cardinality,
+  selected attributes.comparison_profile DEFAULT NULL,
+  selected_version TEXT DEFAULT NULL
+) RETURNS BIGINT
+attributes.register_definition_with_shape(new_key TEXT, chosen_shape BIGINT) RETURNS BIGINT
+attributes.bind_unused_shape(chosen BIGINT, chosen_shape BIGINT) RETURNS VOID
 attributes.register_definition(
   new_key TEXT, kind attributes.value_type, mode attributes.cardinality,
   selected attributes.comparison_profile DEFAULT NULL,
@@ -630,10 +637,41 @@ containers.provision_root(
 ) RETURNS BIGINT
 ```
 
-Первым четырём нужен `tamarix_catalog_operator`, root provisioning — отдельное
+Всем catalog routines нужен `tamarix_catalog_operator`, root provisioning — отдельное
 привилегированное эксплуатационное соединение; ни одна из шести runtime/catalog/
 reader groups права provision-root не имеет. Catalog key ASCII CI 1–512,
-неизменяем. Applicability задаёт четыре явных набора; новые subject types
+неизменяем. Для shape действуют те же key boundaries и ASCII-CI uniqueness,
+но весь shape immutable даже до первого использования. register_shape требует
+явную поддерживаемую selected_version для string/DN, native types не допускают
+profile/version. Несколько definitions явно выбирают один shape_id; semantic
+dedup не выполняется. bind_unused_shape того же id — no-op, другой id разрешён
+только без любых instances и при совместимой applicability. Даже семантически
+равный другой shape нельзя назначить используемому definition.
+
+Legacy register_definition создаёт отдельную generated-key форму вместе с
+definition. change_unused_semantics сравнивает всю tuple NULL-safe: совпадение
+остаётся no-op; отличие создаёт новый shape и пробует rebind под FK RESTRICT.
+Они сохраняют optional version resolution через comparison registry, прежние
+argument names/signatures и атомарный rollback orphan shape при отказе. Keys
+таких форм имеют вид legacy_shape_<allocated_id>, migration —
+migrated_definition_<definition_id>; это технические имена, не format версий.
+
+Для каталога доступны shape_facts(id,key,value_type,cardinality,comparison_profile,
+comparison_version) и definition_shape_facts(definition_id,shape_id,shape_key).
+Старые views сохраняют точные columns/order/types/collations через JOIN; новые
+поля не добавляются в старый SELECT * contract. Например, форму TextExactSingle
+можно зарегистрировать и явно выбрать для двух definitions:
+
+```sql
+SELECT attributes.register_shape('TextExactSingle','string','single','exact','exact-utf8-v1');
+SELECT attributes.register_definition_with_shape('Department', id)
+FROM attributes.shape_facts WHERE key = 'TextExactSingle';
+SELECT attributes.register_definition_with_shape('Title', id)
+FROM attributes.shape_facts WHERE key = 'TextExactSingle';
+```
+
+Результаты BIGINT следует сохранить как точные ID; пример не обещает идемпотентную
+повторную регистрацию тех же keys. Applicability задаёт четыре явных набора; новые subject types
 не получают применимость автоматически. Нельзя снять используемую применимость
 или поменять semantics definition с любым instance, включая empty set.
 
@@ -642,7 +680,8 @@ values attributes.value_input[])`, операции SQL `put`, `replace`, `unset
 `value_input` имеет TEXT/BIGINT/NUMERIC/BOOLEAN/DATE/TIMESTAMPTZ/BYTEA поля,
 ровно одно заполнено. Runtime roles вызывают только собственные узкие routines;
 catalog role не получает права менять чужие attrs и не заменяет admission.
-Точные routines/grants — [0002_storage.sql](../../db-control/src/db_control/sql/0002_storage.sql),
+Текущие routines/grants — [0004_attribute_shapes.sql](../../db-control/src/db_control/sql/0004_attribute_shapes.sql),
+исходные [0002_storage.sql](../../db-control/src/db_control/sql/0002_storage.sql),
 bootstrap и безопасный параметризованный пример — [db-control README](../../db-control/README.md).
 
 ## Deployment CLI db-control
