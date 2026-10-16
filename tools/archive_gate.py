@@ -588,6 +588,41 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
     return {"schema_version": 1, "status": "PASS", "archives_checked": len(changed_roots)}
 
 
+def run_post_archive(store: Path, operation_id: str, config: Path | None = None) -> dict:
+    """Передать завершённый archive локальному CD, не меняя архивный evidence."""
+    cd_root = store.parent.parent / "TamarixCD"
+    explicit_config = config is not None
+    config = (config or cd_root / "artifacts/post-archive.json").resolve()
+    if not config.exists():
+        require(not explicit_config, "Archive завершён, явно заданная post-archive конфигурация отсутствует")
+        return {"status": "NOT_CONFIGURED", "config": str(config)}
+    require(config.is_file(), "Archive завершён, post-archive rollout: конфигурация не является файлом")
+    command = [sys.executable, str(cd_root / "ci/post_archive.py"), "run",
+               "--archive-record", str(store / ".archive-operations" / (operation_id + ".json")),
+               "--config", str(config)]
+    try:
+        process = subprocess.run(command, cwd=cd_root, text=True, capture_output=True, shell=False)
+    except OSError as exc:
+        raise GateError("Archive завершён, post-archive rollout не удалось запустить; повторите ту же archive operation") from exc
+    try:
+        result = json.loads(process.stdout)
+    except (ValueError, TypeError):
+        result = None
+    report = ""
+    if isinstance(result, dict):
+        candidate = result.get("report") or result.get("report_path") or result.get("results_path")
+        if (isinstance(candidate, str) and not any(ord(char) < 32 for char in candidate)
+                and Path(candidate).is_absolute()):
+            try:
+                if Path(candidate).is_file():
+                    report = "; CD report: " + candidate
+            except OSError:
+                pass
+    require(process.returncode == 0 and isinstance(result, dict) and result.get("status") == "PASS",
+            "Archive завершён, post-archive rollout не подтверждён; повторите ту же archive operation" + report)
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["check", "archive", "validate-archives"])
@@ -596,6 +631,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--change")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--operation-id")
+    parser.add_argument("--post-archive-config", type=Path,
+                        help="Локальная конфигурация CD после archive; по умолчанию TamarixCD/artifacts/post-archive.json")
     parser.add_argument("--base")
     parser.add_argument("--head", default="HEAD")
     args = parser.parse_args(argv)
@@ -611,6 +648,9 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 require(bool(args.operation_id), "Для archive нужен --operation-id")
                 result = archive(args.store.resolve(), args.tests.resolve(), args.change, args.report.resolve(), args.operation_id)
+                require(result.get("state") == "complete", "Archive не подтвердил завершение; post-archive rollout не запущен")
+                result = {**result, "deployment": run_post_archive(args.store.resolve(), args.operation_id,
+                                                                 args.post_archive_config)}
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     except (GateError, OSError, KeyError, TypeError, yaml.YAMLError) as exc:

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "change": "post-archive-hook",
+  "base_commit": "38c5af8f9c9c40db0f3ba66fbe0b00b5ab0e9dc4",
+  "change_sha256": {
+    ".openspec.yaml": "291cce2c4dd592c685b5a4ba44cd2bb26d5c9177ec67cba11537a34e073e06b2",
+    "design.md": "92c13db74885804806dc208d48cd61144f5f402559aa88b8e4099ec7d7d7c015",
+    "proposal.md": "7382f2579f73b381fc23c7e5fb6d77130c45054caf64f2c0cb75d804c587f830",
+    "tasks.md": "f5684bef66bcb0abac4d84e5a8a93648b5255df517f99b22f8a6e9c1b95eba88"
+  },
+  "docs_sha256": {
+    "docs/README.md": "7c737b96d038e0859b549fa3ae06e94b757f3f03291b66d26b253bcb3582e387",
+    "docs/api.md": "e353ec8082d98c07bb9875b862908424a3b7576241c09ffa41c456d78606ad4a",
+    "docs/architecture.md": "4707db2cc732715ac2cc5f217ffedad89a2ce673b37168b513a8f0c2c33a8b22",
+    "docs/database.md": "dbd7c8afbcfc9c1f388a3b862e57abc940002c3a525250f31cf45409a5dac65a",
+    "docs/development.md": "467d565dc4c58cd1d0ae5e0829cf2cd3d10cefe85e6791d9d2d793bcdb28653f",
+    "docs/domains.md": "dec01d5f468101499ee55e8dc360cdaf2d4eaa17e6cee243f6bba58d226bed76",
+    "docs/operations.md": "1f84cb8d51121e575ee22d89ec8725c3e6422eeff6068411fa8082c0a72374dc",
+    "docs/services.md": "b05a652a1e555a2ca9892bfb252e640105047cad263b53b01b924cd1c169eac9"
+  },
+  "snapshot_sha256": "0d5a0b8be30e9c4554e9affc007182cca1fc6b7051d29059cea203ec18f80043",
+  "changed_pages": [
+    "docs/development.md",
+    "docs/operations.md"
+  ],
+  "sections": {
+    "docs/README.md": {
+      "status": "reviewed",
+      "reason": "Обзор сохраняет границы T-1/T-3/T-5, отсутствие business HTTP и маршрут к эксплуатации. Новый центральный CLI hook относится к уже указанным обязанностям store/CD; подробности доставки внесены в operations без изменения предметной готовности."
+    },
+    "docs/architecture.md": {
+      "status": "reviewed",
+      "reason": "Сверены контуры логического ядра, persistent Python команд, health runtime и разделение CD/db-control/store. Hook соединяет существующий archive CLI с CD executor; ownership DDL, транзакции предметных команд и production границы не меняются."
+    },
+    "docs/domains.md": {
+      "status": "reviewed",
+      "reason": "Проверены словарь O/C/D, holder identity, shapes/applicability, empty/absent/tombstone и агрегация доступа. Companion меняет эксплуатационный вызов после archive и не добавляет предметных entities, прав или capabilities; доменные определения сохраняют прежний смысл."
+    },
+    "docs/services.md": {
+      "status": "reviewed",
+      "reason": "Карта сервисов, application/storage слои и различие health, prepared facts и решения доступа остаются применимыми. Driver, build/backup/upgrade/restart принадлежат TamarixCD, а central main лишь вызывает его после complete; функции предметных пакетов не переносились."
+    },
+    "docs/api.md": {
+      "status": "reviewed",
+      "reason": "Сверены единственный HTTP route /health, локальные Python DTO/outcomes и deployment SQL/CLI db-control. Hook не добавляет business endpoint и не меняет эти сигнатуры; новая опция archive CLI и её ошибки описаны в эксплуатационном руководстве и ARCHIVE_GATE."
+    },
+    "docs/database.md": {
+      "status": "reviewed",
+      "reason": "Проверены владение DDL, схемы/связи T-3/T-5, fact views/roles, CAS/locks и переход 0003→0004 с forward recovery. Companion не изменяет таблицы, constraints, grants или миграции; CD вызывает существующий db-control, а backup и порядок rollout раскрыты в operations."
+    },
+    "docs/operations.md": {
+      "status": "updated",
+      "reason": "Добавлена доставка после complete archive: локальная default/explicit конфигурация с разными отказами при отсутствии, immutable manifest commits, build/stop/backup/upgrade/health, независимые статусы, отдельные reports и продолжение той же operation без изменения исторического evidence."
+    },
+    "docs/development.md": {
+      "status": "updated",
+      "reason": "Workflow и объяснение archive дополнены вызовом CD после переноса, read-only/API исключениями, default NOT_CONFIGURED и explicit missing FAIL. Уточнены отсутствие автоматических тестов, необходимость актуального regression manifest, immutable snapshots и retry отдельно от завершённого archive."
+    }
+  }
+}

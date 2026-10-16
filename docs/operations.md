@@ -86,6 +86,44 @@ curl --fail http://127.0.0.1:8101/health
 [Compose](../../../TamarixCD/compose.yaml),
 [runtime](../../../TamarixCD/runtime/README.md).
 
+## Доставка после archive
+
+При наличии `TamarixCD/artifacts/post-archive.json` центральный archive CLI
+автоматически вызывает [CD orchestrator](../../../TamarixCD/ci/post_archive.py)
+после подтверждённого переноса change. Конфигурация относится к конкретной
+локальной среде и хранится вне Git; её подготовка описана в
+[TamarixCD](../../../TamarixCD/README.md). Для другого файла укажите
+`--post-archive-config /absolute/path/post-archive.json` при вызове
+`tools/archive_gate.py archive`. Если отсутствует файл по умолчанию, gate
+возвращает `deployment.status=NOT_CONFIGURED` и не меняет среду. Отсутствующий
+файл, явно заданный через `--post-archive-config`, возвращает ошибку CLI после
+завершённого archive; исправьте путь и повторите ту же operation. `check` и
+CI-валидация archives доставку не запускают.
+
+План доставки берёт неизменяемые service/db-control commits из архивного
+`run-manifest.json`. Текущая ветка checkout не подменяет эти версии. Сначала CD
+готовит сборку, затем останавливает только пять контейнеров заданного project,
+делает PostgreSQL dump и fingerprint прежних данных. db-control применяет
+forward migrations к существующей БД. После проверки сохранности данных и
+готовности БД CD запускает новые контейнеры и проверяет health всех пяти.
+Тестовые наборы этим процессом не запускаются; HTTP health сохраняет свой
+эксплуатационный scope и не подтверждает предметный регресс.
+
+Archive и rollout завершаются независимо. При сбое доставки команда возвращает
+ненулевой код с сообщением «Archive завершён, post-archive rollout …» и путём
+сохранённого CD report, когда он доступен. Архив остаётся завершённым. Повторите
+ту же archive команду с тем же operation ID для продолжения CD шагов; новую
+раскатку с изменёнными входами оформляйте отдельной операцией. При уже успешной
+доставке повтор проверяет live состояние без рестарта контейнеров.
+
+Backup, journal и отчёт каждой попытки сохраняются отдельно от archive evidence.
+Не изменяйте архивный PASS/manifest после обновления среды. При ошибке миграции
+новая версия не запускается; backup остаётся доступен для recovery. Автоматические
+downgrade, восстановление dump, удаление volume и global prune не выполняются.
+Решение о восстановлении принимается явно с учётом уже применённых revisions.
+Прямой `openspec archive` не вызывает этот hook; используйте проектный
+[archive gate](../tools/ARCHIVE_GATE.md#автоматическая-доставка-после-archive).
+
 ## Отдельная PostgreSQL integration-среда
 
 Она создаётся независимо от пяти HTTP-контейнеров, с уникальными project,

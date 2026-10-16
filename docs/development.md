@@ -27,6 +27,7 @@ flowchart TD
     Review --> Gate["Проектный archive gate"]
     Gate --> Archive["Sync specs и archive"]
     Archive --> CI["CI: проверка предоставленного evidence"]
+    Archive --> Rollout["При локальной конфигурации: CD backup, migrations и перезапуск"]
     Gate --> Fix["При отказе change остаётся активным"]
     Fix --> Docs
 ```
@@ -148,6 +149,32 @@ evidence и выявляет такой обход. Required check зависи�
 его наличие в прежнем evidence не заменяет проверку policy нового remote.
 Отдельный [workflow](../.github/workflows/archive-evidence.yml) выполняет
 валидацию артефактов, не запускает предметный регресс.
+
+Archive CLI после подтверждённого переноса автоматически вызывает CD hook при
+наличии локального `TamarixCD/artifacts/post-archive.json`. Другой путь задаёт
+`--post-archive-config`; без файла по умолчанию результат содержит
+`deployment.status=NOT_CONFIGURED`, что сохраняет работу store-only окружения.
+Если явно выбранный файл отсутствует, CLI возвращает ошибку после archive,
+чтобы запрошенная доставка не считалась пропущенной по умолчанию.
+Вызовы `check`, `validate-archives` и импортируемая Python-функция `archive()`
+не запускают доставку. Прямой `openspec archive` hook также обходит.
+
+Раскатка использует immutable commits сохранённого manifest: сборка, scoped
+stop, backup и fingerprint БД, forward migration, проверка данных, запуск и
+health всех пяти сервисов. Новые тесты при archive автоматически не запускаются.
+CD journal/report каждой попытки хранится отдельно от архивного evidence,
+который остаётся историческим подтверждением проверенных версий.
+
+Сбой доставки даёт ненулевой exit code после завершённого archive; не возвращайте
+change в активный каталог вручную. Повторите ту же команду и operation ID:
+gate подтвердит существующий archive, CD продолжит незавершённые шаги. При уже
+успешной доставке повтор проверяет live состояние без нового рестарта.
+Изменённые входы требуют нового operation ID. Автоматического downgrade и
+восстановления backup нет; порядок recovery и местонахождение report описаны
+в [эксплуатации](operations.md#доставка-после-archive) и
+[инструкции gate](../tools/ARCHIVE_GATE.md#автоматическая-доставка-после-archive).
+После изменения CD/tooling commit подготовьте актуальный test manifest и PASS
+перед новым archive; старые отчёты и archive snapshots не переписывайте.
 
 При отсутствии/устаревании docs review change остаётся активным. Исправьте
 текст, обновите hashes и повторите обзор. При устаревшем test report потребуется

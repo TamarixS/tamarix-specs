@@ -131,6 +131,51 @@ Wrapper сохраняет report/manifest/registry/русскую сводку 
 перенос без второго archive. Изменившиеся report/review требуют нового operation ID;
 изменившиеся test/service revisions требуют нового прогона.
 
+## Автоматическая доставка после archive
+
+После подтверждённого `state=complete` команда `archive` вызывает CD-owned
+[post_archive.py](../../../TamarixCD/ci/post_archive.py), если существует локальная
+конфигурация `../../TamarixCD/artifacts/post-archive.json` относительно store.
+Её подключение включает доставку для следующих вызовов archive CLI; файл находится
+в игнорируемых эксплуатационных artifacts. Для другого файла передайте
+`--post-archive-config /absolute/path/post-archive.json`. Отсутствующий файл по
+умолчанию даёт `deployment.status=NOT_CONFIGURED` без обращения к CD: store-only
+checkout сохраняет прежний workflow. Если путь задан явно и файл отсутствует,
+CLI возвращает ошибку после завершённого archive: запрошенная доставка не
+пропускается молча. Формат и подготовка конфигурации описаны в
+[TamarixCD](../../../TamarixCD/README.md).
+
+Hook получает путь `.archive-operations/<id>.json` и запускает CD через argv,
+без shell. Он вызывается после нового archive и после обеих веток продолжения
+той же операции. Команды `check`, `validate-archives` и Python-функция `archive()`
+доставку не запускают. Прямой `openspec archive` проектный CLI не вызывает,
+поэтому автоматической раскатки через этот обход нет.
+
+CD использует сохранённые commits архивного manifest: сначала готовит сборку,
+затем адресно останавливает пять сервисов, сохраняет backup и fingerprint прежних
+данных, применяет forward migrations через db-control, проверяет данные и
+readiness, запускает новые контейнеры и проверяет health. Тесты и новый regression
+report при этом не создаются. Успешный результат gate содержит отдельное поле
+`deployment` с подтверждённым CD `status=PASS`.
+
+Сбой CD, ненулевой exit или некорректный JSON возвращают ошибку CLI:
+«Archive завершён, post-archive rollout …». Завершённый archive record остаётся
+`complete`, а доставка сохраняет независимый status/journal и report каждой
+попытки в TamarixCD. В ошибке указывается существующий CD report; сырой stderr
+не пересылается. Повторите ту же archive команду с прежним operation ID:
+archive повторно не переносится, CD продолжает незавершённые шаги. Изменившиеся
+входы требуют новой операции; завершённая доставка проверяет live состояние
+без повторного рестарта. Автоматического downgrade или восстановления из dump
+нет: после сбоя forward migration используйте сохранённый backup и явное
+решение о recovery.
+
+Архивные report/manifest/review/snapshots не обновляются результатами доставки.
+Новые CD отчёты хранятся отдельно и связываются с исходной archive operation;
+исторический PASS подтверждает проверенные версии до archive, rollout report —
+фактически поставленные версии и состояние среды. Само изменение hook/CD кода
+меняет проверяемый CD commit и требует актуального regression evidence перед
+следующим archive.
+
 ## CI и исторические архивы
 
 ```sh
