@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "operation_id": "t-5-persistant-change-1-20261016T132240-925d0021ad54",
+  "change": "t-5-persistant-change-1",
+  "run_id": "20261016T132240-925d0021ad54",
+  "report_sha256": "56e8f2ecb6be4c9217eb1887db2528e9b302676d08d0fdd01cbd26316849339f",
+  "docs_review_sha256": "b47a47a18cda2b669015dcc39458d0ecaf3ee675ed0cb95541649765089d28f5",
+  "docs_snapshot_sha256": "cfaaac6d6a352e0f4accf97226d1f0a8ea3de8b80f131d80c35c48c1fde2b919",
+  "registry_sha256": "e74b8c4baf01502574c39248b4deb2811ef8584f162b3e508f9ee576bab730e1",
+  "tested_store_commit": "67967107f50fd05a616f945f2f112032f8fb7391",
+  "component_sha256": {
+    "component-evidence.json": "db0e22fdbb0ad4153c8d01cea7b35fc1dea1325876b3f5e5795d9d9a4e65357d",
+    "component-results.json": "a732777f4b3c83ef77dfc5f468e3f7f4b510fd9da22ab4b0a529777aac05b6f4",
+    "component-summary.md": "1750294f98f582d43f5ecb53a9a772b077013668c15d2321db3bd71e19a11021"
+  }
+}

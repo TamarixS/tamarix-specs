@@ -7,8 +7,8 @@
   подтвердил его контракт и явно вызвал `openspec-apply` для подготовленного
   `t-5-persistant-change-1`. Это разрешает реализацию согласованного design;
   production deployment и неподтверждённые будущие правила этим не разрешаются.
-- Change: [t-5-persistant-change-1](../../changes/t-5-persistant-change-1/requirements.md),
-  [design](../../changes/t-5-persistant-change-1/design.md).
+- Change: [t-5-persistant-change-1](../../changes/archive/2026-10-16-t-5-persistant-change-1/requirements.md),
+  [design](../../changes/archive/2026-10-16-t-5-persistant-change-1/design.md).
 - Область: `attributes`, DDL/routines/views/migrations в `db-control`,
   PostgreSQL integration в `TamarixTests`; прежние границы сервисов сохраняются.
 
