@@ -77,7 +77,8 @@ python3 tools/docs_check.py prepare --change CHANGE --base-ref BASE_SHA
 Из хэшей change исключены только генерируемые gate-файлы: `docs-review.json`, `docs-snapshot.json`,
 `run-results.json`, `run-manifest.json`, `run-summary.md`,
 `regression-registry.yaml`, `regression-evidence.json`, `archive-gate-check.json`,
-`archive-completion.json`; `.DS_Store` игнорируется. Пути отсчитываются от change,
+`archive-completion.json`, а также `component-evidence.json`,
+`component-results.json`, `component-summary.md`; `.DS_Store` игнорируется. Пути отсчитываются от change,
 поэтому перенос в archive не меняет snapshot.
 
 Изменение любого исходного артефакта change или docs после review делает evidence

@@ -42,9 +42,9 @@
 
 ## 5. Итоговая проверка и готовность к archive
 
-- [ ] 5.1 (`TamarixTests`, `tamarix-specs`) По полному проверенному отчёту выполнить candidate → regression без переноса исходников, зафиксировать promotion; обновить manifest и явно выполнить финальный полный --change прогон на окончательных revisions. Проверка: готовый PASS относится к зафиксированным registry/spec/service/db-control commits; повтор оправдан изменением registry commit.
-- [ ] 5.2 (`tamarix-specs`) Просмотреть все восемь обязательных docs страниц, включая README/architecture/domains/services/api/database/operations/development, завершить review фактических правок и Mermaid, подготовить docs-review.json/docs-snapshot.json с отдельным baseline T-5. Проверка: `docs_check.py check` и `review --change` проходят, у каждой страницы updated/reviewed и русское обоснование, hashes актуальны.
-- [ ] 5.3 (`tamarix-specs`) Заменить planned test links фактическими, записать команды/итоги, сохранить verification/evidence с отчётами и manifest hashes; выполнить strict OpenSpec validation и archive_gate.py check по готовому отчёту. Проверка: все критерии имеют реальный PASS без обязательных skip/xfail/NOT_RUN, исходные пользовательские правки сохранены, archive пока не выполнен.
+- [x] 5.1 (`TamarixTests`, `tamarix-specs`) По полному проверенному отчёту выполнить candidate → regression без переноса исходников, зафиксировать promotion; обновить manifest и явно выполнить финальный полный --change прогон на окончательных revisions. Проверка: готовый PASS относится к зафиксированным registry/spec/service/db-control commits; повтор оправдан изменением registry commit.
+- [x] 5.2 (`tamarix-specs`) Просмотреть все восемь обязательных docs страниц, включая README/architecture/domains/services/api/database/operations/development, завершить review фактических правок и Mermaid, подготовить docs-review.json/docs-snapshot.json с отдельным baseline T-5. Проверка: `docs_check.py check` и `review --change` проходят, у каждой страницы updated/reviewed и русское обоснование, hashes актуальны.
+- [x] 5.3 (`tamarix-specs`) Заменить planned test links фактическими, записать команды/итоги, сохранить verification/evidence с отчётами и manifest hashes; выполнить strict OpenSpec validation и archive_gate.py check по готовому отчёту. Проверка: все критерии имеют реальный PASS без обязательных skip/xfail/NOT_RUN, исходные пользовательские правки сохранены, archive пока не выполнен.
 
 ## Планируемые команды проверки
 
@@ -160,6 +160,28 @@ archive gate использует уже готовый отчёт и не за�
 - Дополнительный design rollback, не отдельный Scenario текущей delta: db-control `tests/component/test_migrations.py::test_shapes_disposable_downgrade_restores_previous_contract` и `tests/component/test_migrations.py::test_shapes_downgrade_without_disposable_safeguard_preserves_state`. Проверить восстановление 0003, документированную потерю shape ID/key/sharing, отказ без safeguard до мутаций; обновить существующий DN downgrade test, который целится в 0002.
 - До реализации тестов учитывать actual SQL wrappers/views из design; не вводить tests regex/length/range и автоматический semantic dedup. Разные ключи с одинаковой текущей семантикой допустимы; c04/c08/c09 должны сохранять точную идентичность форм.
 
+
+## Фактическое выполнение
+
+- Полный component suite: **206/206 PASS**, db-control `90e59d2`,
+  `component-results.json`; включая populated upgrade, atomic rollback,
+  disposable reverse, ACL, structural FK и все owner families.
+- Полный integration candidate + regression: **114/114 PASS**, run
+  `20261016T131757-7b037542699f`, tests `466f159`; первый112/114 и исправления
+  тестовых ожиданий сохранены в verification.md и исходном каталоге прогона.
+- Promotion 13 shapes cases: tests commit `4a3b68e846e541a75496e0c62cb2a4ddcf82895c`.
+  Финальный полный --change через `TamarixCD/ci/external_tests.py run`
+  (`postgresql-integration`, `--junit`): **114/114 PASS**, run
+  `20261016T132240-925d0021ad54`; сохранены `run-results.json`,
+  `run-manifest.json`, `run-summary.md`, registry и полный комплект
+  `verification/integration-20261016T132240-925d0021ad54/`.
+- Tooling runner: **105/105 PASS**; отдельный комплект
+  `verification/tooling-20261016T131239-7fc0c344/` включает 17 новых проверок
+  component evidence.
+- Docs check/review: **PASS**, 8 updated страниц и 15 Mermaid blocks;
+  baseline `6882ec9b9af212dda8effb3017bfac0473bbc2a1`. Strict OpenSpec и
+  `archive_gate.py check` по финальному114/114 report: **PASS**; snapshot/hashes
+  обновлены после завершения всех checkbox. Архивирование не выполнялось.
 
 ## Workflow follow-up
 
