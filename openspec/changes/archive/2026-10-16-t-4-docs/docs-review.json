@@ -4,6 +4,7 @@
   "base_commit": "3a62e7189d7d51ca387f1ea20d9407e5b0d46718",
   "change_sha256": {
     ".openspec.yaml": "c5936a7e8ac90455175dd905c9e8fb9d33cf82476be795f24133b51ef95c3d96",
+    "archive-waiver.md": "ad522fc2e3909385c6573a5c4df490d530d87ba0e3fd193f4730472eb907547b",
     "design.md": "0d9791acc8b0e6b6b7d5482e7b92c959c7d7d846338fb8760f48436ecac0fd55",
     "proposal.md": "10c4299a9ad814a012a7bb20fdff59b6d12c9dbf53e408ce8fc98bbdac1d3bbd",
     "specs/project-documentation/spec.md": "1635388083d527323981a7d4045701e526e71bdd0b7be3c07592bebe93737c69",
@@ -21,13 +22,13 @@
     "docs/README.md": "32489989279af42cf2f918d04a72fcab9974efc3a8773bcde6940238f93a0c37",
     "docs/api.md": "4035cca080f892db56b15173fecae86edf2c8b3b33be9492542b48876de926d2",
     "docs/architecture.md": "b64ec19ef5ab65831421c63023c896dd67af81b795bb8764267f7ba0d7ea2bab",
-    "docs/database.md": "0ab9ce0e4a8089a86f47d557b5d2ebbb5313827c491bad2f7e02e9c46c045cbf",
-    "docs/development.md": "f29ef2c199ae70f5137b9b041f3ea4608977fefd2599b21c5b613501e2fe6937",
+    "docs/database.md": "41b3d20e1a641b98115bdc08a498371fee638d4f8a9449f6c68750984b633617",
+    "docs/development.md": "94c9ff80de523daa2a064dea313dc5f0d39b259900a4beffd0babb9968d51d79",
     "docs/domains.md": "6ae2ed1376316e47869da05df5d885d27c24a9fb65b8dbe4e21a8ee84e0e4fd2",
     "docs/operations.md": "fcebcae0f5be270d96444b49e709ecfee8d110fff5d92eaa08b677525605c727",
     "docs/services.md": "49faaa88369b5e49c02fbc697506253791d073967845266f6725d9d3ecf0bc06"
   },
-  "snapshot_sha256": "23d77a983f378cb36aa31134552fa398e2eb6a26991d8cb917d0e8427d347cb6",
+  "snapshot_sha256": "a441203049e5c5e5aaa7e58a17ca6e65264ef577c629e461e0bbd799c9d839bf",
   "changed_pages": [
     "docs/README.md",
     "docs/api.md",
@@ -61,7 +62,7 @@
     },
     "docs/database.md": {
       "status": "updated",
-      "reason": "Описаны все 25 прикладных таблиц и Alembic, поля/связи/индексы/constraints/locks; учебные данные сверены с DDL и доменным примером. Добавлено обоснование денормализации метаданных definitions/instances/values: роли таблиц, составные FK, стабильность семантики, ограничения values и цена альтернативы; сверено с DDL и независимо проверено."
+      "reason": "Описаны все 25 прикладных таблиц и Alembic, поля/связи/индексы/constraints/locks; учебные данные сверены с DDL и доменным примером. Добавлено обоснование денормализации метаданных definitions/instances/values: роли таблиц, составные FK, стабильность семантики, ограничения values и цена альтернативы; сверено с DDL и независимо проверено. Для каждой из 25 прикладных таблиц и public.alembic_version явно описаны назначение и использующие её операции; полнота сверена с CREATE TABLE и независимым review."
     },
     "docs/operations.md": {
       "status": "updated",
@@ -69,7 +70,7 @@
     },
     "docs/development.md": {
       "status": "updated",
-      "reason": "Добавлен жизненный цикл обновления docs, content snapshots и evidence, команды проверок и границы CI single/bulk archive."
+      "reason": "Добавлен жизненный цикл обновления docs, content snapshots и evidence, команды проверок и границы CI single/bulk archive. В checklist сопровождения БД закреплено описание назначения каждой таблицы."
     }
   }
 }
