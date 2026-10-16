@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "change": "project-documentation-lifecycle",
+  "change": "t-4-docs",
   "base_commit": "3a62e7189d7d51ca387f1ea20d9407e5b0d46718",
   "change_sha256": {
     ".openspec.yaml": "c5936a7e8ac90455175dd905c9e8fb9d33cf82476be795f24133b51ef95c3d96",
     "design.md": "0d9791acc8b0e6b6b7d5482e7b92c959c7d7d846338fb8760f48436ecac0fd55",
     "proposal.md": "10c4299a9ad814a012a7bb20fdff59b6d12c9dbf53e408ce8fc98bbdac1d3bbd",
     "specs/project-documentation/spec.md": "1635388083d527323981a7d4045701e526e71bdd0b7be3c07592bebe93737c69",
-    "tasks.md": "a9f53fa4bcf665de4c5433c547fa67554437b0b5bbd6515684d12268927a45b8",
+    "tasks.md": "f1487a64994912ee8beffb7eec1d676be3b2d7d6fdd1dd0e868a87815ee0be36",
     "verification/mermaid-parser-results.json": "8c128fe6d3c00b4d1db569f624895113628646feb93005efeb2a2518af827f02",
     "verification/parse-mermaid.cjs": "ea7539e81d9114c10795c1910b48b9a66a2942fa818b3b7726b35211ae5d489b",
     "verification/tamarix-docs-gate-20261015T200806-88861760/junit.xml": "08526cab6b4590e23b8a6b6385b0cba450b1afca408177802496ebc5f98c8b08",
@@ -15,7 +15,7 @@
     "verification/tamarix-docs-gate-20261015T200806-88861760/results.json": "16a3c470c91793e8176244f849d8668ebcc60cf25cd1bcf24748cb4ac6192094",
     "verification/tamarix-docs-gate-20261015T200806-88861760/summary.md": "7c07cb5983652b08c02ff43c75165cd0328e4be61c0daba60227f86c93a0d7d0",
     "verification/tooling_test_runner.py": "87c20b26bfdaffee5048e3fd6e6eda3d269bc370740680e51a8ca571764947b2",
-    "verification.md": "b44322dae855b8d0bc16d5eaa0f9749a8e6ed89e2f86a4374ba350784bbbc0c7"
+    "verification.md": "31234d5ee20b21bdb62e3e525382cd413b49cdff4135ff0f01bef28b0d6702ec"
   },
   "docs_sha256": {
     "docs/README.md": "32489989279af42cf2f918d04a72fcab9974efc3a8773bcde6940238f93a0c37",

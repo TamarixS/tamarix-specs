@@ -24,7 +24,7 @@
 
 ## Traceability
 
-Полный путь требований: `openspec/changes/project-documentation-lifecycle/specs/project-documentation/spec.md`.
+Полный путь требований: `openspec/changes/t-4-docs/specs/project-documentation/spec.md`.
 Все тесты принадлежат `tamarix-specs`; параметризованные IDs ниже — фактически
 collected/executed случаи итогового отчёта, все PASS.
 
