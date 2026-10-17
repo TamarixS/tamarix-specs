@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "change": "post-archive-hook",
+  "status": "ARCHIVED",
+  "completed_at": "2026-10-17T08:09:16.563227+00:00",
+  "operation_id": "post-archive-hook-20261017T074524-72b901a333a2",
+  "archive_path": "openspec/changes/archive/2026-10-17-post-archive-hook",
+  "archive_state": "complete",
+  "archive_record_sha256": "99fb8a9f640af17f1326914264117413cac5d384e8148caa7aad5dd969f5a3be",
+  "regression": {
+    "run_id": "20261017T074524-72b901a333a2",
+    "status": "PASS",
+    "cases": 114,
+    "report_sha256": "ff13c64366bfb743f7a57b7fd62f273448bdbafee0a12dec481620f8a0853556"
+  },
+  "component_checks": {
+    "cd_pass": 338,
+    "central_archive_docs_pass": 105
+  },
+  "documentation": {
+    "pages": 8,
+    "mermaid_blocks": 15,
+    "review_sha256": "7eef9e8e7beb3f0d18f163beb6f324a712464550e355ea4d2be86f74b1a0aa87",
+    "snapshot_sha256": "0d5a0b8be30e9c4554e9affc007182cca1fc6b7051d29059cea203ec18f80043"
+  },
+  "tested_source_commit": "fc394440f6c8024686f632e261c1e91b0b3fcc1a",
+  "ready_commit": "0a8fd6c64edd36a86c7a6e84999bce9dcaf2ff12",
+  "tested_cd_commit": "e55825793232db67c57791325fdf63d09d436b24",
+  "tests_started_by_archive": false,
+  "deployment_started_by_archive": true,
+  "deployment": {
+    "status": "PASS",
+    "report": "/Users/mfedotenko/Projects/TamarixS/TamarixCD/reports/post-archive/post-archive-hook-20261017T074524-72b901a333a2/676bbb30a94a4c7ab47bfc22755e7c58/results.json",
+    "report_sha256": "4bbb255368afe46e35c90625ac0a9a0b0c2253a25a8864bea175caab31b4d521",
+    "summary_sha256": "6db40e022c26f6a19e4b7aa1b71cd64984093396127d8029e460da752b590365",
+    "steps": [
+      {
+        "name": "prepare",
+        "status": "PASS"
+      },
+      {
+        "name": "build",
+        "status": "PASS"
+      },
+      {
+        "name": "stop",
+        "status": "PASS"
+      },
+      {
+        "name": "backup",
+        "status": "PASS"
+      },
+      {
+        "name": "migrate",
+        "status": "PASS"
+      },
+      {
+        "name": "preservation",
+        "status": "PASS"
+      },
+      {
+        "name": "up",
+        "status": "PASS"
+      },
+      {
+        "name": "verify",
+        "status": "PASS"
+      }
+    ],
+    "legacy_preservation_checked": true,
+    "backup": {
+      "path": "/Users/mfedotenko/Projects/TamarixS/TamarixCD/reports/post-archive/post-archive-hook-20261017T074524-72b901a333a2/676bbb30a94a4c7ab47bfc22755e7c58/before-upgrade.dump",
+      "sha256": "8ed8742795c97348343de7b8e020d3585823fe17b532ca09a1ffff81e3c82859",
+      "bytes": 331687
+    },
+    "service_health": "healthy",
+    "health_report_sha256": "3f3ee63d1a69433df96b8dbf7e0a7dbaba94c60fb678c2ce9719df40e378dbdd",
+    "migration_heads": [
+      "20261016_0004"
+    ]
+  },
+  "demo_readback": {
+    "status": "PASS",
+    "report": "/Users/mfedotenko/Projects/TamarixS/TamarixCD/reports/post-archive-deployment/final-demo-readback/6f0a07990f1d40d19b3edfe1fb7effe3/results.json",
+    "report_sha256": "418b1ba5a6638d92fbc5a76d3d7b49e157225b66af73bcbaa8c71282748f9e70",
+    "summary_sha256": "addf2c54ea0ebe7e115aff2420a953b0c40d529442766809b521fd7ab978f162",
+    "created": false,
+    "committed": false
+  },
+  "publication": {
+    "requested_by_user": true,
+    "target": "main",
+    "method": "pull_request_merge",
+    "cd_pr": "https://github.com/TamarixS/tamarix-cd/pull/1",
+    "result_record": "Окончательный merge подтверждается GitHub PR/merge commit и локальной release записью; frozen archive evidence не переписывается после merge."
+  }
+}

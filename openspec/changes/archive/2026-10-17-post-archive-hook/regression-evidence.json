@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "operation_id": "post-archive-hook-20261017T074524-72b901a333a2",
+  "change": "post-archive-hook",
+  "run_id": "20261017T074524-72b901a333a2",
+  "report_sha256": "ff13c64366bfb743f7a57b7fd62f273448bdbafee0a12dec481620f8a0853556",
+  "docs_review_sha256": "7eef9e8e7beb3f0d18f163beb6f324a712464550e355ea4d2be86f74b1a0aa87",
+  "docs_snapshot_sha256": "0d5a0b8be30e9c4554e9affc007182cca1fc6b7051d29059cea203ec18f80043",
+  "registry_sha256": "e74b8c4baf01502574c39248b4deb2811ef8584f162b3e508f9ee576bab730e1",
+  "tested_store_commit": "fc394440f6c8024686f632e261c1e91b0b3fcc1a"
+}
