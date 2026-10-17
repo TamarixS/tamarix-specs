@@ -923,6 +923,216 @@ def test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence(workspac
         gate.validate_archived(workspace.store, base)
 
 
+def relocated_archive(workspace, *, alias=True, occupied_target=False):
+    """Подготовить настоящий Git checkpoint старого архива и его точный перенос."""
+    operation = "relocation-fixture"
+    value = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path,
+                         operation, execute=fake_archive(workspace))
+    original = Path(value["archive_path"])
+    before = {p.relative_to(original).as_posix(): p.read_bytes()
+              for p in original.rglob("*") if p.is_file()}
+    target = original.with_name(original.name.removesuffix(CHANGE) + "t-cd-2-db-change")
+    if occupied_target:
+        target.mkdir()
+        (target / "protected.txt").write_text("Историческое содержимое другого archive root.\n")
+    baseline = commit(workspace.store)
+    entry = {"from": original.relative_to(workspace.store).as_posix(),
+             "to": target.relative_to(workspace.store).as_posix(),
+             "change": CHANGE, "display_change": "t-cd-2-db-change", "source_commit": baseline,
+             "files_sha256": {name: gate.digest(content) for name, content in before.items()}}
+    if occupied_target:
+        (target / "protected.txt").unlink()
+        target.rmdir()
+    original.rename(target)
+    if alias:
+        original.symlink_to(target.name, target_is_directory=True)
+        entry["compatibility_symlink"] = target.name
+    ledger = workspace.store / "openspec/archive-relocations.json"
+    gate.atomic_json(ledger, {"schema_version": 1, "relocations": [entry]})
+    return SimpleNamespace(original=original, target=target, before=before, baseline=baseline,
+                           ledger=ledger, entry=entry, operation=operation)
+
+
+@pytest.mark.parametrize("alias", [
+    pytest.param(False, id="перенос-без-alias"),
+    pytest.param(True, id="точный-compatibility-symlink"),
+])
+def test_archive_relocation_preserves_frozen_bytes_and_original_identity(workspace, alias):
+    """Точный перенос с anchored ledger проходит как один исторический archive.
+
+    Случаи различают отсутствующий старый путь и разрешённый относительный alias.
+    Current docs могут измениться позднее: перенос сохраняет исторический proof,
+    исходные report/review IDs и все bytes, не требуя нового archive snapshot.
+    """
+    moved = relocated_archive(workspace, alias=alias)
+    page = workspace.store / "docs/api.md"
+    page.write_text(page.read_text() + "\nДокументация следующего изменения.\n")
+    commit(workspace.store)
+    assert gate.validate_archived(workspace.store, moved.baseline)["archives_checked"] == 1
+    assert {p.relative_to(moved.target).as_posix(): p.read_bytes()
+            for p in moved.target.rglob("*") if p.is_file()} == moved.before
+    assert gate.read_json(moved.target / "docs-review.json")["change"] == CHANGE
+    assert gate.read_json(moved.target / "regression-evidence.json")["change"] == CHANGE
+
+
+def test_archive_relocation_future_base_uses_new_tree_and_completed_retry_alias(workspace):
+    """После принятого rename будущий BASE сверяется с новым tree, retry со старым ID.
+
+    Старый operation record и его hash не переписываются; Python archive API
+    подтверждает complete через точный alias без второго OpenSpec archive.
+    Проверка защищает frozen ссылки и повтор уже выполненной операции доставки.
+    """
+    moved = relocated_archive(workspace)
+    new_baseline = commit(workspace.store)
+    assert gate.validate_archived(workspace.store, moved.baseline)["archives_checked"] == 1
+    page = workspace.store / "docs/api.md"
+    page.write_text(page.read_text() + "\nСледующее изменение после rename.\n")
+    commit(workspace.store)
+    assert gate.validate_archived(workspace.store, new_baseline)["archives_checked"] == 0
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Complete archive повторно вызвал OpenSpec")
+
+    result = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path,
+                          moved.operation, execute=forbidden)
+    assert result["state"] == "complete" and result["archive_path"] == str(moved.original)
+
+
+@pytest.mark.parametrize("mutation", [
+    pytest.param("report", id="подмена-raw-report"),
+    pytest.param("extra", id="лишний-файл"),
+    pytest.param("missing", id="потерянный-файл"),
+    pytest.param("rehash", id="подмена-и-пересчёт-ledger"),
+])
+def test_archive_relocation_rejects_payload_changes_even_with_rehashed_ledger(workspace, mutation):
+    """Изменение report, состава либо самосогласованный rehash не становится rename.
+
+    Каждый случай нарушает byte-identical перенос: добавленный и удалённый файлы
+    проверяют exact inventory, изменённый report — hash, пересчитанный ledger —
+    независимый Git source anchor. Исходный frozen proof нельзя заменить новым.
+    """
+    moved = relocated_archive(workspace)
+    if mutation == "extra":
+        (moved.target / "extra.txt").write_text("Лишнее содержимое")
+    elif mutation == "missing":
+        (moved.target / "run-summary.md").unlink()
+    else:
+        path = moved.target / "run-results.json"
+        path.write_text(path.read_text() + "\n")
+        if mutation == "rehash":
+            moved.entry["files_sha256"]["run-results.json"] = gate.digest(path.read_bytes())
+            gate.atomic_json(moved.ledger, {"schema_version": 1, "relocations": [moved.entry]})
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="Relocation"):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
+def test_archive_relocation_requires_source_ancestor_of_validation_base(workspace):
+    """Source commit новее BASE отвергается, даже если это настоящий Git object.
+
+    После исходного checkpoint создаётся descendant commit и назначается anchor.
+    Ожидается отказ ancestry до использования дерева: rename нельзя подтвердить
+    состоянием, появившимся лишь в проверяемой ветке после BASE.
+    """
+    moved = relocated_archive(workspace)
+    later = commit(workspace.store)
+    moved.entry["source_commit"] = later
+    gate.atomic_json(moved.ledger, {"schema_version": 1, "relocations": [moved.entry]})
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="предком BASE"):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
+def test_archive_relocation_cannot_replace_existing_target_in_base(workspace):
+    """Новая relocation не заменяет archive root, уже существовавший в BASE.
+
+    В исходном checkpoint оба пути содержат разные файлы; candidate удаляет
+    содержимое target и переносит туда точные bytes source. Даже такой полный
+    source proof не даёт права уничтожить другой исторический Git object.
+    """
+    moved = relocated_archive(workspace, occupied_target=True)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="target уже существует в BASE"):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
+def test_archive_relocation_without_ledger_is_not_inferred_from_git_similarity(workspace):
+    """Git move без ledger отвергается, хотя bytes архивных файлов не изменились.
+
+    Удаляется только новый relocation descriptor; сравнение без rename inference
+    должно потребовать явный proof и не принять иной folder suffix автоматически.
+    Это сохраняет прежний запрет прямого archive/удаления evidence.
+    """
+    moved = relocated_archive(workspace, alias=False)
+    moved.ledger.unlink()
+    commit(workspace.store)
+    with pytest.raises(gate.GateError):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
+def test_archive_relocation_rejects_wrong_compatibility_symlink_target(workspace):
+    """Ledger разрешает только точный relative basename нового физического archive.
+
+    Старый alias подменяется ссылкой на соседний/внешний путь при неизменных
+    target files. Ожидается отказ до исторической проверки; произвольные ссылки
+    и chains не получают доверие от самого наличия compatibility_symlink поля.
+    """
+    moved = relocated_archive(workspace)
+    moved.original.unlink()
+    moved.original.symlink_to("../external-target", target_is_directory=True)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="compatibility symlink"):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
+@pytest.mark.parametrize("mutation", [
+    pytest.param("drop", id="удалена-принятая-entry"),
+    pytest.param("alias", id="изменена-принятая-entry"),
+])
+def test_archive_relocation_accepted_ledger_entries_cannot_change_or_disappear(workspace, mutation):
+    """Запись ledger, уже существующая в BASE, остаётся неизменяемой.
+
+    Случаи удаляют entry либо меняют её корректный alias-вариант на перенос без
+    alias. Файлы target прежние; отказ подтверждает immutability самой записи,
+    а не случайную ошибку её содержимого или frozen report.
+    """
+    moved = relocated_archive(workspace)
+    base = commit(workspace.store)
+    if mutation == "drop":
+        entries = []
+    else:
+        moved.original.unlink()
+        del moved.entry["compatibility_symlink"]
+        entries = [moved.entry]
+    gate.atomic_json(moved.ledger, {"schema_version": 1, "relocations": entries})
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="неизменяем"):
+        gate.validate_archived(workspace.store, base)
+
+
+@pytest.mark.parametrize("mutation", [
+    pytest.param("traversal", id="путь-с-выходом-из-archive"),
+    pytest.param("duplicate", id="повтор-пары-путей"),
+])
+def test_archive_relocation_rejects_traversal_and_overlapping_entries(workspace, mutation):
+    """Traversal и пересекающиеся пути ledger отклоняются без изменения evidence.
+
+    Один случай подменяет target путём с '..', другой повторяет существующую пару.
+    Ожидается отказ descriptor до принятия relocation mapping; вложенные roots,
+    duplicates и chains не должны сливать разные архивы в одно подтверждение.
+    """
+    moved = relocated_archive(workspace)
+    entries = [moved.entry]
+    if mutation == "traversal":
+        moved.entry["to"] = "openspec/changes/archive/../outside"
+    else:
+        entries.append(dict(moved.entry))
+    gate.atomic_json(moved.ledger, {"schema_version": 1, "relocations": entries})
+    commit(workspace.store)
+    with pytest.raises(gate.GateError):
+        gate.validate_archived(workspace.store, moved.baseline)
+
+
 COMPONENT_SCENARIO = "Несовместимая структурная ссылка"
 COMPONENT_CRITERION = "БД SHALL отклонять несовместимую ссылку без частичной записи"
 COMPONENT_NODE = "tests/component/test_shape_fixture.py::test_shape_fk"
