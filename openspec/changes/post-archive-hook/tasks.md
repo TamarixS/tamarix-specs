@@ -18,19 +18,29 @@
 
 ## 3. Явная проверка окончательных версий
 
-- [ ] TamarixCD: зафиксировать окончательный source commit и завершённые CD tests
-  с HOOK-01..04/CD-ARCHIVE-01..06; записать команды, report paths и hashes.
-- [ ] TamarixTests/TamarixCD: по запросу пользователя получить полный текущий
-  regression PASS на окончательных immutable commits; сохранить новый manifest,
-  русскую summary и JSON, без копирования исторического T-5 PASS.
-- [ ] tamarix-specs: проверить прежние archive API tests и новый CLI hook coverage,
-  записать фактический результат; выполнить strict validate и docs gate.
+- [x] TamarixCD: подтвердить CD component regression 338 PASS, включая 15 hook cases,
+  и сохранить неизменённые report/summary/log/JUnit с SHA256 в verification.md.
+- [x] tamarix-specs: подтвердить 105 PASS прежних archive/docs suites
+  (77 archive и 28 docs), сохранив отдельные report и SHA256.
+- [x] TamarixTests/TamarixCD: получить полный текущий regression PASS на окончательном
+  CD archive commit и source store commit, сохранить новый manifest/summary/JSON,
+  проверить отсутствие SKIP/NOT_RUN/выборочного набора и неизменность source/specs.
 
-## 4. Archive и передача
+## 4. Готовность archive и передача результатов
 
-- [ ] tamarix-specs: после окончательных tasks/verification выполнить docs review
-  refresh с прежним baseline, заполнить восемь разделов и проверить hashes.
-- [ ] tamarix-specs: выполнить check/archive через tools/archive_gate.py с новым
-  полным report; сохранить operation ID и фактический deployment status отдельно.
-- [ ] tamarix-specs/TamarixCD: сохранить исходные reports/snapshots, проверить
-  archive evidence и подготовить разрешённые пользователем commit/merge.
+- [x] tamarix-specs: завершить verification фактическими versions/report hashes,
+  подготовить cross-repo links относительно будущего archive, затем refresh
+  docs review с прежним baseline и проверить все восемь разделов/hashes.
+- [x] tamarix-specs: подтвердить strict validate, docs gate и archive_gate check
+  с новым полным report; подготовить неизменные report path/operation ID и
+  проверенный post-archive config для адресной автоматической доставки.
+- [x] tamarix-specs/TamarixCD: подготовить последовательность archive/CI validation,
+  commit/merge, проверить сохранность исходных reports и предусмотреть запись
+  фактического archive/deployment/merge результата в archive-completion.json.
+
+## Evidence
+
+Фактические проверки и воспроизводимые команды — [verification.md](verification.md).
+Текущие checkbox описывают проверяемую готовность до мутаций archive. Сама операция
+archive/rollout и её последующий commit/merge фиксируются отдельно в
+archive-completion.json; они не объявляются выполненными до исполнения.

@@ -5,7 +5,7 @@ operation локальному CD executor. Пользователь 2026-10-16 
 раскатку после archive, а затем архивирование, commit и merge завершённой работы.
 Этот companion change оформляет только центральный вызов и его документацию.
 План доставки, миграций и демонстрационных данных остаётся в локальном
-[CD change](../../../../../TamarixCD/openspec/changes/post-archive-deployment/proposal.md).
+[CD change](../../../../../../TamarixCD/openspec/changes/archive/2026-10-17-post-archive-deployment/proposal.md).
 
 ## Scope
 

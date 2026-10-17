@@ -3,7 +3,7 @@
 ## Context and sources
 
 Companion оформляет центральную часть уже реализуемого локального
-[post-archive-deployment](../../../../../TamarixCD/openspec/changes/post-archive-deployment/design.md).
+[post-archive-deployment](../../../../../../TamarixCD/openspec/changes/archive/2026-10-17-post-archive-deployment/design.md).
 Прочитаны центральные AGENTS/config, context README, architecture-principles,
 technology-stack, service-architecture, data-architecture, security/testing,
 реестр ADR и руководство из восьми страниц. Проверены `tools/archive_gate.py`,
@@ -66,7 +66,7 @@ Wrapper только в CD оставил бы существующий цент
 | CD-ARCHIVE-06 | CD dependency: `tests/test_demo_data.py::test_dataset_has_new_names_shared_shapes_and_independent_applicability`, `::test_readback_rejects_drift`, `::test_repeated_seed_skips_writes_but_still_rejects_readback_drift`, `::test_decimal_normalization_preserves_difference_beyond_context_precision`; live readback принадлежит локальному CD change |
 
 Полные параметризованные IDs, команды, описания и outcomes CD сохраняются в
-[его verification](../../../../../TamarixCD/openspec/changes/post-archive-deployment/verification.md).
+[его verification](../../../../../../TamarixCD/openspec/changes/archive/2026-10-17-post-archive-deployment/verification.md).
 Новая domain delta и promotion записей registry этим companion не требуются;
 центральный gate всё равно принимает полный существующий regression, а не
 выборочный CD report. До archive root дополнит tasks фактическими командами,

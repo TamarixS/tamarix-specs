@@ -4,9 +4,15 @@
   "base_commit": "38c5af8f9c9c40db0f3ba66fbe0b00b5ab0e9dc4",
   "change_sha256": {
     ".openspec.yaml": "291cce2c4dd592c685b5a4ba44cd2bb26d5c9177ec67cba11537a34e073e06b2",
-    "design.md": "92c13db74885804806dc208d48cd61144f5f402559aa88b8e4099ec7d7d7c015",
-    "proposal.md": "7382f2579f73b381fc23c7e5fb6d77130c45054caf64f2c0cb75d804c587f830",
-    "tasks.md": "f5684bef66bcb0abac4d84e5a8a93648b5255df517f99b22f8a6e9c1b95eba88"
+    "design.md": "e955e5f26a7b3a224fe4f825ca2cc81b0eb3dc121e1cb94b726e1d72f76f3e35",
+    "evidence/central-tools/junit.xml": "235feca0c9854afe718e092e2e68defcee063fb9e0e9f862051151f6ff679297",
+    "evidence/central-tools/pytest.log": "87c4c84a722c22a7a053111150b54370a8b4638285e760f5105d38b318aea9af",
+    "evidence/central-tools/results.json": "c0f932e61bd789bf401fbaa7bf5e5d00c116c0326a5f1bb6695e9c4a07d09425",
+    "evidence/central-tools/sha256.json": "1d777accbb0562345444730549a35cea94c25761cda6d580f2d27c39335beabd",
+    "evidence/central-tools/summary.md": "24f29127270a7ad5eb93a975fac920f4311afecd661b89577f448293fcf0ef83",
+    "proposal.md": "b64b11ddf6781a8a1be04cb236de9f924de7c801631aba829f003f6626016225",
+    "tasks.md": "15908e47fa983ccf1973b6f846fbc60e1d3f1b85ca5efb45168c6700a57a5f53",
+    "verification.md": "2c5e0b8c37b5f85be539c8c8ec96e1c96e09fd07b08d9c00fcb7d6944e44cdc0"
   },
   "docs_sha256": {
     "docs/README.md": "7c737b96d038e0859b549fa3ae06e94b757f3f03291b66d26b253bcb3582e387",

@@ -1,0 +1,861 @@
+{
+  "schema_version": 1,
+  "report_type": "cd-component",
+  "run_id": "9aa7e003f633449cb4e04b92db79abd2",
+  "started_at": "2026-10-16T20:40:19.993917+00:00",
+  "finished_at": "2026-10-16T20:41:15.728850+00:00",
+  "duration_seconds": 55.735916083998745,
+  "python": "3.15.0",
+  "requested": [
+    "../Tamarix/tamarix-specs/tests/test_archive_gate.py",
+    "../Tamarix/tamarix-specs/tests/test_docs_check.py",
+    "-q",
+    "--tb=short"
+  ],
+  "cases": [
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_current_full_promoted_report_passes",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_current_full_promoted_report_passes",
+      "description": "Полный PASS двух случаев на чистых commits допускается; задаёт позитивный контроль проверки evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.4300879589864053,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[missing]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[missing]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.35957341600442305,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[fail]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[fail]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.362143250007648,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[skip]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[skip]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.3597639999934472,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[xfail]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[xfail]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.35643912400701083,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[not-run]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[not-run]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.4013640829944052,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[incomplete]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[incomplete]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.3743162910104729,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[partial]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[partial]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.3547648750245571,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[partial-collection]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[partial-collection]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.35603033399092965,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[diagnostic-selection]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_report_preserves_change_without_hidden_execution[diagnostic-selection]",
+      "description": "При непригодном отчёте ожидает GateError и неизменный активный change.\n\nПричина каждого случая пояснена у параметров; применяется для защиты\nот ложного PASS, потери change и незаказанного неявного запуска тестов.",
+      "status": "PASS",
+      "duration_seconds": 0.36411387598491274,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[tests-revision]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[tests-revision]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.40972449898254126,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[registry-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[registry-hash]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.4063450420217123,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[service-revision]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[service-revision]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.45016700102132745,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[source-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[source-hash]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.423627167037921,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[spec-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[spec-hash]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.4404439589998219,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[delta-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[delta-hash]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.33505970900296234,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[manifest-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_stale_inputs_block_gate[manifest-hash]",
+      "description": "Меняет один проверяемый вход и ожидает GateError; защищает привязку прогона к конкретным версиям и spec hashes.",
+      "status": "PASS",
+      "duration_seconds": 0.36743862499133684,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[registry-description]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[registry-description]",
+      "description": "Обновляет вход и полный report согласованно, затем ожидает отказ по отсутствующему русскому описанию или promotion.",
+      "status": "PASS",
+      "duration_seconds": 0.44506316698971204,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[test-docstring]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[test-docstring]",
+      "description": "Обновляет вход и полный report согласованно, затем ожидает отказ по отсутствующему русскому описанию или promotion.",
+      "status": "PASS",
+      "duration_seconds": 0.5785258749965578,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[promotion]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_russian_descriptions_and_promotion_required[promotion]",
+      "description": "Обновляет вход и полный report согласованно, затем ожидает отказ по отсутствующему русскому описанию или promotion.",
+      "status": "PASS",
+      "duration_seconds": 0.4421832920052111,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_open_task_blocks_before_archive",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_open_task_blocks_before_archive",
+      "description": "При незавершённой задаче даже полный PASS не архивируется; защищает критерии завершения change.",
+      "status": "PASS",
+      "duration_seconds": 0.4589156659785658,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_operation_resumes_and_completed_is_idempotent[before-move]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_operation_resumes_and_completed_is_idempotent[before-move]",
+      "description": "Сохраняет частичную операцию, продолжает её тем же входом и повторяет завершённую без второго archive; защищает безопасный retry.",
+      "status": "PASS",
+      "duration_seconds": 0.5592774579417892,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_operation_resumes_and_completed_is_idempotent[after-move]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_operation_resumes_and_completed_is_idempotent[after-move]",
+      "description": "Сохраняет частичную операцию, продолжает её тем же входом и повторяет завершённую без второго archive; защищает безопасный retry.",
+      "status": "PASS",
+      "duration_seconds": 0.4852607069769874,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_operation_id_rejects_changed_report",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_operation_id_rejects_changed_report",
+      "description": "После завершения меняет run ID отчёта: прежний operation ID отвергается; защищает привязку операции к неизменяемому входу.",
+      "status": "PASS",
+      "duration_seconds": 0.44260824998491444,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_direct_archive_without_evidence_is_rejected",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_direct_archive_without_evidence_is_rejected",
+      "description": "Перемещает change напрямую без evidence и коммитит: CI gate должен отказать; контролирует обход обёртки archive.",
+      "status": "PASS",
+      "duration_seconds": 0.40867929204250686,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[report-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[report-hash]",
+      "description": "Создаёт полный archive и портит один артефакт: ожидает CI GateError; защищает целостность и завершённость archived evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.5129253739723936,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[registry-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[registry-hash]",
+      "description": "Создаёт полный archive и портит один артефакт: ожидает CI GateError; защищает целостность и завершённость archived evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.5058157919847872,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[tasks]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[tasks]",
+      "description": "Создаёт полный archive и портит один артефакт: ожидает CI GateError; защищает целостность и завершённость archived evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.5420059580064844,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[source-spec-hash]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_corrupted_evidence[source-spec-hash]",
+      "description": "Создаёт полный archive и портит один артефакт: ожидает CI GateError; защищает целостность и завершённость archived evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.6404911660065409,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_real_openspec_lifecycle_and_archived_ci",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_real_openspec_lifecycle_and_archived_ci",
+      "description": "В одноразовой репе выполняет candidate → promotion commit → final PASS → настоящий OpenSpec archive и CI проверку.\n\nRuntime-прогон представлен реалистичным fixture report; ожидается один archive\nс согласованными snapshots. Применяется для проверки настоящего CLI и lifecycle tooling.",
+      "status": "PASS",
+      "duration_seconds": 3.262809291976737,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[modified]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[modified]",
+      "description": "Проверяет prospective target traceability и итоговый CI для MODIFIED/RENAMED/REMOVED через настоящий OpenSpec в временном store.",
+      "status": "PASS",
+      "duration_seconds": 2.3656552089669276,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[renamed]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[renamed]",
+      "description": "Проверяет prospective target traceability и итоговый CI для MODIFIED/RENAMED/REMOVED через настоящий OpenSpec в временном store.",
+      "status": "PASS",
+      "duration_seconds": 1.6515787510143127,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[removed]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_requirement_evolution_archives_against_target_specs[removed]",
+      "description": "Проверяет prospective target traceability и итоговый CI для MODIFIED/RENAMED/REMOVED через настоящий OpenSpec в временном store.",
+      "status": "PASS",
+      "duration_seconds": 2.447007541981293,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[summary-missing]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[summary-missing]",
+      "description": "При отсутствующей/нерусской сводке, потерянных hashes или ошибках ожидает GateError; защищает полный достоверный отчёт выполнения.",
+      "status": "PASS",
+      "duration_seconds": 0.38278941600583494,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[summary-english]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[summary-english]",
+      "description": "При отсутствующей/нерусской сводке, потерянных hashes или ошибках ожидает GateError; защищает полный достоверный отчёт выполнения.",
+      "status": "PASS",
+      "duration_seconds": 0.357251292996807,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[artifact-hashes-cleared]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[artifact-hashes-cleared]",
+      "description": "При отсутствующей/нерусской сводке, потерянных hashes или ошибках ожидает GateError; защищает полный достоверный отчёт выполнения.",
+      "status": "PASS",
+      "duration_seconds": 0.35280041699297726,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[report-errors]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_report_summary_integrity_and_errors_required[report-errors]",
+      "description": "При отсутствующей/нерусской сводке, потерянных hashes или ошибках ожидает GateError; защищает полный достоверный отчёт выполнения.",
+      "status": "PASS",
+      "duration_seconds": 0.3530271250056103,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_active_tasks_rejected[empty]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_active_tasks_rejected[empty]",
+      "description": "При пустом/отсутствующем tasks ожидает отказ до вызова CLI и сохранение активного change; закрывает ошибку all([]).",
+      "status": "PASS",
+      "duration_seconds": 0.33454637599061243,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_active_tasks_rejected[missing]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_active_tasks_rejected[missing]",
+      "description": "При пустом/отсутствующем tasks ожидает отказ до вызова CLI и сохранение активного change; закрывает ошибку all([]).",
+      "status": "PASS",
+      "duration_seconds": 0.3360897499951534,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_archived_tasks_rejected[empty]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_archived_tasks_rejected[empty]",
+      "description": "Меняет только tasks уже принятого archive и ожидает GateError; защищает CI от исчезновения критериев завершения.",
+      "status": "PASS",
+      "duration_seconds": 0.6005632079613861,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_archived_tasks_rejected[missing]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_empty_or_missing_archived_tasks_rejected[missing]",
+      "description": "Меняет только tasks уже принятого archive и ожидает GateError; защищает CI от исчезновения критериев завершения.",
+      "status": "PASS",
+      "duration_seconds": 0.6120192099479027,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[report-only-deleted]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[report-only-deleted]",
+      "description": "После полного archive удаляет один обязательный файл и ожидает GateError; защищает проверку diff, содержащего только D записи.",
+      "status": "PASS",
+      "duration_seconds": 0.5752088750014082,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[evidence-only-deleted]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[evidence-only-deleted]",
+      "description": "После полного archive удаляет один обязательный файл и ожидает GateError; защищает проверку diff, содержащего только D записи.",
+      "status": "PASS",
+      "duration_seconds": 0.5650917500024661,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[summary-only-deleted]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_deleting_only_required_archived_artifact_rejected[summary-only-deleted]",
+      "description": "После полного archive удаляет один обязательный файл и ожидает GateError; защищает проверку diff, содержащего только D записи.",
+      "status": "PASS",
+      "duration_seconds": 0.6383447910193354,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_english_summary_with_matching_hash",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archive_ci_rejects_english_summary_with_matching_hash",
+      "description": "Подменяет archived сводку английской и согласованно обновляет hashes: ожидает отказ CI по отсутствию русского описания отчёта.",
+      "status": "PASS",
+      "duration_seconds": 0.6777967920061201,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_incomplete_changed_criterion_coverage_rejected[added-criterion-uncovered]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_incomplete_changed_criterion_coverage_rejected[added-criterion-uncovered]",
+      "description": "Добавляет новый критерий в delta, оставляя остальные links и PASS согласованными; ожидает GateError для неполной traceability затронутых критериев.",
+      "status": "PASS",
+      "duration_seconds": 0.5491200000105891,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_incomplete_changed_criterion_coverage_rejected[modified-criterion-uncovered]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_incomplete_changed_criterion_coverage_rejected[modified-criterion-uncovered]",
+      "description": "Добавляет новый критерий в delta, оставляя остальные links и PASS согласованными; ожидает GateError для неполной traceability затронутых критериев.",
+      "status": "PASS",
+      "duration_seconds": 0.5394012920150999,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_incomplete_final_delta_merge",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_incomplete_final_delta_merge",
+      "description": "Даёт полный PASS и links двух критериев, но CLI fixture пропускает delta merge; ожидает отказ CI по итоговым основным specs.",
+      "status": "PASS",
+      "duration_seconds": 0.7661102490092162,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_cli_spec_merge_resumes_before_archive_move",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_partial_cli_spec_merge_resumes_before_archive_move",
+      "description": "CLI успевает применить корректную delta, затем падает до перемещения change; retry должен закончить archive с прежним неизменным report.",
+      "status": "PASS",
+      "duration_seconds": 0.8675767920503858,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[missing-docs-review]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[missing-docs-review]",
+      "description": "Делает review непригодным согласно описанию параметра и ожидает отказ без вызова OpenSpec и изменения активного change; защищает docs lifecycle.",
+      "status": "PASS",
+      "duration_seconds": 0.332253500004299,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[stale-docs]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[stale-docs]",
+      "description": "Делает review непригодным согласно описанию параметра и ожидает отказ без вызова OpenSpec и изменения активного change; защищает docs lifecycle.",
+      "status": "PASS",
+      "duration_seconds": 0.36241233299369924,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[stale-change]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_docs_review_blocks_archive_before_any_mutation[stale-change]",
+      "description": "Делает review непригодным согласно описанию параметра и ожидает отказ без вызова OpenSpec и изменения активного change; защищает docs lifecycle.",
+      "status": "PASS",
+      "duration_seconds": 0.34125720799784176,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_new_archive_without_docs_review",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_new_archive_without_docs_review",
+      "description": "Удаляет docs-review и его hash из нового archive при полном regression evidence; CI обязан отказать и закрыть обход прямым OpenSpec CLI.",
+      "status": "PASS",
+      "duration_seconds": 0.5674777079839259,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_deleting_previous_docs_evidence",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_deleting_previous_docs_evidence",
+      "description": "В уже принятом archive удаляет docs-review и hash одновременно; CI видит прежнее evidence в base и запрещает ослабление завершённого gate.",
+      "status": "PASS",
+      "duration_seconds": 0.5971556669974234,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_later_docs_updates_do_not_invalidate_historical_archive",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_later_docs_updates_do_not_invalidate_historical_archive",
+      "description": "После успешного archive меняет docs и проверяет CI с историческим base без новых archives; прежние hashes остаются историческими и не требуют переписывать архив.",
+      "status": "PASS",
+      "duration_seconds": 0.5482427510141861,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_existing_legacy_archive_does_not_require_retroactive_docs_review",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_existing_legacy_archive_does_not_require_retroactive_docs_review",
+      "description": "Моделирует archive прежней версии без docs evidence в base, затем меняет только его tasks; CI сохраняет прежний regression gate без навязывания нового review задним числом.",
+      "status": "PASS",
+      "duration_seconds": 0.5889776660187636,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_accepts_two_sequential_archives_with_distinct_docs_snapshots",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_accepts_two_sequential_archives_with_distinct_docs_snapshots",
+      "description": "Архивирует A, затем обновляет docs и архивирует B, проверяя общий base до обоих; CI должен принять оба immutable snapshots при текущем docs B.",
+      "status": "PASS",
+      "duration_seconds": 1.1951196680311114,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_stale_docs_after_single_new_archive",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_stale_docs_after_single_new_archive",
+      "description": "После единственного нового archive меняет docs без нового review; CI относительно исходного base должен отказать, даже если сохранённый snapshot структурно корректен.",
+      "status": "PASS",
+      "duration_seconds": 0.6102218750165775,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence[rewrite-review-hashes]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence[rewrite-review-hashes]",
+      "description": "Подделывает прежние docs evidence согласно описанию параметра и пересчитывает связанные hashes; ожидается отказ CI по неизменяемости исторического snapshot относительно base.",
+      "status": "PASS",
+      "duration_seconds": 0.5981641249964014,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence[rewrite-content-and-all-hashes]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence[rewrite-content-and-all-hashes]",
+      "description": "Подделывает прежние docs evidence согласно описанию параметра и пересчитывает связанные hashes; ожидается отказ CI по неизменяемости исторического snapshot относительно base.",
+      "status": "PASS",
+      "duration_seconds": 0.584675916004926,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_component_pass_completes_only_component_criterion_coverage",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_component_pass_completes_only_component_criterion_coverage",
+      "description": "Полный db-control PASS дополняет один DB-only criterion при неизменном полном integration наборе.\n\nПроверяет валидные source snapshots/provenance и точную связь с artifact;\ncomponent test не добавляется в integration registry или его счётчики.",
+      "status": "PASS",
+      "duration_seconds": 0.7208317909680773,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-report]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-report]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6263775840052404,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[tampered-report]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[tampered-report]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6213067909993697,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[failed-case]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[failed-case]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.640404582984047,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-node]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-node]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6365698329755105,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-collection]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-collection]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6345774989749771,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-run-start-provenance]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[missing-run-start-provenance]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6410256660019513,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[mismatched-commit]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[mismatched-commit]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6456961660296656,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[mismatched-resource]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[mismatched-resource]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6652437929878943,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[invalid-criterion-link]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[invalid-criterion-link]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.6803118750103749,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[stale-test-source]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_invalid_component_evidence_blocks_gate[stale-test-source]",
+      "description": "Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.\n\nКроме raw tamper/missing, пересчитывает внешние hashes: это доказывает\nпроверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.",
+      "status": "PASS",
+      "duration_seconds": 0.673254082998028,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_component_report_cannot_replace_missing_integration_case",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_component_report_cannot_replace_missing_integration_case",
+      "description": "Валидный component bundle не допускает неполный integration report; исходная защита полного регресса сохраняется.",
+      "status": "PASS",
+      "duration_seconds": 0.5559765009966213,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_evidence_validates_without_source_checkouts",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_evidence_validates_without_source_checkouts",
+      "description": "После archive удаляет db-control и tests checkout; CI принимает сохранённые sources и prospective archived delta.\n\nПроверка доказывает независимость исторического component evidence от\nлокального пути manifest и доступности рабочей копии исходного runner.",
+      "status": "PASS",
+      "duration_seconds": 0.8367365839949343,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-evidence.json]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-evidence.json]",
+      "description": "Удаление любого из component evidence/report/summary отклоняется CI; каждое имя параметра — обязательный snapshot bundle.",
+      "status": "PASS",
+      "duration_seconds": 0.8718036670179572,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-results.json]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-results.json]",
+      "description": "Удаление любого из component evidence/report/summary отклоняется CI; каждое имя параметра — обязательный snapshot bundle.",
+      "status": "PASS",
+      "duration_seconds": 0.7745669590076432,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-summary.md]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_snapshot_cannot_be_deleted[component-summary.md]",
+      "description": "Удаление любого из component evidence/report/summary отклоняется CI; каждое имя параметра — обязательный snapshot bundle.",
+      "status": "PASS",
+      "duration_seconds": 0.8424932920315769,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_evidence_cannot_be_rewritten_self_consistently",
+      "test_id": "Tamarix/tamarix-specs/tests/test_archive_gate.py::test_archived_component_evidence_cannot_be_rewritten_self_consistently",
+      "description": "Переписывает сохранённый component report и все внешние hashes; CI отклоняет изменение уже принятого immutable snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.8010668760107365,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_complete_review_passes_in_clean_checkout",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_complete_review_passes_in_clean_checkout",
+      "description": "Фиксирует обновлённые docs и review, затем ожидает PASS на чистом checkout; подтверждает сохранение baseline после commit.",
+      "status": "PASS",
+      "duration_seconds": 0.16503237397409976,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[missing-page]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[missing-page]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.0983805829891935,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[broken-local-link]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[broken-local-link]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09974970799521543,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[absolute-link]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[absolute-link]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09326754102949053,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unknown-source-root]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unknown-source-root]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09306425004615448,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[missing-mermaid]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[missing-mermaid]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09642870698007755,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unclosed-fence]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unclosed-fence]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09760383301181719,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[empty-mermaid]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[empty-mermaid]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.10346974999993108,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unknown-mermaid-type]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_invalid_documentation_is_rejected[unknown-mermaid-type]",
+      "description": "Повреждает обязательную страницу согласно русскому описанию параметра и ожидает DocsError; защищает полноту и переносимость docs.",
+      "status": "PASS",
+      "duration_seconds": 0.09282570896903053,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_source_links_work_without_sibling_ci_checkouts",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_source_links_work_without_sibling_ci_checkouts",
+      "description": "Ссылка на объявленный service checkout отсутствует в store-only CI и допускается с явным списком пропущенных source ссылок.",
+      "status": "PASS",
+      "duration_seconds": 0.09410079201916233,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_present_source_checkout_requires_existing_link_target",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_present_source_checkout_requires_existing_link_target",
+      "description": "При доступном соседнем checkout ссылка на отсутствующий файл должна давать отказ; проверка находит устаревшие ссылки исходников локально.",
+      "status": "PASS",
+      "duration_seconds": 0.09727816600934602,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-proposal]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-proposal]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.11735737498383969,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-delta]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-delta]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.09880062498268671,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-page]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[stale-page]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.11842124999384396,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[missing-section]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[missing-section]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.11587083301856183,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[pending-review]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[pending-review]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.12298325001029298,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[english-reason]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[english-reason]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.12335233300109394,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[false-changed-pages]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_stale_or_incomplete_review_is_rejected[false-changed-pages]",
+      "description": "Меняет один вход уже завершённого review и ожидает отказ; различающиеся причины перечислены у параметров и защищают свежесть evidence.",
+      "status": "PASS",
+      "duration_seconds": 0.11727762396913022,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_prepare_preserves_baseline_and_requires_new_review_on_refresh",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_prepare_preserves_baseline_and_requires_new_review_on_refresh",
+      "description": "Повторный prepare без флага отказывает, refresh после commit сохраняет исходный SHA и сбрасывает решения; предотвращает тихое переподтверждение docs.",
+      "status": "PASS",
+      "duration_seconds": 0.18970049999188632,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_tooling_change_without_actual_docs_update_is_rejected",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_tooling_change_without_actual_docs_update_is_rejected",
+      "description": "Новый docs-only/tooling change на неизменных docs обязан обновить хотя бы страницу; полный reviewed checklist не заменяет фактический diff.",
+      "status": "PASS",
+      "duration_seconds": 0.37779862503521144,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_archived_review_keeps_historical_docs_hashes",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_archived_review_keeps_historical_docs_hashes",
+      "description": "После перемещения change и последующего редактирования docs historical review проходит без current snapshot, новый archive с тем же evidence отказывает.",
+      "status": "PASS",
+      "duration_seconds": 0.1471133749873843,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_broken_local_heading_anchor_is_rejected",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_broken_local_heading_anchor_is_rejected",
+      "description": "Ссылка на существующий Markdown с отсутствующим заголовком должна блокироваться; проверка защищает навигацию между разделами документации.",
+      "status": "PASS",
+      "duration_seconds": 0.0995223340287339,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_tooling_review_can_update_one_page_and_review_remaining_sections",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_tooling_review_can_update_one_page_and_review_remaining_sections",
+      "description": "Для tooling change обновляет development и оставляет семь разделов reviewed с русским обоснованием; ожидается PASS без предметных delta specs.",
+      "status": "PASS",
+      "duration_seconds": 0.3842271250032354,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[missing-content-snapshot]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[missing-content-snapshot]",
+      "description": "Проверяет сохранённый текст без сравнения с current docs: случай указан у параметра, ожидается отказ для отсутствующего, повреждённого или структурно неверного snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.095344750006916,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[content-hash-mismatch]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[content-hash-mismatch]",
+      "description": "Проверяет сохранённый текст без сравнения с current docs: случай указан у параметра, ожидается отказ для отсутствующего, повреждённого или структурно неверного snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.09687450100318529,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[snapshot-without-russian-prose]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[snapshot-without-russian-prose]",
+      "description": "Проверяет сохранённый текст без сравнения с current docs: случай указан у параметра, ожидается отказ для отсутствующего, повреждённого или структурно неверного snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.09454733500024304,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[empty-mermaid-in-snapshot]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[empty-mermaid-in-snapshot]",
+      "description": "Проверяет сохранённый текст без сравнения с current docs: случай указан у параметра, ожидается отказ для отсутствующего, повреждённого или структурно неверного snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.09249400004046038,
+      "error": null
+    },
+    {
+      "node_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[broken-snapshot-link]",
+      "test_id": "Tamarix/tamarix-specs/tests/test_docs_check.py::test_historical_snapshot_requires_valid_content_not_only_declared_hashes[broken-snapshot-link]",
+      "description": "Проверяет сохранённый текст без сравнения с current docs: случай указан у параметра, ожидается отказ для отсутствующего, повреждённого или структурно неверного snapshot.",
+      "status": "PASS",
+      "duration_seconds": 0.09726904303533956,
+      "error": null
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "complete": true,
+  "returncode": 0
+}
