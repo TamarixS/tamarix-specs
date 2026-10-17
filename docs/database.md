@@ -1,7 +1,7 @@
 # База данных: от предметной модели к таблицам
 
-Документ описывает реализованную основу хранения T-3 по исходникам на
-2026-10-15. Это руководство по схеме, а не снимок production: рабочая БД и её
+Документ описывает основу хранения T-3 и формы атрибутов T-5 по исходникам
+на 2026-10-16, включая revision `20261016_0004`. Это руководство по схеме, а не снимок production: рабочая БД и её
 данные при подготовке документа не исследовались. Все примеры предметных
 записей ниже учебные. Наличие таблиц моделей подтверждает хранение metadata,
 но ещё не исполнение политики из PostgreSQL.
@@ -36,7 +36,7 @@ flowchart LR
     O["entity-object-adm-api"] -->|"narrow routines + fact views"| PG
     P["policy-adm-api"] -->|"metadata routines + fact views"| PG
     R["policy-decision-api / PreparedFactsReader"] -->|"read-only views, единый snapshot"| PG
-    Catalog["Глобальный catalog operator"] -->|"types / definitions / applicability"| PG
+    Catalog["Глобальный catalog operator"] -->|"types / shapes / definitions / applicability"| PG
     PG --- CS["containers: дерево"]
     PG --- SS["subjects: типы, субъекты, tombstones"]
     PG --- OS["objects: объекты, guards длинных ключей"]
@@ -50,15 +50,16 @@ flowchart LR
 | `subjects` | `types`, `subjects` | Глобальный каталог типов; субъекты с единственным держателем и soft delete |
 | `objects` | `objects`, `key_guards` | Защищаемые ресурсы; точная уникальность произвольно длинного ключа |
 | `policies` | `models` | ID, держатель, ключ, revision модели; тело и ссылки пока отсутствуют |
-| `attributes` | `definitions`, четыре `*_applicability`, четыре `*_instances`, четыре `*_values`, `comparison_implementations`, пять `dn_*` | Типизированные атрибуты и закреплённые реализации равенства |
+| `attributes` | `shapes`, `definitions`, четыре `*_applicability`, четыре `*_instances`, четыре `*_values`, `comparison_implementations`, пять `dn_*` | Типизированные атрибуты и закреплённые реализации равенства |
 | `public` | `alembic_version` | Служебная версия миграций; создаётся Alembic, не бизнес-данные |
 
-Всего DDL создаёт 25 таблиц в пяти предметных схемах, дополнительно Alembic
+Всего DDL создаёт 26 таблиц в пяти предметных схемах, дополнительно Alembic
 ведёт `public.alembic_version`. Таблиц ролей доступа, назначений, model references,
 privileges, actions, аудита, outbox, кэша или `content JSONB` в этой основе нет.
 `access-assignment-api` не получает собственную таблицу по одному имени сервиса.
 Источники: [foundation](../../db-control/src/db_control/sql/0001_foundation.sql),
 [storage](../../db-control/src/db_control/sql/0002_storage.sql),
+[shapes](../../db-control/src/db_control/sql/0004_attribute_shapes.sql),
 [DN tables](../../db-control/src/db_control/sql/dn_tables.sql),
 [design T-3](../openspec/changes/archive/2026-10-15-t-3-persistent/design.md).
 
@@ -303,13 +304,15 @@ model references пока не требуется, поскольку их та�
 
 ## 5. Атрибуты: definition → applicability → instance → values
 
-Definition задаёт смысл и тип атрибута глобально. Applicability разрешает
-использовать его у определённых владельцев. Instance означает, что у конкретного
-владельца атрибут присутствует. Values — типизированное значение либо элементы
-множества. Четыре физические пары нужны для прямых FK и прав предметных сервисов.
+Shape задаёт именованный неизменяемый контракт значения. Definition сохраняет
+предметную идентичность атрибута и выбирает точный shape. Applicability разрешает
+его у определённых владельцев; instance означает присутствие атрибута конкретного
+владельца. Values содержат scalar или элементы set. Четыре физические пары
+сохраняют прямые owner FK и права предметных сервисов.
 
 ```mermaid
 erDiagram
+    SHAPE ||--o{ DEFINITION : "shape_id / RESTRICT"
     DEFINITION ||--o{ CONTAINER_APPLICABILITY : definition_id
     DEFINITION ||--o{ SUBJECT_APPLICABILITY : definition_id
     DEFINITION ||--o{ OBJECT_APPLICABILITY : definition_id
@@ -322,103 +325,118 @@ erDiagram
     SUBJECT ||--o{ SUBJECT_INSTANCE : "subject_id + type_id"
     OBJECT ||--o{ OBJECT_INSTANCE : object_id
     MODEL_METADATA ||--o{ MODEL_INSTANCE : model_id
-    CONTAINER_INSTANCE ||--o{ CONTAINER_VALUE : "instance_id + value_type + cardinality"
-    SUBJECT_INSTANCE ||--o{ SUBJECT_VALUE : "instance_id + value_type + cardinality"
-    OBJECT_INSTANCE ||--o{ OBJECT_VALUE : "instance_id + value_type + cardinality"
-    MODEL_INSTANCE ||--o{ MODEL_VALUE : "instance_id + value_type + cardinality"
-    DEFINITION ||--o{ CONTAINER_INSTANCE : "семантика и comparison version"
-    DEFINITION ||--o{ SUBJECT_INSTANCE : "семантика и comparison version"
-    DEFINITION ||--o{ OBJECT_INSTANCE : "семантика и comparison version"
-    DEFINITION ||--o{ MODEL_INSTANCE : "семантика и comparison version"
+    DEFINITION ||--o{ CONTAINER_INSTANCE : "definition_id + shape_id"
+    DEFINITION ||--o{ SUBJECT_INSTANCE : "definition_id + shape_id"
+    DEFINITION ||--o{ OBJECT_INSTANCE : "definition_id + shape_id"
+    DEFINITION ||--o{ MODEL_INSTANCE : "definition_id + shape_id"
+    SHAPE ||--o{ CONTAINER_INSTANCE : "shape_id + type + cardinality"
+    SHAPE ||--o{ SUBJECT_INSTANCE : "shape_id + type + cardinality"
+    SHAPE ||--o{ OBJECT_INSTANCE : "shape_id + type + cardinality"
+    SHAPE ||--o{ MODEL_INSTANCE : "shape_id + type + cardinality"
+    CONTAINER_INSTANCE ||--o{ CONTAINER_VALUE : "instance_id + type + cardinality"
+    SUBJECT_INSTANCE ||--o{ SUBJECT_VALUE : "instance_id + type + cardinality"
+    OBJECT_INSTANCE ||--o{ OBJECT_VALUE : "instance_id + type + cardinality"
+    MODEL_INSTANCE ||--o{ MODEL_VALUE : "instance_id + type + cardinality"
 ```
 
-Диаграмма показывает отдельные реальные семейства: `DEFINITION` —
-`attributes.definitions`; `CONTAINER_INSTANCE` — `attributes.container_instances`
-и аналогично для остальных. Семантические линии definition → instance также
-реализованы FK, а не только проверкой Python.
+SHAPE — `attributes.shapes`, DEFINITION — `attributes.definitions`; остальные
+обозначения соответствуют четырём реальным семействам. Линии definition/shape
+к instance являются FK, а не только проверкой Python.
+
+### `attributes.shapes`
+
+**Назначение.** Общий каталог форм значения: какой тип, кратность и закреплённое
+равенство использует атрибут. Несколько definitions явно выбирают один shape,
+при этом сохраняют собственные ключи, применимость и значения. Key позволяет
+показать/выбрать форму в будущем UI; самого UI эта поставка не содержит.
+
+| Столбец | Тип | NULL | Default | Назначение |
+| --- | --- | --- | --- | --- |
+| `id` | BIGINT identity | нет | генератор | Точный ID зарегистрированной формы |
+| `key` | TEXT COLLATE C | нет | — | Неизменяемый ASCII key 1–512 `[A-Za-z0-9_-]` |
+| `value_type` | `attributes.value_type` | нет | — | Один из семи нативных видов |
+| `cardinality` | `attributes.cardinality` | нет | — | `single` или `set` |
+| `comparison_profile` | `attributes.comparison_profile` | да | — | exact/unicode_ci для string, x509_rfc5280 для DN |
+| `comparison_version` | TEXT COLLATE C | да | — | Непустая закреплённая версия для string/DN |
+
+PK(id), ASCII-CI unique index `shapes_key_unique` и `UNIQUE(id,value_type,cardinality)`
+обеспечивают identity/lookup и цель structural FK. CHECK допускает string только
+с exact/unicode_ci и непустой версией, DN — только set/x509_rfc5280 с версией;
+для остальных типов оба comparison fields NULL. Новой string/DN форме версия
+задаётся явно и проверяется require_comparison_version. Отдельного FK в служебный
+registry implementations нет: его назначение — проверка установленного codec.
+
+Whole-row guard запрещает менять любое поле shape, даже если definitions ещё нет.
+Новая семантика требует новой записи с отдельными id/key. Semantic UNIQUE по tuple
+отсутствует: две именованные формы могут иметь одинаковые текущие характеристики.
+Автодедупликации, наследования, families/latest/current и floating key links нет.
+Публичной delete routine нет; используемые формы дополнительно защищены FK RESTRICT.
 
 ### `attributes.definitions`
 
-**Назначение.** Глобальный каталог определений атрибутов: какой key, тип,
-кратность и правила сравнения имеет каждый атрибут. Определение задаёт общую
-семантику для всех его экземпляров; БД использует её при проверке записываемых
-значений и их равенства. Применимость, назначение владельцу и сами значения
-хранятся в отдельных таблицах ниже.
+**Назначение.** Глобальный каталог предметных атрибутов: независимые id/key и
+выбранный точный shape. Применимость, назначение владельцу и значения хранятся
+ниже. Например, Department и Title могут выбирать один TextExactSingle shape,
+но применяться к разным видам владельцев и иметь независимые значения.
 
 | Столбец | Тип | NULL | Default | Назначение |
 | --- | --- | --- | --- | --- |
 | `id` | BIGINT identity | нет | генератор | Глобальный ID определения |
 | `key` | TEXT COLLATE C | нет | — | Неизменяемый ASCII key, 1–512 `[A-Za-z0-9_-]` |
-| `value_type` | `attributes.value_type` | нет | — | Один из семи нативных видов |
-| `cardinality` | `attributes.cardinality` | нет | — | `single` или `set` |
-| `comparison_profile` | `attributes.comparison_profile` | да | — | Обязателен для string/DN, NULL для прочих |
-| `comparison_version` | TEXT COLLATE C | да | — | Непустая версия для string/DN, NULL для прочих |
+| `shape_id` | BIGINT | нет | — | FK shapes(id), UPDATE/DELETE RESTRICT |
 
-Профиль string может быть `exact` или `unicode_ci`; DN допускает только
-`set` + `x509_rfc5280`. Другие типы не допускают profile/version. Есть global
-ASCII CI unique index `definitions_key_unique`, `UNIQUE(id,value_type,cardinality)`
-и `UNIQUE(id,comparison_profile,comparison_version)`. Последние два используются
-FK экземпляров. ID и key защищены trigger от изменения.
+Сохраняются PK(id), CHECK key и `definitions_key_unique`; constraint
+`definitions_shape_unique` задаёт UNIQUE(id,shape_id), а definitions_shape_fk —
+ссылку на shapes(id). Для каждого family новые instance constraints именуются
+`<kind>_instance_definition_shape_fk` и `<kind>_instance_shape_structure_fk`. ID/key защищены identity trigger. Profile/version
+и type/cardinality физически находятся в shape; legacy definition_facts
+восстанавливает прежние колонки явным JOIN.
 
-Семантика и версия сравнения удерживаются при любом instance — даже пустом set
-и attributes soft-deleted subject. Поэтому изменить `string → integer`, `set → single`
-или comparison version используемого определения нельзя. При новой семантике
-нужно новое definition и отдельно спроектированный перенос данных. Реестр
-`comparison_implementations` проверяется routines; отдельного FK из definitions
-в этот реестр нет.
+Перепривязка через bind_unused_shape допускается только без instances и при
+совместимой applicability. Любой instance удерживает точный shape_id, включая
+empty set и retained attributes soft-deleted subject. Даже другой shape с теми же
+параметрами не может заменить используемый. Выбор уже назначенного id — no-op.
+Для новой семантики используемого атрибута нужны новое definition и отдельный
+план переноса. Изменение shape само по себе запрещено всегда.
 
 ### Почему метаданные повторяются в instances и values
 
-Это намеренная денормализация ради контроля целостности в PostgreSQL.
-У трёх уровней хранения разные роли:
+Это минимальная структурная денормализация ради контроля целостности PostgreSQL.
+У четырёх уровней разные роли:
 
 | Уровень | Что представляет |
 | --- | --- |
-| `attributes.definitions` | Общее определение атрибута: key, тип, кратность и правила сравнения |
-| `attributes.*_instances` | Наличие атрибута данного определения у конкретного владельца |
-| `attributes.*_values` | Типизированные значения конкретного экземпляра |
+| `attributes.shapes` | Неизменяемый именованный контракт типа, кратности и сравнения |
+| `attributes.definitions` | Предметный key/id и выбранная точная форма |
+| `attributes.*_instances` | Присутствие атрибута у owner, pin формы и structural copies |
+| `attributes.*_values` | Нативные значения конкретного экземпляра |
 
-Отдельный instance позволяет различать отсутствие атрибута и явно заданное
-пустое множество: в первом случае instance отсутствует, во втором существует
-instance с `cardinality = 'set'` и без строк values.
+Отдельный instance различает отсутствие атрибута и явно заданный пустой set:
+в первом случае instance отсутствует, во втором есть set instance без values.
+В instances остаются только value_type/cardinality и shape_id. Profile/version
+больше не копируются; comparator читает immutable shape. Фоновой синхронизации нет.
 
-В instances копируются четыре поля определения: `value_type`, `cardinality`,
-`comparison_profile` и `comparison_version`. Источником семантики остаётся
-`definitions`: при создании экземпляра `apply_changes` берёт эти поля из
-определения, а составные FK требуют их совпадения. Защитные триггеры запрещают
-менять семантику существующего instance. Экземпляр не получает независимых
-правил или исторической версии определения; фоновая синхронизация копий не нужна.
+1. FK `(definition_id,shape_id) → definitions(id,shape_id)` закрепляет форму
+   определения с UPDATE/DELETE RESTRICT при любом instance.
+2. FK `(shape_id,value_type,cardinality) → shapes(id,value_type,cardinality)`
+   требует правильных structural copies. Все поля обоих FK NOT NULL, поэтому
+   NULL профиля native type не выключает структурную проверку через MATCH SIMPLE.
+3. FK values `(instance_id,value_type,cardinality)` сохраняет локальные typed
+   CHECK и partial scalar unique. Deferred trigger требует ровно одну value
+   на commit, если single instance существует.
 
-Повторение полей обеспечивает следующие гарантии:
+Shape guard отдельно защищает non-key semantic fields: FK на id не запрещает
+UPDATE profile/version. Shared shape не обновляется при записи values, поэтому
+reuse не объединяет CAS разных агрегатов. Полное удаление type/cardinality copies
+перенесло бы эти гарантии в новый процедурный протокол. JOIN позволяет читать
+централизованные правила, но не заменяет FK/CHECK/index. Ускорение запросов
+самой этой моделью не предполагается.
 
-1. FK `(definition_id,value_type,cardinality)` запрещает экземпляр с типом или
-   кратностью, отличающимися от определения. Отдельный FK
-   `(definition_id,comparison_profile,comparison_version)` удерживает правила
-   сравнения. Структурный FK использует только NOT NULL поля: NULL профиля у
-   нестроковых типов не отключает проверку типа и кратности через `MATCH SIMPLE`.
-2. `ON UPDATE RESTRICT` у этих FK блокирует изменение используемой семантики
-   определения. Защита действует при любом instance, включая пустой set и
-   атрибут логически удалённого субъекта. Например, смена `exact` на `unicode_ci`
-   могла бы сделать ранее разные элементы множества равными; такое изменение
-   требует нового definition и отдельно спроектированного переноса данных.
-3. В values повторяются только `value_type` и `cardinality`, связанные составным
-   FK с instance. Это позволяет локальному `CHECK` проверять заполненный
-   типизированный столбец, а partial unique index — запрещать второе значение
-   для `single`. Ровно одно значение на commit дополнительно проверяет deferred
-   trigger. Профиль и версию сравнения guard уникальности множества читает
-   из instance.
-
-Цена решения — дополнительные поля, составные ключи и индексы. Альтернатива
-с хранением метаданных только в definitions потребовала бы получать их через
-`JOIN` и переносить соответствующие межтабличные проверки в триггеры или
-командный код с отдельной защитой от конкурентных изменений. Сам `JOIN`
-обеспечивает чтение, но не заменяет FK, `CHECK` и partial unique index.
-Текущая схема использует денормализацию для гарантий БД; ускорение чтения
-этим объяснением не предполагается.
-
-Источники: [DDL таблиц и ограничений](../../db-control/src/db_control/sql/0001_foundation.sql),
-[создание instances и проверка равенства](../../db-control/src/db_control/sql/0002_storage.sql),
-[требование стабильности семантики](../openspec/specs/attributes/spec.md#requirement-стабильность-семантики-используемого-определения).
+Будущие validation параметры добавляются в новые shapes и общий закрытый
+validate_shape_value. Regex, длины, диапазоны и JSON/framework правил сейчас
+не вводятся. Источники: [shapes SQL](../../db-control/src/db_control/sql/0004_attribute_shapes.sql),
+[исходный foundation](../../db-control/src/db_control/sql/0001_foundation.sql),
+[ADR 0005](../openspec/context/adr/0005-immutable-shared-attribute-shapes.md).
 
 ### Четыре таблицы применимости
 
@@ -467,10 +485,9 @@ Catalog operator может поменять неиспользуемую при
 | `id` | BIGINT identity | нет | генератор | ID instance в своей таблице |
 | owner column | BIGINT | нет | — | `container_id` / `subject_id` / `object_id` / `model_id` |
 | `definition_id` | BIGINT | нет | — | Определение атрибута |
-| `value_type` | `attributes.value_type` | нет | — | Копия типа определения для составного FK |
+| `shape_id` | BIGINT | нет | — | Точный immutable shape, связанный с definition и structural copies |
+| `value_type` | `attributes.value_type` | нет | — | Копия типа shape для составного FK |
 | `cardinality` | `attributes.cardinality` | нет | — | Копия cardinality для FK и ограничений values |
-| `comparison_profile` | `attributes.comparison_profile` | да | — | Ненулевой только для string/DN |
-| `comparison_version` | TEXT COLLATE C | да | — | Ненулевой только для string/DN |
 | `mutation_version` | BIGINT | нет | 1 | Положительная техническая MVCC-версия instance |
 
 Дополнительные столбцы и прямые owner links:
@@ -483,15 +500,13 @@ Catalog operator может поменять неиспользуемую при
 | `attributes.model_instances` | `owner_kind TEXT` | NOT NULL / `'model'` | `model_id → policies.models.id` CASCADE; `(definition_id,owner_kind) → model_applicability` RESTRICT; CHECK = 'model' |
 
 Во всех парах есть `UNIQUE(owner_id,definition_id)` и
-`UNIQUE(id,value_type,cardinality)`. Составной FK
-`(definition_id,value_type,cardinality) → definitions` имеет UPDATE/DELETE RESTRICT.
-Отдельный составной FK `(definition_id,comparison_profile,comparison_version)`
-тоже RESTRICT. CHECK требует profile/version для string/DN, NULL для остальных:
-nullable profile не отменяет структурный FK type/cardinality. В subject/object/model
-instances `CHECK(value_type <> 'dn')`. Защита instance запрещает менять ID,
-owner, definition, type, cardinality, profile и version; subtype соответствует
-реальному owner через составной FK. `mutation_version` можно менять внутренним
-write path, он не выдаётся клиенту как revision.
+`UNIQUE(id,value_type,cardinality)`. FK `(definition_id,shape_id) → definitions`
+и `(shape_id,value_type,cardinality) → shapes` имеют UPDATE/DELETE RESTRICT.
+Все их поля NOT NULL; profile/version физически отсутствуют в instances.
+В subject/object/model instances сохраняется `CHECK(value_type <> 'dn')`.
+Guard запрещает менять ID, owner, definition, shape, type/cardinality; subtype
+соответствует реальному owner через составной FK. Положительная mutation_version
+обновляется внутренним write path и не является клиентской aggregate revision.
 
 ### Четыре таблицы значений
 
@@ -560,7 +575,8 @@ Set uniqueness не обеспечивается unique index по payload. Trig
 
 **Назначение.** Служебный реестр поддерживаемых реализаций сравнения: по одной
 установленной версии каждого профиля. При регистрации определения БД берёт
-из него версию, а при записи и сравнении проверяет, что закреплённая версия
+из него версию для legacy wrapper; новая register_shape принимает явную версию.
+При записи и сравнении проверяется, что версия, закреплённая в shape,
 по-прежнему поддерживается. Для `unicode_ci` также сверяются PostgreSQL major
 и Unicode, чтобы обновление среды не изменило равенство значений незаметно.
 
@@ -638,6 +654,7 @@ DirectoryString готовятся закреплённым StringPrep; неиз
 | Subject tombstone | Самостоятельной runtime purge-команды нет | При delete holder: instance/value каскады |
 | Object | CAS/admission и прочие DB invariants | Его object instances/values; guard остаётся до удаления holder |
 | Model metadata | CAS/admission | Её model instances/values |
+| Shape | Immutable whole row; определения удерживают FK RESTRICT, public delete API нет | Другие формы/definitions не изменяются |
 | Definition | Использующие applicability/instances ограничены FK RESTRICT; public delete API нет | Автоматического удаления чужих attrs нет |
 | Subject type | Subjects и applicability RESTRICT; public delete API нет | Нет автоматического переноса субъектов |
 | Используемая applicability row | Instance FK RESTRICT | Нельзя молча сделать существующий атрибут недопустимым |
@@ -659,6 +676,7 @@ DirectoryString готовятся закреплённым StringPrep; неиз
 | `nodes_sibling_key_unique` | UNIQUE `(parent_id,type,ascii_ci(key))`, non-root | Resolve ребёнка и проверки children |
 | `subject_types_key_unique` | UNIQUE `ascii_ci(key)` | Глобальный lookup типа |
 | `models_holder_key_unique` | UNIQUE `(holder_id,ascii_ci(key))` | Model identity и список metadata holder |
+| `shapes_key_unique` | UNIQUE `ascii_ci(key)` | Глобальный lookup именованной формы |
 | `definitions_key_unique` | UNIQUE `ascii_ci(key)` | Глобальный lookup definition |
 | `object_key_candidates` | `(holder_id,digest)` | Сначала candidate bucket, затем exact key comparison |
 | `container_values_instance_index`, `subject_values_instance_index`, `object_values_instance_index`, `model_values_instance_index` | `instance_id` | Чтение/сравнение всех values instance |
@@ -695,7 +713,9 @@ Views физически не дублируют данные и сами по �
 | `subjects.administration_facts` | Те же поля и deleted_at всех subjects; только subject service |
 | `objects.object_facts` | id/holder/key/digest/revision |
 | `policies.model_metadata_facts` | id/holder/key/revision |
-| `attributes.definition_facts`, `attributes.comparison_facts` | Definitions и доступные implementations |
+| `attributes.definition_facts`, `attributes.comparison_facts` | Прежние колонки definitions через JOIN shapes и доступные implementations |
+| `attributes.shape_facts` | id, key, value_type, cardinality, comparison_profile, comparison_version форм |
+| `attributes.definition_shape_facts` | definition_id, shape_id, shape_key; точная выбранная форма |
 | Четыре `attributes.*_applicability_facts` | Явные записи применимости |
 | `attributes.container_instance_facts`, `attributes.container_value_facts` | Все container attrs |
 | `attributes.object_instance_facts`, `attributes.object_value_facts` | Все object attrs |
@@ -710,7 +730,7 @@ Views физически не дублируют данные и сами по �
 | `tamarix_subject_service` | `create_subject`, `change_subject_attributes`, `soft_delete_subject`, `restore_subject` | Общие + administrative subject views |
 | `tamarix_object_service` | `create_object`, `change_object_attributes`, `delete_object` | Общие fact views |
 | `tamarix_policy_service` | `create_model_metadata`, `change_model_attributes`, `delete_model_metadata` | Общие fact views |
-| `tamarix_catalog_operator` | `subjects.register_type`; `attributes.register_definition`, `set_applicability`, `change_unused_semantics` | Types/definitions/comparison/applicability views |
+| `tamarix_catalog_operator` | `subjects.register_type`; `attributes.register_shape`, `register_definition_with_shape`, `bind_unused_shape`, `set_applicability`; legacy `register_definition`, `change_unused_semantics` | Types/shapes/definitions/comparison/applicability views |
 | `tamarix_fact_reader` | Нет | Общие fact views; используется prepared facts reader |
 
 Названия routines в таблице без schema указывают schema своего домена. Четыре
@@ -734,6 +754,7 @@ application admission: holder scope и trust проверяются перед �
 транзакции. Выдача LOGIN прикладной роли — доверительная граница, а не выпуск
 пользовательского доступа к SQL. Источник ACL: [grants storage](../../db-control/src/db_control/sql/0002_storage.sql),
 [grants DN](../../db-control/src/db_control/sql/dn_codec.sql),
+[shapes projections/grants](../../db-control/src/db_control/sql/0004_attribute_shapes.sql),
 [README db-control](../../db-control/README.md).
 
 ## 10. Транзакции, CAS и конкурентные операции
@@ -803,7 +824,7 @@ commit не выполняется. Idempotency keys и надёжный пов�
 | Bucket upsert/update | `objects.guard_exact_identity` | Exact identity длинного key при конкурирующих create и hash collisions |
 | `FOR UPDATE` aggregate | `attributes.change_aggregate` / `delete_aggregate` | CAS и несколько изменений одного агрегата |
 | Реальный UPDATE instance `mutation_version` | `apply_changes`, `guard_value_equality` | Сериализация equality/изменения set; свежий MVCC conflict вместо доверия старому снимку |
-| Row update definition | `set_applicability`, `change_unused_semantics` | Сериализация catalogue mutation и FK freeze |
+| Definition row lock и составные FK key locks | `set_applicability`, `bind_unused_shape`, legacy `change_unused_semantics` | Сериализация catalogue mutation, DN applicability и точный shape pin |
 | Deferred constraint triggers | Все четыре attribute pairs | Single instance не фиксируется без ровно одной value |
 
 Путь object create задаёт порядок `holder → bucket → object/instances`;
@@ -824,7 +845,10 @@ touches одну lifecycle row; операции с большим set удер�
 дольше; группы changes нескольких definitions могут брать instances в разном
 порядке. Nested parent/holder delete и restore требуют коротких транзакций и
 полного rollback при отказе. Advisory locks и глобальная table lock для обычных
-команд в текущем DDL не используются.
+команд в текущем DDL не используются. Shared shape не получает UPDATE/FOR UPDATE
+при записи values; реальный fencing и CAS остаются у своего instance/агрегата.
+Конкурентные bind и создание instance не могут зафиксировать несовместимый pin
+благодаря FK definitions(id,shape_id), включая пустое множество.
 
 ### Подготовленные факты читает один RR snapshot
 
@@ -882,16 +906,30 @@ Metadata модели 31 относится к environment Prod, поэтому 
 если других metadata нет. Из этих записей невозможно сделать вывод о разрешении
 `employee/alice` читать invoice: тело политики и evaluator здесь отсутствуют.
 
-### Definitions, applicability, instances и values
+### Shapes, definitions, applicability, instances и values
 
-| definition ID | key | type/cardinality | profile/version | Явная applicability |
-| --- | --- | --- | --- | --- |
-| 101 | OwnerDN | dn / set | x509_rfc5280 / dn-rfc5280-u32-t61-v1 | container organization |
-| 102 | Department | string / single | exact / exact-utf8-v1 | subject type 10 |
-| 103 | Tags | string / set | unicode_ci / фактическая версия comparison_facts | container module, objects, models |
-| 104 | Quota | integer / single | NULL / NULL | objects |
-| 105 | Enabled | boolean / single | NULL / NULL | models |
-| 106 | Title | string / single | exact / exact-utf8-v1 | container organization |
+Учебный каталог форм (shape IDs выбраны для примера, не для INSERT identity):
+
+| shape ID | key | type/cardinality | profile/version |
+| --- | --- | --- | --- |
+| 401 | OwnerDNShape | dn / set | x509_rfc5280 / dn-rfc5280-u32-t61-v1 |
+| 402 | TextExactSingle | string / single | exact / exact-utf8-v1 |
+| 403 | TagsUnicodeSet | string / set | unicode_ci / фактическая версия comparison_facts |
+| 404 | IntegerSingle | integer / single | NULL / NULL |
+| 405 | BooleanSingle | boolean / single | NULL / NULL |
+
+| definition ID | key | shape_id | Явная applicability |
+| --- | --- | --- | --- |
+| 101 | OwnerDN | 401 | container organization |
+| 102 | Department | 402 | subject type 10 |
+| 103 | Tags | 403 | container module, objects, models |
+| 104 | Quota | 404 | objects |
+| 105 | Enabled | 405 | models |
+| 106 | Title | 402 | container organization |
+
+Department и Title явно переиспользуют TextExactSingle, сохраняя независимые
+definitions и применимость. Это пример явного reuse; migration backfill старых
+данных, напротив, создаёт отдельную форму для каждого прежнего definition.
 
 Например, applicability definition 103 — три отдельные строки:
 `container_applicability(103,'module')`, `object_applicability(103,'object')`,
@@ -908,7 +946,8 @@ Metadata модели 31 относится к environment Prod, поэтому 
 | `model_instances` | 1001 → model 31 / definition 105 | `model_values(id=5001,instance_id=1001,value_type='boolean',cardinality='single',boolean_value=false)` |
 | `model_instances` | 1002 → model 31 / definition 103 | Нет value rows: существующий пустой set |
 
-Metadata/profile columns instances совпадают с definition; container subtype
+Каждый instance содержит shape_id своего definition и type/cardinality своего
+shape; profile/version доступны через JOIN в прежних fact views. Container subtype
 1001/1003 — organization, 1002 — module; subject type — 10; object/model owner_kind
 соответствует таблице. Повтор ID в разных таблицах допустим. Атрибуты subject 12
 могут быть сохранены, но active views их не покажут.
@@ -997,9 +1036,10 @@ ORDER BY l.pid, n.nspname, c.relname;
 Row-lock waits не обязаны отображаться как простой список заблокированных tuple
 в `pg_locks`; начать расследование удобнее с blocking PIDs и возраста транзакции.
 Не завершайте blocker автоматически: сначала выясните роль, незавершённую
-команду и commit outcome. В текущем коде нет собственных настроек `lock_timeout`,
-`statement_timeout`, pool size или численных connection budgets: engine передаётся
-снаружи. Их фактические значения нужно получать из среды, а не из этого DDL.
+команду и commit outcome. Runtime commands не задают собственные `lock_timeout`,
+`statement_timeout`, pool size или численные connection budgets: engine передаётся
+снаружи. Исключение — upgrade shapes revision с lock_timeout=10s и override ниже.
+Остальные фактические значения нужно получать из среды.
 
 ## 13. Миграции, первичный root и откат
 
@@ -1008,6 +1048,7 @@ Row-lock waits не обязаны отображаться как просто�
 | `20261015_0001` | base | Schemas, закрытые роли, основные таблицы/ограничения/lifecycle triggers; DN запись ещё закрыта |
 | `20261015_0002` | 0001 | Native composite input, comparison implementations, каталоги, exact set/object guards, CAS routines, views и narrow grants |
 | `20261015_0003` | 0002 | Pinned DN tables/data и действующий versioned codec; снимает DN placeholder/guard |
+| `20261016_0004` | 0003 | Immutable shapes/key, точные pins, новые каталоги, совместимые wrappers/views и transactional backfill |
 
 ### `public.alembic_version`
 
@@ -1018,7 +1059,7 @@ upgrade или разрешённом downgrade. Она хранит текущ�
 
 `public.alembic_version` содержит `version_num VARCHAR(32) NOT NULL PRIMARY KEY`
 без default; после обычного upgrade одной линейной ветки ожидается
-`20261015_0003`. Это версия миграции, а не достаточное доказательство неизменности
+`20261016_0004`. Это версия миграции, а не достаточное доказательство неизменности
 SQL: `artifact-info` отдаёт hashes Python/SQL/data resources и dependency versions.
 Реальное состояние deployment подтверждается head **и** provenance артефакта.
 Источник: [CLI](../../db-control/src/db_control/cli.py),
@@ -1061,7 +1102,7 @@ root с DN получает исходный доверенный DER Name в in
 attribute откатывает root, instances и values целиком. SQL пример bootstrap
 и доверительная граница — в [README db-control](../../db-control/README.md).
 
-Downgrade всех трёх revisions защищён явным disposable safeguard и префиксом
+Downgrade всех четырёх revisions защищён явным disposable safeguard и префиксом
 БД `tamarix_t3_*`. CLI требует `--disposable`. DN downgrade удаляет DN instances,
 applicability и definitions, затем codec/lookup tables; foundation downgrade
 удаляет пять схем CASCADE, сохраняя кластерные NOLOGIN роли. Это разрушительный
@@ -1069,6 +1110,60 @@ applicability и definitions, затем codec/lookup tables; foundation downgra
 fix либо отдельно согласованное восстановление из проверенной резервной копии.
 Наличие backup расписания, PITR, RPO/RTO, HA и практического production restore
 этими исходниками не подтверждается.
+
+### Переход заполненной базы 0003 → 0004
+
+Перед рабочим upgrade определите maintenance window, остановите новые domain и
+catalog writes, дождитесь drain; проверьте backup/recovery и измеренные бюджеты
+lock/statement timeouts. Migration держит одну transactional DDL transaction:
+создаёт shapes и nullable shape_id, копирует точную tuple каждого definition
+в отдельный `migrated_definition_<id>`, заполняет ссылки и проверяет данные.
+Python upgrade сначала берёт ACCESS EXCLUSIVE locks в порядке containers.nodes,
+subjects.types, subjects.subjects, objects.objects, objects.key_guards,
+policies.models, attributes.definitions, затем для container/subject/object/model
+поочерёдно applicability, instances и values. Это стабилизирует parity snapshot.
+Locks удерживаются до конца transaction и блокируют новые SELECT этих таблиц;
+долгие readers могут задержать получение locks. Forward SQL дополнительно
+блокирует уже удерживаемые definitions и instances. Upgrade revision
+задаёт lock_timeout=10s по умолчанию. Его можно переопределить через Alembic
+config.attributes["shapes_lock_timeout"]; отдельного CLI флага нет. Численный
+statement_timeout revision не устанавливает. SQL resources завершаются RESET
+ROLE, чтобы public.alembic_version записывал исходный deployment executor.
+Direct backfill не вызывает value equality trigger, не меняет aggregate revisions
+или instance mutation_version. Payload, original strings, DN DER и matching keys
+не пересчитываются. После backfill SET CONSTRAINTS ALL IMMEDIATE исполняет pending
+scalar count checks до дальнейших ALTER TABLE; новый immutable instance guard
+ставится после заполнения shape_id.
+
+Далее добавляются/проверяются FK/UNIQUE/NOT NULL, переключаются routines/views/grants,
+снимаются зависимости старых semantic columns и удаляются эти columns. CREATE OR
+REPLACE VIEW использует прежние names/order/types/collations и сохраняет grants;
+DROP CASCADE для обхода зависимостей не применяется. Сверяют map definition→shape,
+ID/key, typed payload, applicability, revisions, DN keys,
+view signatures/ACL в seeded migration parity test и эксплуатационной сверке
+до/после. Перед commit FK/NOT NULL/scalar constraints проверяют новые ссылки,
+а Python revision дополнительно сравнивает SHA-256 fingerprints прежних
+definition/instance/DN fact views, typed payload, owner/aggregate rows, applicability
+и comparison registry. Строки сортируются и кодируются одинаково до/после;
+сравнение выполняется внутри migration без вывода исходных значений. Несовпадение
+SHAPES_MIGRATION_FINGERPRINT_MISMATCH прерывает upgrade. Отдельный CLI fingerprint
+report не создаётся; column signatures/ACL и map остаются частью test/operational evidence.
+При timeout/ошибке transaction откатывается целиком. После commit возобновляют
+writers и сверяют совместимые consumers.
+
+Reverse 0004 → 0003 через Alembic API поддерживается только в disposable БД:
+восстановить прежние columns из shapes, исполнить deferred scalar checks,
+восстановить старые guards/routines/views/FK, удалить новые FK/view/validator
+dependencies и последними shape references/table. Это сохраняет прежнее
+представление атрибутов, но теряет новые shape ID/key/sharing. CLI downgrade
+по-прежнему идёт до base; производственный откат из этого не следует.
+Production стратегия после commit — fix-forward или отдельный проверенный
+backup/PITR runbook с учётом записей после backup. Численные budgets и готовый
+production recovery контур проектом не заданы.
+
+См. [operations](operations.md#переход-на-неизменяемые-формы-t-5),
+[upgrade SQL](../../db-control/src/db_control/sql/0004_attribute_shapes.sql),
+[reverse SQL](../../db-control/src/db_control/sql/0004_attribute_shapes_down.sql).
 
 ## 14. Типичные ошибки и границы эксплуатации
 
@@ -1078,7 +1173,8 @@ fix либо отдельно согласованное восстановле�
 | `RestoreRequired` при create subject | Identity удерживается tombstone; нужен явный restore старого ID/revision |
 | `IdentityConflict` у разных по регистру ASCII keys | Для containers/models/catalogs это одна identity; у subject/object equality точная |
 | Container delete отвергнут | Проверьте children, active subjects, objects, model metadata; tombstones сами по себе не блокируют |
-| Нельзя поменять definition/profile | Существует instance, включая пустой set/tombstone; structural FK защищает семантику |
+| Нельзя изменить shape | Вся зарегистрированная форма immutable, включая ещё не используемую; регистрируйте новую запись |
+| Нельзя перепривязать definition | Существует instance, включая пустой set/tombstone; FK удерживает точный shape_id даже при равных параметрах |
 | Ошибка только на commit | Deferred scalar invariant тоже часть команды; успех до commit не выдан |
 | `40001` / `40P01`, затем RetryExhausted | Конкуренция/порядок locks; смотрите holder/instances и возраст транзакций, не заменяйте expected автоматически |
 | `CommitOutcomeUnknown` | Нельзя утверждать rollback или слепо повторять create/delete; сверяйте результат через разрешённые reads и контекст операции |
@@ -1106,7 +1202,8 @@ references и их cleanup, тело/язык моделей и full persistent 
 Для изменения данных проверяйте вместе DDL, Python write/read path и применимые
 specs. Начальные документы context содержат исторические наблюдения и TBD до
 T-3; например утверждение об отсутствии DDL больше не описывает текущий код.
-Здесь актуальность сверена с T-3 и revisions 0001–0003, без переписывания истории ADR.
+Здесь актуальность сверена с T-3/T-5 и revisions 0001–0004; исторические
+миграции и ADR не переписываются.
 
 У каждой таблицы явно описывайте назначение: какую предметную или служебную
 задачу она решает и какие операции используют её записи. Для однотипных
@@ -1116,7 +1213,8 @@ lookup tables и таблицу миграций, а затем описывай
 Основные источники для следующего обновления:
 
 - [Foundation SQL](../../db-control/src/db_control/sql/0001_foundation.sql): столбцы, FK, индексы, triggers, роли/preflight.
-- [Storage SQL](../../db-control/src/db_control/sql/0002_storage.sql): comparisons, catalogue routines, mutations, guards, views/grants.
+- [Storage SQL](../../db-control/src/db_control/sql/0002_storage.sql): исходные comparisons, mutations, guards, views/grants.
+- [Shapes SQL](../../db-control/src/db_control/sql/0004_attribute_shapes.sql): текущие формы, pin FK, совместимые catalogue routines, validator и view projections.
 - [DN SQL](../../db-control/src/db_control/sql/dn_codec.sql), [tables](../../db-control/src/db_control/sql/dn_tables.sql), [generated data](../../db-control/src/db_control/sql/dn_unicode32_data.sql), [codec guide](../../db-control/docs/dn-codec.md).
 - [Container persistence](../../container-adm-api/src/container_adm_api/persistence.py), [runtime](../../container-adm-api/src/container_adm_api/storage_runtime.py), [SQL reader](../../container-adm-api/src/container_adm_api/storage_sql.py).
 - [Subject persistence](../../entity-subject-adm-api/src/entity_subject_adm_api/persistence.py), [object persistence](../../entity-object-adm-api/src/entity_object_adm_api/persistence.py), [metadata persistence](../../policy-adm-api/src/policy_adm_api/persistence.py).

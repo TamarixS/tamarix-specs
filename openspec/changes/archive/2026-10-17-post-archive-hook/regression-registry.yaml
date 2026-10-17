@@ -1,0 +1,1561 @@
+schema_version: 1
+cases:
+- id: access-empty-chain-denied
+  description: Без моделей на всём пути ожидается запрет по умолчанию; защищает от
+    разрешения пустого набора.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[empty-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Пустая цепочка моделей
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-neutral-chain-denied
+  description: 'Все известные модели нейтральны: ожидается запрет по умолчанию; защищает
+    отсутствие подходящих разрешений.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[neutral-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Все модели нейтральны
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-undefined-chain-denied
+  description: 'Все известные модели завершаются объявленной ошибкой: ожидается запрет;
+    контролирует отсутствие определённых разрешений.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[undefined-chain-denied]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет по умолчанию
+    scenario: Все результаты неопределённы
+    criterion: итог SHALL быть запретом по умолчанию
+- id: access-allow-with-neutral-models
+  description: 'Модель объекта разрешает, остальные нейтральны: ожидается разрешение;
+    проверяет прохождение разрешения через пять ядер.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[allow-with-neutral-models]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Приоритет запрета в цепочке моделей
+    scenario: Только разрешения и нейтральные результаты
+    criterion: итог SHALL быть разрешением
+- id: access-ancestor-deny-precedes-addressed
+  description: 'Корень запрещает, C и R разрешают: итоговый запрет; контролирует включение
+    предков адресуемого контейнера.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[ancestor-deny-precedes-addressed]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Запрет предка адресуемого контейнера
+    criterion: модель `root` SHALL участвовать в проверке, а итог SHALL быть запретом
+- id: access-direct-object-address-keeps-root-deny
+  description: 'При обращении прямо к R корень запрещает, R разрешает: итоговый запрет;
+    защищает полную цепочку при C=R.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[direct-object-address-keeps-root-deny]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Адресация непосредственно к контейнеру объекта
+    criterion: цепочка SHALL включать модель корня и модель `R`, а итог SHALL быть
+      запретом
+- id: access-all-models-of-container-evaluated
+  description: 'Две модели одного C: разрешающая и с разрешением/запретом; итоговый
+    запрет защищает учёт всех моделей и приоритет запрета.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[all-models-of-container-evaluated]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Несколько моделей одного контейнера
+    criterion: обе модели этого контейнера SHALL участвовать в проверке, а итог SHALL
+      быть запретом
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Объединение подходящих правил модели
+    scenario: Разрешение и запрет внутри одной модели
+    criterion: результат модели SHALL быть запретом
+- id: access-descendant-subject-neutralizes-ancestor-models
+  description: 'Субъект принадлежит R: модели предков вне его области, R разрешает;
+    ожидается разрешение без общей привязки к C.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[descendant-subject-neutralizes-ancestor-models]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Отсутствие общей привязки субъекта к адресату
+    scenario: Держатель субъекта является потомком адресата
+    criterion: обращение SHALL быть допустимо, а итог проверки SHALL быть разрешением
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Нейтральность модели вне области субъекта
+    scenario: Другая модель разрешает доступ
+    criterion: итог проверки SHALL быть разрешением при отсутствии запретов других
+      моделей
+- id: access-known-model-error-keeps-allow
+  description: 'Известная модель корня даёт ошибку, R разрешает: ожидается разрешение;
+    отличает неопределённый результат от неизвестного состава.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[known-model-error-keeps-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Нейтральная трактовка неопределённого результата модели
+    scenario: Ошибка модели при известном разрешении
+    criterion: неопределённый результат SHALL считаться нейтральным, а итог SHALL
+      быть разрешением
+- id: access-skipped-levels-keep-real-path
+  description: Organization непосредственно содержит module R; обе модели участвуют
+    и R разрешает; контролирует фактический путь без пустых уровней.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[skipped-levels-keep-real-path]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Пропущенные уровни дерева
+    criterion: цепочка SHALL включать модели обоих контейнеров без требования контейнеров
+      `environment` и `system`
+- id: access-sibling-model-excluded
+  description: 'Модель соседней ветки запрещает, R разрешает: итоговое разрешение;
+    защищает исключение посторонних моделей из цепочки.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[sibling-model-excluded]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Полная цепочка моделей до контейнера объекта
+    scenario: Соседняя ветка исключена
+    criterion: модели `X` SHALL не входить в цепочку проверки объекта `R`
+- id: access-represented-outside-object-path
+  description: 'Подтверждённый O находится в соседней ветке, C на пути объекта и R
+    разрешает: итоговое разрешение; защищает независимость C и O.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[represented-outside-object-path]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Адресация проверки относительно объекта
+    scenario: Представляемый контейнер вне пути объекта
+    criterion: положение `O` SHALL не нарушать условие адресации проверки; условие
+      SHALL оцениваться по `C`
+- id: access-unknown-path-denied-despite-allow
+  description: 'Полнота пути неизвестна при сохранённом разрешении: итоговый запрет
+    до вычисления; предотвращает разрешение по частичному пути.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[unknown-path-denied-despite-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Неизвестен путь до контейнера объекта
+    criterion: результат проверки SHALL быть запретом
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Известное разрешение при неизвестном составе цепочки
+    criterion: результат проверки SHALL быть запретом независимо от известного разрешения
+- id: access-unknown-model-set-denied-despite-allow
+  description: 'Полный список моделей C неизвестен при разрешении корня: итоговый
+    запрет до вычисления; не подменяет неизвестный список пустым.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_access_decision[unknown-model-set-denied-despite-allow]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Неизвестен полный набор моделей
+    criterion: результат проверки SHALL быть запретом; отсутствующий полный набор
+      SHALL не подменяться пустым набором или нейтральными результатами
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Запрет при неизвестном составе цепочки
+    scenario: Известное разрешение при неизвестном составе цепочки
+    criterion: результат проверки SHALL быть запретом независимо от известного разрешения
+- id: admission-unverified-certificate
+  description: Без подтверждённого сертификата обращение отклоняется до чтения пути;
+    защищает обязательный допуск.
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[unverified-certificate]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: Отсутствует успешная сертификатная аутентификация
+    criterion: оно SHALL не допускаться к выполнению запрошенной операции
+- id: admission-dn-bound-to-other-container
+  description: 'DN зарегистрирован только за outside, а заявлен root: обращение отклоняется;
+    защищает привязку DN к конкретному O.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_access_flow.py::test_unconfirmed_caller_rejected[dn-bound-to-other-container]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: DN приписан только к другому контейнеру
+    criterion: обращение SHALL быть отклонено; принадлежность DN к `Q` SHALL не подтверждать
+      `O`
+- id: holder-subject-single-descendant-model
+  description: 'Одна модель потомка использует субъект root: root остаётся единственным
+    держателем; защищает от передачи владения ссылкой.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-single-descendant-model]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Сохранение держателя субъекта при использовании в модели
+    scenario: Модель потомка использует субъект предка
+    criterion: '`C` SHALL оставаться единственным держателем субъекта, а `M` SHALL
+      не становиться его держателем'
+- id: holder-subject-multiple-descendant-models
+  description: 'Две модели разных потомков используют субъект root: исходная запись
+    неизменна; защищает держателя при повторном использовании.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[subject-multiple-descendant-models]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Сохранение держателя субъекта при использовании в модели
+    scenario: Несколько моделей других контейнеров
+    criterion: '`C` SHALL оставаться единственным держателем субъекта независимо от
+      количества и держателей использующих моделей'
+- id: holder-object-single-ancestor-model
+  description: 'Модель предка C использует объект R: R остаётся единственным держателем;
+    защищает от передачи владения ссылкой.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-single-ancestor-model]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Сохранение держателя объекта при использовании в модели
+    scenario: Модель предка использует объект потомка
+    criterion: '`C` SHALL оставаться единственным держателем объекта, а `M` SHALL
+      не становиться его держателем'
+- id: holder-object-multiple-ancestor-models
+  description: 'Две модели разных предков используют объект R: факты объекта неизменны;
+    защищает держателя при повторном использовании.'
+  level: integration
+  state: regression
+  introduced_by: t-2-e2e-tests
+  test: tests/integration/test_holder_preservation.py::test_model_references_keep_entity_holder[object-multiple-ancestor-models]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Сохранение держателя объекта при использовании в модели
+    scenario: Несколько моделей других контейнеров
+    criterion: '`C` SHALL оставаться единственным держателем объекта независимо от
+      количества и держателей использующих моделей'
+- id: persistent-containers-c01
+  description: 'Все16 parent/child сочетаний enum проверяются настоящим create_child:
+    допускается ровно полная матрица строгого порядка типов.'
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Допустимые непосредственные дети
+    criterion: 'допустимость по типам SHALL соответствовать таблице:'
+- id: persistent-containers-c02
+  description: Environment под system отклоняется без нового узла; проверяет запрет
+    обратного порядка типов.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Обратный порядок типов
+    criterion: связь SHALL быть отклонена как нарушающая порядок типов
+- id: persistent-containers-c03
+  description: System под system отклоняется без нового узла; проверяет отсутствие
+    повторения типа по пути.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Повторение типа вдоль пути
+    criterion: связь SHALL быть отклонена как повторение типа вдоль пути
+- id: persistent-containers-c04
+  description: Два module одного system получают разные ID/ветки; ни один ребёнок
+    не является предком другого.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Соседние контейнеры одного типа
+    criterion: обе связи SHALL быть допустимы по типам; дети SHALL оставаться в разных
+      ветках
+- id: persistent-containers-c05
+  description: Попытка назначить system второму environment отклоняется с сохранением
+    единственного исходного parent/path.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Два непосредственных родителя
+    criterion: состояние SHALL быть отклонено как нарушающее дерево с единственным
+      непосредственным родителем некорневого контейнера
+- id: persistent-containers-c06
+  description: Независимые корни разных допустимых типов сохраняют собственные деревья
+    и не становятся предками чужих узлов.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Упорядоченное дерево контейнеров
+    scenario: Независимые корни
+    criterion: все деревья SHALL сохраняться независимо, а корень одного дерева не
+      SHALL считаться предком узла другого дерева
+- id: persistent-containers-c07
+  description: Допустимый строковый собственный key сохраняет spelling и участвует
+    в разрешении полного typed address.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c07]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Строковый ключ контейнера
+    scenario: Ключ задан строкой
+    criterion: ключ SHALL сохраняться и использоваться как собственный текстовый ключ
+      контейнера
+- id: persistent-containers-c08
+  description: Число, None, bytes, list, dict и bool не принимаются вместо container
+    key; новых узлов не возникает.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c08]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Строковый ключ контейнера
+    scenario: Нестроковый ключ
+    criterion: значение SHALL не быть признано допустимым ключом контейнера
+- id: persistent-containers-c09
+  description: Границы1/255 ASCII принимаются;0/256, кириллица и пробел отклоняются
+    без частичной записи.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c09]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Строковый ключ контейнера
+    scenario: Границы собственного ключа
+    criterion: ключи длиной 1 и 255 допустимого алфавита SHALL приниматься, остальные
+      перечисленные ключи SHALL отклоняться
+- id: persistent-containers-c10
+  description: Полный JSON organization/environment/module адрес разрешает leaf независимо
+    от порядка JSON members.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c10]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Уникальная идентификация составным ключом
+    scenario: Путь до вложенного контейнера
+    criterion: адрес SHALL включать пары типов и ключей root, C и D и однозначно указывать
+      на D независимо от порядка членов JSON
+- id: persistent-containers-c11
+  description: Typed address каждого root состоит только из его собственного type/key
+    и разрешает тот же stable ID.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c11]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Уникальная идентификация составным ключом
+    scenario: Составной ключ корня
+    criterion: его адрес SHALL содержать только пару собственного типа и ключа корня
+- id: persistent-containers-c12
+  description: Точный и case-only duplicate root/sibling typed address отклоняются;
+    одному адресу не принадлежат два ID.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c12]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Уникальная идентификация составным ключом
+    scenario: Дублирование составного ключа
+    criterion: система SHALL не допустить принадлежность этого адреса обоим контейнерам
+- id: persistent-containers-c13
+  description: Одинаковые keys у разных root типов и разных допустимых sibling типов
+    дают разные ID и typed addresses.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c13]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Уникальная идентификация составным ключом
+    scenario: Одинаковый ключ разных типов
+    criterion: оба корня или оба ребёнка SHALL сохраняться с различными адресами и
+      ID
+- id: persistent-containers-c14
+  description: Пропуск существующего уровня не находит leaf, повтор type в исходном
+    JSON отвергается до разрешения.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c14]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Уникальная идентификация составным ключом
+    scenario: Пропуск существующего уровня или повтор типа
+    criterion: адрес SHALL отклоняться и не SHALL разрешаться как адрес другого контейнера
+- id: persistent-containers-c15
+  description: VerifiedCertificateFact с DN DER зарегистрированного O принимается
+    обоими типами общего допуска и реальным management service.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c15]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: DN приписан к представляемому контейнеру
+    criterion: представляемый контейнер SHALL считаться подтверждённым для этого обращения
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость равенства и допуска DN
+    criterion: равенство, состав множеств, исходное написание строк, DER и вычисленные
+      DN keys SHALL сохраняться, а admission по прежнему definition_id SHALL подтверждать
+      только регистрацию в указанном контейнере и прекращаться на снимке после удаления
+- id: persistent-containers-c16
+  description: DN другого Q не подтверждает заявленный O для management/access-check;
+    факты остаются без изменения.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c16]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: DN приписан только к другому контейнеру
+    criterion: обращение SHALL быть отклонено; принадлежность DN к `Q` SHALL не подтверждать
+      `O`
+- id: persistent-containers-c17
+  description: Отсутствующий/непроверенный сертификатный факт не допускается для обоих
+    RequestKind и не запускает mutation.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c17]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: Отсутствует успешная сертификатная аутентификация
+    criterion: оно SHALL не допускаться к выполнению запрошенной операции
+- id: persistent-containers-c18
+  description: Два DN у O и общий DN у Q дают точную M:N принадлежность только явно
+    зарегистрированным контейнерам.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c18]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: Несколько DN и несколько контейнеров
+    criterion: каждый DN SHALL подтверждать только явно указанный контейнер, в множестве
+      DN которого присутствует эквивалентное значение
+- id: persistent-containers-c19
+  description: После remove value, unset attribute и empty set свежий admission snapshot
+    больше не подтверждает отозванный DN.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c19]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сертификатное подтверждение представляемого контейнера
+    scenario: Удалённое значение DN
+    criterion: такой DN SHALL не подтверждать O
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость равенства и допуска DN
+    criterion: равенство, состав множеств, исходное написание строк, DER и вычисленные
+      DN keys SHALL сохраняться, а admission по прежнему definition_id SHALL подтверждать
+      только регистрацию в указанном контейнере и прекращаться на снимке после удаления
+- id: persistent-containers-c20
+  description: Эквивалентные Printable/UTF8 Name с DN StringPrep подтверждают O, не
+    добавляя второй set element и сохраняя original DER.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c20]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сравнение значений DN
+    scenario: Эквивалентные имена
+    criterion: проверка SHALL находить регистрацию, а повторная запись эквивалентного
+      DN не SHALL создавать второй элемент множества
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость равенства и допуска DN
+    criterion: равенство, состав множеств, исходное написание строк, DER и вычисленные
+      DN keys SHALL сохраняться, а admission по прежнему definition_id SHALL подтверждать
+      только регистрацию в указанном контейнере и прекращаться на снимке после удаления
+- id: persistent-containers-c21
+  description: Неизвестный OID допускает DirectoryString preparation и opaque exact
+    DER; регистр opaque и иной ASN.1 tag не смешиваются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c21]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Сравнение значений DN
+    scenario: Неизвестные OID
+    criterion: OID SHALL приниматься, а равенство SHALL определяться подготовкой строки
+      в первом случае и точным DER значения во втором
+- id: persistent-containers-c22
+  description: Rename предка сохраняет ID/parents потомков, вычисляет новые полные
+    addresses и перестаёт разрешать старый путь.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c22]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Стабильная идентичность и переименование контейнера
+    scenario: Переименование предка
+    criterion: ID предка и потомков и их связи SHALL сохраняться, а вычисляемые адреса
+      SHALL отражать новый ключ
+- id: persistent-containers-c23
+  description: Занятый CI key и попытки менять ID/type/parent откатывают весь aggregate,
+    включая предварительно записанные attrs.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c23]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Стабильная идентичность и переименование контейнера
+    scenario: Конфликт или изменение структуры
+    criterion: изменение SHALL отклоняться без частичного изменения контейнера или
+      его атрибутов
+- id: persistent-containers-c24
+  description: 'Две реальные service команды с одним CAS конкурируют за key/attr/DN:
+    одна Changed, вторая RevisionConflict после свежего retry.'
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c24]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Атомарное изменение контейнера и revision
+    scenario: Конкурентное изменение атрибута
+    criterion: не более одной команды SHALL фиксироваться с этой revision, а вторая
+      SHALL получать конфликт
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение транзакционных гарантий и полномочий
+    scenario: Повтор и устаревшая revision
+    criterion: после 40001 SHALL повторяться вся транзакция с повторной проверкой
+      фактов и исходным expected_revision, а устаревшая revision SHALL завершаться
+      конфликтом без потери чужого изменения
+- id: persistent-containers-c25
+  description: Валидный первый attr и неизвестный второй откатывают attrs/key/revision
+    контейнера одной transaction.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c25]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Атомарное изменение контейнера и revision
+    scenario: Ошибка после записи части данных
+    criterion: контейнер, его атрибуты и revision SHALL оставаться в состоянии до
+      этой операции
+- id: persistent-containers-c26
+  description: Каждый отдельный child/active subject/object/model blocker запрещает
+    container delete, сохраняя holder и собственные данные.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c26]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Удаление контейнера после внутренних сущностей
+    scenario: Непустой держатель
+    criterion: удаление SHALL отклоняться с сохранением контейнера и всех его данных
+- id: persistent-containers-c27
+  description: Hard delete пустого holder purge tombstones/retained attrs/собственный
+    DN/technical key guards атомарно, сохраняя общий каталог.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c27]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Удаление контейнера после внутренних сущностей
+    scenario: Только удалённые субъекты
+    criterion: контейнер, tombstones и принадлежащие им атрибуты SHALL удаляться физически
+      одной операцией
+- id: persistent-containers-c28
+  description: Public restore/delete с двумя LOGIN и обеими очередностями даёт active
+    survivor либо purge+NotFound, сохраняя исходные CAS tokens.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c28]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Удаление контейнера после внутренних сущностей
+    scenario: Восстановление одновременно с удалением держателя
+    criterion: субъект SHALL либо восстановиться и блокировать удаление держателя,
+      либо получить конфликт или отсутствие после purge; активная запись не SHALL
+      удаляться физически
+- id: persistent-containers-c29
+  description: 'Подтверждённый O через C управляет descendant D: rename, attrs и delete
+    разрешаются при O<=C<=D.'
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c29]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Область операций над существующим контейнером
+    scenario: Управление своим поддеревом
+    criterion: операция SHALL быть допустима по области управления при сохранении
+      остальных инвариантов
+- id: persistent-containers-c30
+  description: Каждая rename/attrs/delete отдельно отклоняется при нарушении O<=C
+    либо C<=D, включая sibling и другое дерево, при валидном DN.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_containers.py::test_contract[c30]
+  links:
+  - spec: openspec/specs/containers/spec.md
+    requirement: Область операций над существующим контейнером
+    scenario: Выход за адресованную область
+    criterion: операция SHALL отклоняться без изменения контейнера и его атрибутов
+- id: persistent-subjects-c01
+  description: Зарегистрированный тип принимает subject create, неизвестный тип отклоняется
+    без новой записи; проверяет обязательный общий каталог.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Общий каталог типов субъектов
+    scenario: Зарегистрированный и неизвестный тип
+    criterion: зарегистрированный тип SHALL приниматься, а неизвестный SHALL отклоняться
+      без создания субъекта
+- id: persistent-subjects-c02
+  description: Ключи типов длиной1/512 принимаются; CI дубль, пустой,513, недопустимый
+    символ и rename отклоняются без изменения каталога.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Общий каталог типов субъектов
+    scenario: Правила ключа типа
+    criterion: только свободные допустимые ключи SHALL приниматься; остальные перечисленные
+      операции SHALL отклоняться
+- id: persistent-subjects-c03
+  description: Предметный владелец контейнера без catalog role не регистрирует тип;
+    проверяет отдельное глобальное полномочие.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Общий каталог типов субъектов
+    scenario: Владелец контейнера без глобального полномочия
+    criterion: операция SHALL отклоняться независимо от его прав на данные контейнера
+- id: persistent-subjects-c04
+  description: Один subject key у разных типов и держателей создаёт независимые stable
+    ID; проверяет scope holder/type/key.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Постоянная предметная идентичность субъекта
+    scenario: Разные типы и держатели
+    criterion: субъекты SHALL создаваться с разными ID без конфликта уникальности
+- id: persistent-subjects-c05
+  description: Exact Unicode subject keys сохраняют регистр/NFC/NFD/пробелы; границы1/512
+    принимаются,0/513/control отклоняются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Постоянная предметная идентичность субъекта
+    scenario: Точное сравнение и границы ключа
+    criterion: точные различные допустимые строки SHALL сохраняться независимо; пустой,
+      слишком длинный и управляющий ключи SHALL отклоняться
+- id: persistent-subjects-c06
+  description: Точный subject duplicate и изменение holder/type/key запрещены; tombstone
+    резервирует identity и восстанавливает прежний ID.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Постоянная предметная идентичность субъекта
+    scenario: Дубль и изменение идентичности
+    criterion: дубликат или изменение SHALL отклоняться без подмены ID; для tombstone
+      SHALL применяться восстановление прежней записи
+- id: persistent-subjects-c07
+  description: Name/description читаются как два зарегистрированных атрибута с сохранением
+    subject identity, без JSONB content.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c07]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Атрибуты субъекта по общим определениям
+    scenario: Именованные свойства субъекта
+    criterion: свойства SHALL читаться как атрибуты соответствующего субъекта и не
+      SHALL изменять его идентичность
+- id: persistent-subjects-c08
+  description: Soft delete сохраняет ID/identity/attrs/deleted_at, но active get/find
+    исключают tombstone; проверяет границу active/admin views.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c08]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Логическое удаление и восстановление субъекта
+    scenario: Удалённый субъект и активное чтение
+    criterion: запись и атрибуты SHALL сохраняться с deleted_at, а поиск активного
+      субъекта SHALL не возвращать её
+- id: persistent-subjects-c09
+  description: Restore очищает deleted_at прежней записи и возвращает её ID/attrs
+    без второй записи и без неявного fresh ID.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c09]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Логическое удаление и восстановление субъекта
+    scenario: Восстановление прежней записи
+    criterion: deleted_at SHALL очищаться у прежнего ID с прежними атрибутами, без
+      создания второй записи
+- id: persistent-subjects-c10
+  description: Прямой physical delete active subject и удаление его holder отклоняются;
+    активные данные сохраняются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c10]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Логическое удаление и восстановление субъекта
+    scenario: Попытка физического удаления активного субъекта
+    criterion: операция SHALL отклоняться с сохранением активной записи
+- id: persistent-subjects-c11
+  description: После изменения subject attrs прежний CAS конфликтует для change/delete/restore
+    и не перезаписывает current aggregate.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c11]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Атомарность и revision субъекта
+    scenario: Устаревшая revision после изменения атрибута
+    criterion: команда SHALL получать конфликт без перезаписи сохранённого состояния
+- id: persistent-subjects-c12
+  description: Ошибки после частичной записи attrs и после soft delete откатывают
+    subject/status/attrs/revision целиком.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_subjects.py::test_contract[c12]
+  links:
+  - spec: openspec/specs/entities/subjects/spec.md
+    requirement: Атомарность и revision субъекта
+    scenario: Отказ составной записи
+    criterion: субъект, его атрибуты, deleted_at и revision SHALL оставаться в состоянии
+      до операции
+- id: persistent-objects-c01
+  description: Длинный Unicode TEXT key вне B-tree лимита, разный регистр и NFC/NFD
+    сохраняются и находятся точно без application max.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Постоянная идентичность объекта и точный ключ
+    scenario: Длинные и точные ключи
+    criterion: все допустимые точные различные ключи SHALL сохраняться и находиться
+      без искусственного ограничения длины
+- id: persistent-objects-c02
+  description: Пустой object key и C0/C1 control отклоняются без сохранения объекта;
+    проверяет обязательную политику identity.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Постоянная идентичность объекта и точный ключ
+    scenario: Пустой или управляющий ключ
+    criterion: создание SHALL отклоняться без сохранения объекта
+- id: persistent-objects-c03
+  description: Одинаковый key другого holder даёт независимый ID; изменение ID/holder/key
+    существующего object запрещено.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Постоянная идентичность объекта и точный ключ
+    scenario: Другой держатель или изменение идентичности
+    criterion: новый объект в другом держателе SHALL получать другой ID, а изменение
+      идентичности прежнего объекта SHALL отклоняться
+- id: persistent-objects-c04
+  description: Два независимых SERIALIZABLE writer одновременно создают один key;
+    после retry фиксируется один объект и unique conflict второго.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Точная конкурентная уникальность ключа объекта
+    scenario: Конкурентный дубликат
+    criterion: SHALL фиксироваться ровно один объект, а другая операция SHALL получать
+      конфликт уникальности
+- id: persistent-objects-c05
+  description: Защищённая db-control collision seam помещает разные ключи в один bucket;
+    оба сохраняются и разрешаются настоящим adapter по полному key.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Точная конкурентная уникальность ключа объекта
+    scenario: Коллизия поискового хеша
+    criterion: оба объекта SHALL сохраняться и разрешаться по полному ключу независимо
+      друг от друга
+- id: persistent-objects-c06
+  description: Object hard delete чистит собственные attrs одной операцией и сохраняет
+    holder, subjects и model metadata.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Физическое удаление объекта и его атрибутов
+    scenario: Удаление собственных данных объекта
+    criterion: объект и его атрибуты SHALL отсутствовать после commit, а держатель,
+      субъекты и метаданные моделей SHALL сохраняться
+- id: persistent-objects-c07
+  description: Изменение object attrs повышает aggregate revision; stale change/delete
+    конфликтуют без перезаписи текущего состояния.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c07]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Атомарность и revision объекта
+    scenario: Конфликт после изменения атрибута
+    criterion: команда SHALL отклоняться как конфликт без перезаписи текущего агрегата
+- id: persistent-objects-c08
+  description: Ошибка после частичных attrs либо после начала hard delete откатывает
+    object/attrs/revision целиком.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_objects.py::test_contract[c08]
+  links:
+  - spec: openspec/specs/entities/objects/spec.md
+    requirement: Атомарность и revision объекта
+    scenario: Ошибка составной операции
+    criterion: объект, его атрибуты и revision SHALL оставаться в состоянии до операции
+- id: persistent-attributes-c01
+  description: Незарегистрированный definition отклоняется без автоматического создания
+    definition/instance/value и без изменения aggregate.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Предварительная регистрация общих определений
+    scenario: Запись без зарегистрированного определения
+    criterion: операция SHALL быть отклонена без создания определения, экземпляра
+      или значения
+- id: persistent-attributes-c02
+  description: CI конфликт DisplayName/displayname запрещает второе definition общего
+    каталога, сохраняя первое.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Неизменяемые ключи определений атрибутов
+    scenario: Регистронезависимый конфликт ключей
+    criterion: регистрация второго определения SHALL быть отклонена как конфликт ключа
+- id: persistent-attributes-c03
+  description: Definition keys1/512 ASCII принимаются; пустой,513 и Unicode я отклоняются
+    без регистрации.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Неизменяемые ключи определений атрибутов
+    scenario: Границы и алфавит ключа определения
+    criterion: первые два ключа SHALL быть допустимы, а остальные SHALL быть отклонены
+      без регистрации определения
+- id: persistent-attributes-c04
+  description: Переименование зарегистрированного definition отклоняется DB guard,
+    исходный key сохраняется.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Неизменяемые ключи определений атрибутов
+    scenario: Переименование зарегистрированного определения
+    criterion: операция SHALL быть отклонена, а прежний ключ SHALL сохраниться
+- id: persistent-attributes-c05
+  description: Один definition явно применим к module/user/object/model; одно допустимое
+    значение читается у всех четырёх владельцев.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Явная применимость определения
+    scenario: Одно определение у нескольких разрешённых видов
+    criterion: значение SHALL сохраняться у каждого соответствующего владельца по
+      одному общему определению
+- id: persistent-attributes-c06
+  description: Виды/типы вне applicability, включая новый subject type, не получают
+    instance и не меняют прежние values.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Явная применимость определения
+    scenario: Владелец вне явной применимости
+    criterion: запись SHALL быть отклонена без создания экземпляра или изменения прежних
+      значений
+- id: persistent-attributes-c07
+  description: Изменение атрибута одного из двух владельцев одного definition не затрагивает
+    другого; проверяет owner-local storage.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c07]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Принадлежность экземпляра конкретному владельцу
+    scenario: Независимые значения разных владельцев
+    criterion: значение SHALL измениться только у выбранного владельца, а данные другого
+      SHALL сохраниться
+- id: persistent-attributes-c08
+  description: Попытка назначить attribute несуществующему owner каждого вида отклоняется
+    без orphan instances/values.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c08]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Принадлежность экземпляра конкретному владельцу
+    scenario: Несуществующий владелец экземпляра
+    criterion: операция SHALL быть отклонена без сохранения экземпляра или его значений
+- id: persistent-attributes-c09
+  description: Существующий scalar нельзя оставить без value или с двумя values; оба
+    отказа сохраняют прежний scalar.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c09]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Одиночное значение и неупорядоченное множество
+    scenario: Недопустимая мощность одиночного атрибута
+    criterion: операция SHALL быть отклонена без изменения прежнего состояния атрибута
+- id: persistent-attributes-c10
+  description: Перестановка set и повтор равного элемента не меняют состав/revision
+    и не создают значимого порядка либо дубля.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c10]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Одиночное значение и неупорядоченное множество
+    scenario: Порядок и повтор элемента множества
+    criterion: состав множества SHALL оставаться прежним без второго равного элемента
+      и без значимого порядка значений
+- id: persistent-attributes-c11
+  description: SnapshotReader различает AbsentAttribute и существующий SetAttribute
+    без values у разных владельцев.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c11]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Различение отсутствия, пустого множества и null
+    scenario: Отсутствующий атрибут и существующее пустое множество
+    criterion: чтение SHALL различать отсутствие атрибута у первого и существующее
+      пустое множество у второго
+- id: persistent-attributes-c12
+  description: Явный null и у scalar, и как set element отклоняется без частичной
+    записи; отсутствие остаётся отдельным состоянием.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c12]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Различение отсутствия, пустого множества и null
+    scenario: Явное null-значение
+    criterion: операция SHALL быть отклонена без сохранения null-значения или частичного
+      изменения атрибута
+- id: persistent-attributes-c13
+  description: Шесть native типов, включая обе BIGINT границы, читаются соответствующими
+    Python/DB типами без общей TEXT сериализации.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c13]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Соответствие нативного значения типу определения
+    scenario: Сохранение каждого начального типа
+    criterion: после чтения SHALL сохраняться соответствующие типы и значения без
+      подмены всех значений строками
+- id: persistent-attributes-c14
+  description: Wrong type, BIGINT overflow и несколько заполненных native columns
+    отклоняются, сохраняя прежнее значение.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c14]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Соответствие нативного значения типу определения
+    scenario: Несоответствующий тип или несколько типизированных значений
+    criterion: операция SHALL быть отклонена без изменения существующего атрибута
+- id: persistent-attributes-c15
+  description: Exact set хранит A/a/é/e+0301/начальный пробел как пять разных исходных
+    строк без нормализации.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c15]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Профили сравнения строковых атрибутов
+    scenario: Точное сравнение и исходное написание
+    criterion: чтение SHALL возвращать пять разных значений с прежним регистром, пробелом
+      и Unicode-представлением
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость равенства и допуска DN
+    criterion: равенство, состав множеств, исходное написание строк, DER и вычисленные
+      DN keys SHALL сохраняться, а admission по прежнему definition_id SHALL подтверждать
+      только регистрацию в указанном контейнере и прекращаться на снимке после удаления
+- id: persistent-attributes-c16
+  description: D145 поиск å возвращает исходное A+030A, но не строку с пробелом; duplicate
+    исключается без потери spelling.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c16]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Профили сравнения строковых атрибутов
+    scenario: Каноническое равенство без удаления пробелов
+    criterion: поиск SHALL находить первое значение с его исходным написанием, а значение
+      с начальным пробелом SHALL оставаться отдельным элементом множества
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость равенства и допуска DN
+    criterion: равенство, состав множеств, исходное написание строк, DER и вычисленные
+      DN keys SHALL сохраняться, а admission по прежнему definition_id SHALL подтверждать
+      только регистрацию в указанном контейнере и прекращаться на снимке после удаления
+- id: persistent-attributes-c17
+  description: Пустой set удерживает точный shape_id и definition type/cardinality/profile;
+    legacy изменения и bind равносемантичной другой формы запрещены, instance сохраняется.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c17]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Стабильность семантики используемого определения
+    scenario: Определение с пустым множеством
+    criterion: изменение SHALL быть отклонено, а семантика определения и пустой экземпляр
+      SHALL сохраниться
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость прежних команд и чтения
+    criterion: сигнатуры команд, наборы и типы колонок и наблюдаемые результаты SHALL
+      сохраняться; изменения семантики используемого definition SHALL по-прежнему
+      отклоняться
+- id: persistent-attributes-c18
+  description: Retained attribute tombstone удерживает точный shape_id и type/cardinality/profile;
+    legacy изменения и bind другой формы запрещены без потери original values.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c18]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Стабильность семантики используемого определения
+    scenario: Определение атрибута удалённого субъекта
+    criterion: изменение SHALL быть отклонено, а определение и сохранённый атрибут
+      субъекта SHALL остаться прежними
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость прежних команд и чтения
+    criterion: сигнатуры команд, наборы и типы колонок и наблюдаемые результаты SHALL
+      сохраняться; изменения семантики используемого definition SHALL по-прежнему
+      отклоняться
+- id: persistent-attributes-c19
+  description: Container actor без global catalog полномочия не регистрирует definition
+    и не изменяет applicability.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c19]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Отдельное глобальное полномочие каталогов
+    scenario: Владелец контейнера без полномочия каталогов
+    criterion: операция SHALL быть отклонена без изменения каталога или применимости
+- id: persistent-attributes-c20
+  description: Catalog operator не получает право изменять attrs произвольного контейнера;
+    прежний aggregate сохраняется.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_attributes.py::test_contract[c20]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Отдельное глобальное полномочие каталогов
+    scenario: Оператор каталогов без прав на данные контейнера
+    criterion: изменение SHALL быть отклонено, а данные контейнера SHALL сохраниться
+- id: persistent-models-c01
+  description: CI дубль модели в одном держателе отклоняется, а другой держатель получает
+    собственный ID.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Постоянная идентичность метаданных модели
+    scenario: Уникальность в держателе
+    criterion: регистровый дубликат первого держателя SHALL отклоняться, а модель
+      второго держателя SHALL получать независимый ID
+- id: persistent-models-c02
+  description: Только ASCII keys длиной 1/512 принимаются; ID/holder/key созданной
+    модели не изменяются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Постоянная идентичность метаданных модели
+    scenario: Границы и неизменяемость идентичности
+    criterion: только новые допустимые ключи длиной 1 и 512 SHALL приниматься, а остальные
+      перечисленные операции SHALL отклоняться
+- id: persistent-models-c03
+  description: После изменения атрибута прежняя revision даёт конфликт без перезаписи
+    metadata.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Атрибуты и revision метаданных модели
+    scenario: Конфликт после изменения атрибутов
+    criterion: команда SHALL получать конфликт с сохранением текущих метаданных и
+      атрибутов
+- id: persistent-models-c04
+  description: Ошибка второй части атрибутов откатывает metadata, значения и revision
+    целиком.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Атрибуты и revision метаданных модели
+    scenario: Отказ составной записи метаданных
+    criterion: метаданные, атрибуты и revision SHALL оставаться в состоянии до операции
+- id: persistent-models-c05
+  description: Physical delete удаляет metadata/её attrs и сохраняет holder, субъекты
+    и объекты.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Физическое удаление метаданных модели
+    scenario: Удаление модели с атрибутами
+    criterion: метаданные и атрибуты модели SHALL отсутствовать после commit, а держатель,
+      субъекты и объекты SHALL сохраняться
+- id: persistent-models-c06
+  description: Известные metadata остаются отдельным полным набором и не становятся
+    исполнимой моделью/Undefined.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_models.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/access-model/models/spec.md
+    requirement: Различение метаданных и исполнимой модели
+    scenario: Известны только метаданные
+    criterion: результат SHALL явно оставаться набором метаданных и не SHALL подменять
+      CompleteModelSet либо результаты вычисления моделей
+- id: persistent-facts-c01
+  description: Commit другой connection между чтениями не меняет старый snapshot;
+    новый read видит изменение всех фактов.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_fact_views.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Единый снимок подготовленных фактов
+    scenario: Конкурентный commit между чтениями
+    criterion: текущая сборка SHALL видеть прежнее согласованное состояние всех фактов,
+      а новая транзакция чтения SHALL видеть зафиксированное изменение
+- id: persistent-facts-c02
+  description: Путь root→holder содержит предков C и оба конца; субъект и O другого
+    дерева сохраняются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_fact_views.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Единый снимок подготовленных фактов
+    scenario: Путь и независимый субъект
+    criterion: сборка SHALL возвращать весь фактический путь от корня с обоими концами
+      и предками контекста, не исключая субъект только по положению его держателя
+- id: persistent-facts-c03
+  description: Контейнер без моделей остаётся в полном пути с явным пустым metadata
+    group.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_fact_views.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Различение пустых и неизвестных подготовленных данных
+    scenario: Установленный пустой набор
+    criterion: результат SHALL содержать явный пустой набор метаданных этого контейнера
+      без прерывания пути
+- id: persistent-facts-c04
+  description: Ошибка path или metadata явно обозначена unknown и не превращается
+    в полный пустой набор.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_fact_views.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Различение пустых и неизвестных подготовленных данных
+    scenario: Неизвестные путь или метаданные
+    criterion: результат SHALL явно обозначать неизвестную часть и не SHALL представлять
+      сборку полной или заменять ошибку пустым набором
+- id: persistent-facts-c05
+  description: Reader LOGIN не может писать, вызывать mutations или менять схему;
+    факты после отказов сохраняются.
+  level: integration
+  state: regression
+  introduced_by: t-3-persistent
+  test: tests/integration/persistence/test_fact_views.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/authorization/access-check/spec.md
+    requirement: Доступ читателя только для чтения
+    scenario: Попытка записи читателем
+    criterion: БД SHALL отклонять запись с сохранением данных и схемы
+- id: persistent-shapes-c01
+  description: Definition без shape либо с неизвестным shape отклоняется атомарно;
+    каталоги и экземпляры не меняются.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c01]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Предварительная регистрация общих определений
+    scenario: Определение без зарегистрированной формы
+    criterion: регистрация SHALL быть отклонена без создания definition или изменения
+      каталогов
+- id: persistent-shapes-c02
+  description: Два definitions явно используют общий shape при разной applicability;
+    запрещённые записи отклоняются, разрешённые значения независимы.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c02]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Явная применимость определения
+    scenario: Общая форма при разной применимости
+    criterion: обе записи SHALL отклоняться без изменения применимости или значений;
+      допустимые записи A субъекту и B объекту SHALL оставаться независимыми
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Общий каталог переиспользуемых форм
+    scenario: Два определения с общей формой
+    criterion: оба definition SHALL возвращать один shape_id и контракт формы, а изменение
+      значения одного SHALL не менять значения, применимость или идентичность другого
+- id: persistent-shapes-c03
+  description: DN допускается только контейнерам; assignment и rebind сохраняют ограничения,
+    включая обе очередности конкурирующих catalog transactions.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c03]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Явная применимость определения
+    scenario: DN вне контейнеров
+    criterion: операция SHALL отклоняться без изменения применимости или привязки;
+      DN SHALL оставаться применимым только к явно разрешённым типам контейнеров
+- id: persistent-shapes-c04
+  description: Unused definition меняет точный shape с сохранением identity/applicability;
+    использованный не меняет даже на равносемантичный shape, новая definition не переносит
+    данные.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c04]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Стабильность семантики используемого определения
+    scenario: Перепривязка неиспользуемого определения
+    criterion: перепривязка SHALL завершаться с сохранением ID, key и применимости
+      definition; следующий экземпляр SHALL использовать новый shape
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Стабильность семантики используемого определения
+    scenario: Другая форма с совпадающей семантикой
+    criterion: перепривязка SHALL отклоняться, а точный прежний shape_id, экземпляры
+      и значения SHALL сохраняться
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Стабильность семантики используемого определения
+    scenario: Новая семантика используемого атрибута
+    criterion: новое definition SHALL иметь отдельную идентичность, а регистрация
+      SHALL не переносить и не менять существующие экземпляры или значения автоматически
+- id: persistent-shapes-c05
+  description: Пять runtime/reader LOGIN не регистрируют и не назначают shapes; catalog
+    LOGIN делает разрешённые операции без прямого DML или управления owner values.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c05]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Отдельное глобальное полномочие каталогов
+    scenario: Регистрация и назначение формы без полномочия
+    criterion: операция SHALL отклоняться без создания shape, изменения привязки или
+      получения прав на таблицы каталога
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Отдельное глобальное полномочие каталогов
+    scenario: Допустимое управление каталогом
+    criterion: операция SHALL завершаться без предоставления оператору прямой записи
+      таблиц, управления атрибутами владельцев или права изменять существующую форму
+- id: persistent-shapes-c06
+  description: Все допустимые type/cardinality/profile tuples регистрируются с закреплённой
+    поддерживаемой версией; новые API не выбирают её неявно.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c06]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Общий каталог переиспользуемых форм
+    scenario: Допустимые контракты формы
+    criterion: каждая форма SHALL регистрироваться при корректной поддерживаемой версии
+      для string и DN и сохранять заданные тип, кратность и правила сравнения
+- id: persistent-shapes-c07
+  description: Несовместимые tuples, отсутствующая и неподдерживаемая comparison version
+    отклоняются без fallback и частичных catalog rows.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c07]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Общий каталог переиспользуемых форм
+    scenario: Несовместимый контракт формы
+    criterion: регистрация SHALL отклоняться без создания формы или изменения существующих
+      каталогов
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Общий каталог переиспользуемых форм
+    scenario: Неподдерживаемая версия сравнения
+    criterion: регистрация SHALL отклоняться без подмены запрошенной семантики доступным
+      профилем или другой версией
+- id: persistent-shapes-c08
+  description: 'Shape key обязателен: ASCII длиной 1/512 принимается, null/пустой/513/Unicode
+    и CI duplicate запрещены; чтение возвращает точный выбранный shape.'
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c08]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Именование формы для UI
+    scenario: Выбор именованной формы
+    criterion: чтение definition SHALL возвращать выбранный shape_id, его прежний
+      key и характеристики без автоматического переключения на новую форму
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Именование формы для UI
+    scenario: Границы и алфавит ключа формы
+    criterion: первые два ключа SHALL быть допустимы, остальные SHALL отклоняться
+      без создания shape
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Именование формы для UI
+    scenario: Регистронезависимая уникальность ключа формы
+    criterion: регистрация второго shape SHALL отклоняться как конфликт ключа без
+      изменения первого
+- id: persistent-shapes-c09
+  description: Новая семантика получает отдельный id/key, одинаковые tuples не объединяются
+    автоматически; старые shapes и bindings остаются неизменными.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c09]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Неизменяемая семантика зарегистрированной формы
+    scenario: Регистрация новой семантики
+    criterion: новая форма SHALL существовать отдельно, а существующие shapes и привязки
+      definitions SHALL сохраняться
+- id: persistent-shapes-c10
+  description: Обе очередности instance-create и rebind в реальных SERIALIZABLE connections
+    сохраняют точный shape pin и не оставляют partial aggregate.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c10]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение транзакционных гарантий и полномочий
+    scenario: Создание instance одновременно с перепривязкой definition
+    criterion: 'SHALL фиксироваться только совместимые состояния: instance с назначенным
+      ему shape либо перепривязка без несовместимого instance; конфликт или повтор
+      SHALL не оставлять частичной записи'
+- id: persistent-shapes-c11
+  description: Независимые агрегаты с общим shape конкурентно меняют свои values/CAS
+    и instance fencing, не обновляя общую форму.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c11]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение транзакционных гарантий и полномочий
+    scenario: Независимые агрегаты с общей формой
+    criterion: каждая команда SHALL проверять исходный expected_revision своего агрегата,
+      обновлять mutation_version своего instance и сохранять общую строку shape без
+      изменения
+- id: persistent-shapes-c12
+  description: Настоящий контролируемый 40001 вызывает новый полный service attempt
+    с повторным admission/чтением; исходный expected revision остаётся прежним и даёт
+    конфликт после чужого commit.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c12]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение транзакционных гарантий и полномочий
+    scenario: Повтор и устаревшая revision
+    criterion: после 40001 SHALL повторяться вся транзакция с повторной проверкой
+      фактов и исходным expected_revision, а устаревшая revision SHALL завершаться
+      конфликтом без потери чужого изменения
+- id: persistent-shapes-c13
+  description: Legacy wrappers сохраняют optional version, named inputs, used no-op
+    и атомарный отказ; старые fact signatures и четыре native readers совместимы с
+    новым shape catalog.
+  level: integration
+  state: regression
+  introduced_by: t-5-persistant-change-1
+  test: tests/integration/persistence/test_shapes.py::test_contract[c13]
+  links:
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Минимальные структурные копии и декларативные связи
+    scenario: Единый источник правил сравнения
+    criterion: физические comparison_profile и comparison_version SHALL отсутствовать
+      в instances, а значения прежних колонок фактов SHALL соответствовать связанному
+      shape
+  - spec: openspec/specs/attributes/spec.md
+    requirement: Сохранение данных и контрактов при переходе
+    scenario: Совместимость прежних команд и чтения
+    criterion: сигнатуры команд, наборы и типы колонок и наблюдаемые результаты SHALL
+      сохраняться; изменения семантики используемого definition SHALL по-прежнему
+      отклоняться

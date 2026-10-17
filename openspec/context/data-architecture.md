@@ -9,6 +9,17 @@
 > к состоянию до T-3; их нельзя применять как утверждение об отсутствии кода.
 > Production HA/backup/SLO и persistent содержимое/refs моделей остаются открыты.
 
+> Дополнение 2026-10-16: [ADR 0005](adr/0005-immutable-shared-attribute-shapes.md)
+> принимает общие immutable shapes/key и гибрид structural copies. Revision
+> 20261016_0004 централизует semantic tuple в attributes.shapes; definitions
+> выбирают точный shape_id, instances удерживают его составными FK RESTRICT.
+> Profile/version читаются через shape, values сохраняют typed CHECK/scalar
+> guarantees. Старые views/wrappers совместимы, validators/regex/UI будущие.
+> Атомарный seeded upgrade, disposable reverse и operational ограничения
+> объясняются в [docs/database.md](../../docs/database.md) и
+> [docs/operations.md](../../docs/operations.md). Принятие не подтверждает PASS
+> или выполненный production deployment.
+
 Документ задает вопросы для проектирования и проверки изменений данных.
 Он не является утвержденной схемой БД; согласованные инструмент и владение
 миграциями указаны ниже.

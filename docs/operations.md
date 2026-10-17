@@ -86,6 +86,44 @@ curl --fail http://127.0.0.1:8101/health
 [Compose](../../../TamarixCD/compose.yaml),
 [runtime](../../../TamarixCD/runtime/README.md).
 
+## Доставка после archive
+
+При наличии `TamarixCD/artifacts/post-archive.json` центральный archive CLI
+автоматически вызывает [CD orchestrator](../../../TamarixCD/ci/post_archive.py)
+после подтверждённого переноса change. Конфигурация относится к конкретной
+локальной среде и хранится вне Git; её подготовка описана в
+[TamarixCD](../../../TamarixCD/README.md). Для другого файла укажите
+`--post-archive-config /absolute/path/post-archive.json` при вызове
+`tools/archive_gate.py archive`. Если отсутствует файл по умолчанию, gate
+возвращает `deployment.status=NOT_CONFIGURED` и не меняет среду. Отсутствующий
+файл, явно заданный через `--post-archive-config`, возвращает ошибку CLI после
+завершённого archive; исправьте путь и повторите ту же operation. `check` и
+CI-валидация archives доставку не запускают.
+
+План доставки берёт неизменяемые service/db-control commits из архивного
+`run-manifest.json`. Текущая ветка checkout не подменяет эти версии. Сначала CD
+готовит сборку, затем останавливает только пять контейнеров заданного project,
+делает PostgreSQL dump и fingerprint прежних данных. db-control применяет
+forward migrations к существующей БД. После проверки сохранности данных и
+готовности БД CD запускает новые контейнеры и проверяет health всех пяти.
+Тестовые наборы этим процессом не запускаются; HTTP health сохраняет свой
+эксплуатационный scope и не подтверждает предметный регресс.
+
+Archive и rollout завершаются независимо. При сбое доставки команда возвращает
+ненулевой код с сообщением «Archive завершён, post-archive rollout …» и путём
+сохранённого CD report, когда он доступен. Архив остаётся завершённым. Повторите
+ту же archive команду с тем же operation ID для продолжения CD шагов; новую
+раскатку с изменёнными входами оформляйте отдельной операцией. При уже успешной
+доставке повтор проверяет live состояние без рестарта контейнеров.
+
+Backup, journal и отчёт каждой попытки сохраняются отдельно от archive evidence.
+Не изменяйте архивный PASS/manifest после обновления среды. При ошибке миграции
+новая версия не запускается; backup остаётся доступен для recovery. Автоматические
+downgrade, восстановление dump, удаление volume и global prune не выполняются.
+Решение о восстановлении принимается явно с учётом уже применённых revisions.
+Прямой `openspec archive` не вызывает этот hook; используйте проектный
+[archive gate](../tools/ARCHIVE_GATE.md#автоматическая-доставка-после-archive).
+
 ## Отдельная PostgreSQL integration-среда
 
 Она создаётся независимо от пяти HTTP-контейнеров, с уникальными project,
@@ -146,6 +184,57 @@ python3 ci/postgresql_environment.py down --state /absolute/path/run/results.jso
 projects не являются частью процедуры.
 Подробный контракт — [EXTERNAL_TESTS.md](../../../TamarixCD/ci/EXTERNAL_TESTS.md).
 
+## Переход на неизменяемые формы T-5
+
+Head db-control `20261016_0004` следует за `20261015_0003`; номера historical
+revisions не заменяют hashes SQL/data из artifact-info. Приведённый ниже порядок
+относится к подготовке upgrade, а не к подтверждённой production поставке.
+
+1. Зафиксировать deployed head/artifact hashes и данные сравнения: definitions
+   tuple, IDs/key, applicability, instances/values, aggregate revisions,
+   mutation_version, DN DER/keys, column signatures/ACL опубликованных views.
+2. До deployment определить maintenance window, допустимые lock/statement budgets,
+   measured data volume и проверенный backup/PITR recovery runbook. Upgrade
+   использует lock_timeout=10s по умолчанию; другой бюджет задаётся через Alembic
+   config.attributes["shapes_lock_timeout"], отдельного CLI флага нет.
+   statement_timeout migration не устанавливает. Учитывать длительные readers:
+   ACCESS EXCLUSIVE locks owner tables, definitions, четырёх applicability/instance/
+   value families конфликтуют и с SELECT. Они стабилизируют snapshot для
+   внутренней проверки fingerprints. Остановить
+   приём новых domain/catalog writes и дождаться drain активных transactions.
+3. Выполнить upgrade отдельным deployment executor. В одной transaction создаются
+   immutable shapes, каждому старому definition назначается отдельный
+   migrated_definition_<id>, сохраняющий точную comparator version. Backfill
+   не пересчитывает payload/DN и не увеличивает revisions/mutation_version.
+4. Migration исполняет накопленные deferred scalar checks перед ALTER TABLE,
+   ставит новые FK/NOT NULL/guards, меняет routines/views/ACL и лишь затем
+   удаляет старые semantic copies. До commit Python revision сравнивает SHA-256
+   fingerprints прежних facts/payload/aggregate rows/applicability/comparison registry
+   с исходным снимком; mismatch прерывает upgrade без вывода значений. Отдельный
+   CLI fingerprint report не создаётся. Timeouts/ошибка откатывают весь upgrade;
+   частично готовая схема не публикуется.
+5. Сверить до/после fingerprints и map definition→shape, exact view signatures,
+   старые commands/readers и DN admission. После commit и operational checks
+   возобновить writers; сохранить actual head/resource hashes в manifest.
+
+При lock timeout диагностировать долгие transactions и повторять всю migration
+после устранения причины. Нельзя отключать FK/guards для продолжения неполного
+backfill. После commit старые совместимые consumers продолжают работать;
+устранение дефектов выполняется fix-forward либо отдельным recovery-планом.
+
+Обратный переход 0004→0003 через Alembic API предназначен только для disposable
+tamarix_t3_* с явным safeguard: старые columns восстанавливаются из shapes,
+deferred checks выполняются до ALTER, затем возвращаются guards/routines/views/FK
+и снимаются shape dependencies. Shape ID/key/sharing при этом теряются. CLI
+downgrade по-прежнему идёт до base и уничтожает тестовую схему. Он не является
+production rollback; восстановление backup без учёта последующих writes
+не обещает сохранение этих writes. Практическая готовность backup/PITR/HA этим
+runbook не подтверждается.
+
+Реализация/ограничения: [схема и миграции](database.md#13-миграции-первичный-root-и-откат),
+[db-control README](../../db-control/README.md),
+[ADR 0005](../openspec/context/adr/0005-immutable-shared-attribute-shapes.md).
+
 ## Явный запуск предметного регресса
 
 Тесты не стартуют от `up` или archive. Для `TamarixTests` заранее выполните
@@ -190,6 +279,8 @@ runner различаются: gate принимает **results.json runner**, 
 | CommitOutcomeUnknown | Состояние соединения и наблюдаемое состояние после reconnect | Выяснить результат операции до повторного create/delete |
 | FactsUnavailable | Наличие view/grants, соединение, actual migration head | Восстановить источник; пустые данные не являются заменой ошибки |
 | RestoreRequired | Tombstone субъекта с прежней identity | Использовать restore прежнего ID/revision |
+| Shape UPDATE отвергнут | Неизменяемость всей формы, включая unused | Регистрировать новую форму; используемый definition не перепривязывать |
+| bind_unused_shape отвергнут | Любые instances/empty sets/tombstones либо DN applicability | Проверить точный pin и зарегистрировать новое definition для новой семантики |
 | Archive gate отказал | docs-review, report selection/hashes/commits/promotion | Обновить docs/evidence либо явно выполнить нужную проверку |
 
 SQL-запросы для locks и целостности, причины `23505/23514/40001/40P01`

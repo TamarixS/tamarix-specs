@@ -175,3 +175,13 @@ SLO, observability, deployment и CI/CD. Final Python 3.15.0 установле�
 среды и ход установки сохранены в evidence T-1; prerelease не допускается.
 Детальные вопросы находятся
 в документах выше. Ни один такой выбор не утверждается заполнением context.
+
+## Формы атрибутов T-5: принято 2026-10-16
+
+[ADR 0005](adr/0005-immutable-shared-attribute-shapes.md) фиксирует выбранные
+пользователем общие immutable shapes с именем key, минимальные structural
+copies, точный FK pin definitions/instances и совместимые каталоги/views.
+Расширение validator остаётся централизованным; regex/length/range/UI не
+вводятся. Физическая схема и migration 0004 описаны в актуальных
+[docs/database.md](../../docs/database.md); исторические observations/TBD выше
+не отменяют этот срез. Accepted решение отдельно от test/deployment evidence.

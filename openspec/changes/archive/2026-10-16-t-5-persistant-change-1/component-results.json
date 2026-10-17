@@ -1,0 +1,1929 @@
+{
+  "schema_version": 1,
+  "report_type": "component",
+  "run_id": "b8125d735c354768a9cb500e397e8b7c",
+  "started_at": "2026-10-16T13:11:03.291759+00:00",
+  "finished_at": "2026-10-16T13:11:29.909935+00:00",
+  "duration_seconds": 26.618548250000458,
+  "python": "3.15.0",
+  "versions": {
+    "db-control": "0.1.0",
+    "SQLAlchemy": "2.1.4",
+    "psycopg": "3.3.6",
+    "psycopg-binary": "3.3.6",
+    "alembic": "1.20.0",
+    "pytest": "9.1.1"
+  },
+  "requested": [
+    "tests/component",
+    "-q"
+  ],
+  "cases": [
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[integer]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[integer]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.2146402499929536,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[decimal-scale]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[decimal-scale]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.15209495900489856,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[boolean]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[boolean]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.15223412598425057,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[date]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[date]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.1572550830023829,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[instant-offset]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[instant-offset]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.20016429100360256,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[large-decimal]",
+      "test_id": "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[large-decimal]",
+      "description": "Нативное равенство DB определяет set uniqueness; каждый параметр описывает свой тип.\n\nПроверка использует direct writes и настоящий instance MVCC guard. Различное\nтекстовое представление одного NUMERIC/instant не создаёт второй элемент.",
+      "status": "PASS",
+      "duration_seconds": 0.16601499999524094,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-canonical]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-canonical]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.1707163329992909,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-case]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-case]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.16562708299898077,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-expansion]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-expansion]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.16882562499085907,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-canonical]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-canonical]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.17554337499313988,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-spaces]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-spaces]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.15251987398369238,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-not-nfkc]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-not-nfkc]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.15412329201353714,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[long-text]",
+      "test_id": "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[long-text]",
+      "description": "String set использует profile закреплённого shape и сохраняет оригиналы, смысл в параметре.\n\nДлинные строки и Unicode CI проверяются через DB guard, без Python lower/hash.\nЗначимое различие допускает два элемента, эквивалентность возвращает duplicate.",
+      "status": "PASS",
+      "duration_seconds": 0.15580020799825434,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+      "test_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+      "description": "Set guard сериализует независимых writers реальным instance UPDATE, не SELECT FOR UPDATE.\n\nОба snapshot открыты до первой вставки. Эквивалентные D145 значения не могут\nстать двумя элементами: RC видит duplicate, RR/SERIALIZABLE отклоняют старый\nsnapshot. После конфликтующей transaction в БД остаётся ровно один оригинал.",
+      "status": "PASS",
+      "duration_seconds": 0.1686592500191182,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+      "test_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+      "description": "Set guard сериализует независимых writers реальным instance UPDATE, не SELECT FOR UPDATE.\n\nОба snapshot открыты до первой вставки. Эквивалентные D145 значения не могут\nстать двумя элементами: RC видит duplicate, RR/SERIALIZABLE отклоняют старый\nsnapshot. После конфликтующей transaction в БД остаётся ровно один оригинал.",
+      "status": "PASS",
+      "duration_seconds": 0.1642738759983331,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+      "test_id": "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+      "description": "Set guard сериализует независимых writers реальным instance UPDATE, не SELECT FOR UPDATE.\n\nОба snapshot открыты до первой вставки. Эквивалентные D145 значения не могут\nстать двумя элементами: RC видит duplicate, RR/SERIALIZABLE отклоняют старый\nsnapshot. После конфликтующей transaction в БД остаётся ровно один оригинал.",
+      "status": "PASS",
+      "duration_seconds": 0.16780370799824595,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_shape_registration_contracts_and_keys",
+      "test_id": "tests/component/test_attribute_shapes.py::test_shape_registration_contracts_and_keys",
+      "description": "Регистрация принимает все допустимые tuples и ASCII keys, отвергает неверные без следа.\n\nПроверяются string exact/unicode_ci single/set, DN set и пять native типов\nsingle/set; null/пустой/513/кириллический key, конфликт ASCII регистра,\nневерный профиль/кратность и отсутствующая/неизвестная версия отклоняются.\nЭто защищает именно вход каталога, не подменяя DB immutable/FK проверки.",
+      "status": "PASS",
+      "duration_seconds": 0.18009929101390298,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_unused_shape_whole_row_immutability",
+      "test_id": "tests/component/test_attribute_shapes.py::test_unused_shape_whole_row_immutability",
+      "description": "Неиспользуемый shape защищён в БД при изменении каждого поля, включая identity/key.\n\nСемантические UPDATE предлагают согласованные tuples, поэтому отказ нельзя\nобъяснить только CHECK допустимости профиля. Исходная строка сохраняется.",
+      "status": "PASS",
+      "duration_seconds": 0.15334525000071153,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_shared_shape_whole_row_immutability",
+      "test_id": "tests/component/test_attribute_shapes.py::test_shared_shape_whole_row_immutability",
+      "description": "Shape двух definitions с values нельзя изменить; все ссылки и значения сохраняются.\n\nОтказ каждого UPDATE проверяется deployment connection, имеющей прямой DML:\nзакрытые runtime grants сами по себе не доказывают immutable trigger.",
+      "status": "PASS",
+      "duration_seconds": 0.165454874993884,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_instance_shape_composite_fks_all_owner_families",
+      "test_id": "tests/component/test_attribute_shapes.py::test_instance_shape_composite_fks_all_owner_families",
+      "description": "Каждое семейство отвергает чужой shape и неверные type/cardinality именно составным FK.\n\nАльтернативный shape имеет те же параметры: это доказывает фиксацию точного\nshape_id definition независимо от равенства semantic tuple.",
+      "status": "PASS",
+      "duration_seconds": 0.162725957998191,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_instance_required_shape_references_all_owner_families",
+      "test_id": "tests/component/test_attribute_shapes.py::test_instance_required_shape_references_all_owner_families",
+      "description": "Null и неизвестные definition/shape, null type/cardinality не оставляют partial instance.\n\nВсе четыре семейства получают реальные owner/applicability; тем самым отказ\nотносится к обязательным structural ссылкам, а не к отсутствующему владельцу.",
+      "status": "PASS",
+      "duration_seconds": 0.1624640410009306,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_value_fk_and_check_all_owner_families",
+      "test_id": "tests/component/test_attribute_shapes.py::test_value_fk_and_check_all_owner_families",
+      "description": "Values всех семейств сохраняют FK/type/cardinality/one-column CHECK и прежние данные.\n\nНеизвестный instance, чужой тип или кратность и две заполненные колонки\nотвергаются; откат также сохраняет mutation_version исходного instance.",
+      "status": "PASS",
+      "duration_seconds": 0.17744845799461473,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_instance_identity_and_assignment_uniqueness_all_owner_families",
+      "test_id": "tests/component/test_attribute_shapes.py::test_instance_identity_and_assignment_uniqueness_all_owner_families",
+      "description": "Пара owner–definition уникальна; owner/definition/shape/type/cardinality instance неизменяемы.\n\nВсе четыре families проверяются прямым UPDATE под deployment правами;\nотказы guard сохраняют исходный экземпляр и его value, не перемещая данные.",
+      "status": "PASS",
+      "duration_seconds": 0.1863946660014335,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_scalar_cardinality_all_owner_families",
+      "test_id": "tests/component/test_attribute_shapes.py::test_scalar_cardinality_all_owner_families",
+      "description": "Во всех families single запрещает вторую строку сразу и пустоту при commit.\n\nПосле каждого отказа исходное значение 7 сохранено; проверка выполняется\nнепосредственной записью values и не зависит от ранней валидации команды.",
+      "status": "PASS",
+      "duration_seconds": 0.23072329198475927,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_instance_delete_cascades_values_preserving_shared_shape",
+      "test_id": "tests/component/test_attribute_shapes.py::test_instance_delete_cascades_values_preserving_shared_shape",
+      "description": "Удаление instance каскадно очищает только его values, сохраняя общий shape и соседей.\n\nПо две definitions с одной формой используются в каждом семействе; удаление\nпервой не должно удалять вторую definition, её instance, value или форму.",
+      "status": "PASS",
+      "duration_seconds": 0.16705737501615658,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_shape_is_only_physical_comparison_source",
+      "test_id": "tests/component/test_attribute_shapes.py::test_shape_is_only_physical_comparison_source",
+      "description": "Comparator metadata физически находится только в shapes, старые facts возвращают его JOIN.\n\nВо всех families создаются реальные string values; проверяются отсутствие\nфизических comparator columns и совпадение опубликованной tuple с shape.",
+      "status": "PASS",
+      "duration_seconds": 0.17170066699327435,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_legacy_catalog_wrappers",
+      "test_id": "tests/component/test_attribute_shapes.py::test_legacy_catalog_wrappers",
+      "description": "Прежние positional/named signatures сохраняют версию, no-op и атомарность без orphan shapes.\n\nРавная tuple использованного definition не создаёт форму; другая tuple\nотклоняется целиком. Дубликат key не оставляет форму, equal definitions не\ndeduplicate, а заранее занятый generated key обрабатывается без коллизии.",
+      "status": "PASS",
+      "duration_seconds": 0.1558600410062354,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_dn_applicability_and_bind_share_definition_lock",
+      "test_id": "tests/component/test_attribute_shapes.py::test_dn_applicability_and_bind_share_definition_lock",
+      "description": "Обе очередности DN bind и расширения applicability не дают noncontainer DN definition.\n\nДва независимых SERIALIZABLE snapshot открыты заранее; loser получает\nserialization/constraint отказ, а итоговая shape/applicability пара допустима.",
+      "status": "PASS",
+      "duration_seconds": 0.20505133300321177,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attribute_shapes.py::test_instance_create_and_bind_keep_exact_shape_under_both_orders",
+      "test_id": "tests/component/test_attribute_shapes.py::test_instance_create_and_bind_keep_exact_shape_under_both_orders",
+      "description": "Создание empty set и bind обоих порядков не коммитят instance с прежней чужой формой.\n\nСтарые snapshot воспроизводятся Barrier/Event без sleep; проверяется точный\nконечный shape_id и отсутствие partial instance после проигравшей записи.",
+      "status": "PASS",
+      "duration_seconds": 0.19608720700489357,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[container]",
+      "test_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[container]",
+      "description": "Все четыре owner families требуют applicability/FK и различают absence и empty set.\n\nКаждый параметр задаёт настоящую предметную таблицу владельца. Ни instance\nнесуществующего owner, ни незарегистрированная применимость не принимаются;\nразрешённый set instance без values коммитится и наблюдается как empty.",
+      "status": "PASS",
+      "duration_seconds": 0.16494008198787924,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[subject]",
+      "test_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[subject]",
+      "description": "Все четыре owner families требуют applicability/FK и различают absence и empty set.\n\nКаждый параметр задаёт настоящую предметную таблицу владельца. Ни instance\nнесуществующего owner, ни незарегистрированная применимость не принимаются;\nразрешённый set instance без values коммитится и наблюдается как empty.",
+      "status": "PASS",
+      "duration_seconds": 0.16327062400523573,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[object]",
+      "test_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[object]",
+      "description": "Все четыре owner families требуют applicability/FK и различают absence и empty set.\n\nКаждый параметр задаёт настоящую предметную таблицу владельца. Ни instance\nнесуществующего owner, ни незарегистрированная применимость не принимаются;\nразрешённый set instance без values коммитится и наблюдается как empty.",
+      "status": "PASS",
+      "duration_seconds": 0.16811904100177344,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[model]",
+      "test_id": "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[model]",
+      "description": "Все четыре owner families требуют applicability/FK и различают absence и empty set.\n\nКаждый параметр задаёт настоящую предметную таблицу владельца. Ни instance\nнесуществующего owner, ни незарегистрированная применимость не принимаются;\nразрешённый set instance без values коммитится и наблюдается как empty.",
+      "status": "PASS",
+      "duration_seconds": 0.20847220897849184,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[container]",
+      "test_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[container]",
+      "description": "Scalar может временно быть пустым в transaction, но на commit содержит ровно одно value.\n\nВо всех owner families пустой scalar commit отклоняется; замена delete+insert\nдопустима внутри одной transaction. Удаление самого instance с values допустимо\nи не заставляет deferred trigger требовать value уже удалённого экземпляра.",
+      "status": "PASS",
+      "duration_seconds": 0.22330762499768753,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[subject]",
+      "test_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[subject]",
+      "description": "Scalar может временно быть пустым в transaction, но на commit содержит ровно одно value.\n\nВо всех owner families пустой scalar commit отклоняется; замена delete+insert\nдопустима внутри одной transaction. Удаление самого instance с values допустимо\nи не заставляет deferred trigger требовать value уже удалённого экземпляра.",
+      "status": "PASS",
+      "duration_seconds": 0.20052925100026187,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[object]",
+      "test_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[object]",
+      "description": "Scalar может временно быть пустым в transaction, но на commit содержит ровно одно value.\n\nВо всех owner families пустой scalar commit отклоняется; замена delete+insert\nдопустима внутри одной transaction. Удаление самого instance с values допустимо\nи не заставляет deferred trigger требовать value уже удалённого экземпляра.",
+      "status": "PASS",
+      "duration_seconds": 0.18339383199054282,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[model]",
+      "test_id": "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[model]",
+      "description": "Scalar может временно быть пустым в transaction, но на commit содержит ровно одно value.\n\nВо всех owner families пустой scalar commit отклоняется; замена delete+insert\nдопустима внутри одной transaction. Удаление самого instance с values допустимо\nи не заставляет deferred trigger требовать value уже удалённого экземпляра.",
+      "status": "PASS",
+      "duration_seconds": 0.19582366598478984,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_attribute_type_null_profile_and_used_semantics_cannot_be_changed",
+      "test_id": "tests/component/test_attributes_schema.py::test_attribute_type_null_profile_and_used_semantics_cannot_be_changed",
+      "description": "Explicit null/type mismatch отвергаются; empty instance удерживает shape и applicability.\n\nNOT NULL shape_id не позволяет обойти composite FK через MATCH SIMPLE.\nИспользуемое определение, включая пустой set, нельзя изменить или лишить\nприменимости; после удаления instance новая семантика доступна только явно.",
+      "status": "PASS",
+      "duration_seconds": 0.17269070800102782,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[container]",
+      "test_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[container]",
+      "description": "Все предметные wrappers применяют scalar composite input атомарно и держат общий CAS.\n\nПервый put создаёт instance/value и revision2; повтор того же put — no-op.\nНовое scalar значение заменяет прежнее без промежуточного commit и даёт\nrevision3. Проверяются реальные dynamic SQL/composite casts каждой owner family.",
+      "status": "PASS",
+      "duration_seconds": 0.20418237503326964,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[subject]",
+      "test_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[subject]",
+      "description": "Все предметные wrappers применяют scalar composite input атомарно и держат общий CAS.\n\nПервый put создаёт instance/value и revision2; повтор того же put — no-op.\nНовое scalar значение заменяет прежнее без промежуточного commit и даёт\nrevision3. Проверяются реальные dynamic SQL/composite casts каждой owner family.",
+      "status": "PASS",
+      "duration_seconds": 0.232376290980028,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[object]",
+      "test_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[object]",
+      "description": "Все предметные wrappers применяют scalar composite input атомарно и держат общий CAS.\n\nПервый put создаёт instance/value и revision2; повтор того же put — no-op.\nНовое scalar значение заменяет прежнее без промежуточного commit и даёт\nrevision3. Проверяются реальные dynamic SQL/composite casts каждой owner family.",
+      "status": "PASS",
+      "duration_seconds": 0.21010833399486728,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[model]",
+      "test_id": "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[model]",
+      "description": "Все предметные wrappers применяют scalar composite input атомарно и держат общий CAS.\n\nПервый put создаёт instance/value и revision2; повтор того же put — no-op.\nНовое scalar значение заменяет прежнее без промежуточного commit и даёт\nrevision3. Проверяются реальные dynamic SQL/composite casts каждой owner family.",
+      "status": "PASS",
+      "duration_seconds": 0.2025757090159459,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_deployment_executor_can_provision_root_without_dn",
+      "test_id": "tests/component/test_bootstrap.py::test_deployment_executor_can_provision_root_without_dn",
+      "description": "Привилегированный executor создаёт root без DN в SERIALIZABLE transaction.\n\nОжидаются стабильный ID, исходная revision1 и отсутствие DN instances;\nпроверка сохраняет допустимость контейнера без доступа от его имени.",
+      "status": "PASS",
+      "duration_seconds": 0.15746437502093613,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_initial_root_and_trusted_dn_commit_as_one_aggregate",
+      "test_id": "tests/component/test_bootstrap.py::test_initial_root_and_trusted_dn_commit_as_one_aggregate",
+      "description": "Зарегистрированный trusted DER Name provision вместе с initial root атомарно.\n\nНативные composite arrays создают container attribute с одним DN value;\ncomparison key вычисляет DB codec, отдельного DN registry не возникает.",
+      "status": "PASS",
+      "duration_seconds": 0.19040358302299865,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_invalid_dn_rolls_back_root_and_preceding_attribute_changes",
+      "test_id": "tests/component/test_bootstrap.py::test_invalid_dn_rolls_back_root_and_preceding_attribute_changes",
+      "description": "Ошибка последнего DN откатывает root и ранее созданные integer instances/values.\n\nКаталоговые определения из предыдущей transaction сохраняются; ни owner row,\nни часть aggregate attributes не должны остаться после codec failure.",
+      "status": "PASS",
+      "duration_seconds": 0.19862487600767054,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[container]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[container]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.19894920900696889,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[subject]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[subject]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.352067583007738,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[object]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[object]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.20816408199607395,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[model]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[model]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.1853909160126932,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[catalog]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[catalog]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.19328558298002463,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[reader]",
+      "test_id": "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[reader]",
+      "description": "Каждый настоящий LOGIN получает отказ EXECUTE deployment bootstrap без SET ROLE.\n\nКаталоговый оператор сначала регистрирует DN definition и применимость, но\nэто не даёт ему provisioning; роли и ожидаемые границы описаны параметрами.",
+      "status": "PASS",
+      "duration_seconds": 0.19447183299052995,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_bootstrap.py::test_container_runtime_cannot_convert_create_child_to_root_creation",
+      "test_id": "tests/component/test_bootstrap.py::test_container_runtime_cannot_convert_create_child_to_root_creation",
+      "description": "Container LOGIN не создаёт root через NULL parent разрешённого child routine.\n\nОжидается явный отказ без owner rows; проверка исключает обход закрытого\nprovisioning через существующий runtime SQL command, без HTTP обещаний.",
+      "status": "PASS",
+      "duration_seconds": 0.18031904101371765,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_forest_typed_case_insensitive_uniqueness_and_root_scope",
+      "test_id": "tests/component/test_containers.py::test_forest_typed_case_insensitive_uniqueness_and_root_scope",
+      "description": "Корни уникальны по type/key CI, дети по parent/type/key CI; разные деревья независимы.\n\nОдин root key допускается у другого типа, один child key — у другого holder\nили типа. Пропуск уровней разрешён, но case-only duplicate в том же scope нет.",
+      "status": "PASS",
+      "duration_seconds": 0.16595308399701025,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[inverted-rank]",
+      "test_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[inverted-rank]",
+      "description": "Нарушение строгого parent rank отклоняется самой БД; причина дана в параметре.\n\nЭто исключает циклы/повтор типа при создании и делает typed object path\nоднозначным независимо от application валидации.",
+      "status": "PASS",
+      "duration_seconds": 0.1650452900066739,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[equal-rank]",
+      "test_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[equal-rank]",
+      "description": "Нарушение строгого parent rank отклоняется самой БД; причина дана в параметре.\n\nЭто исключает циклы/повтор типа при создании и делает typed object path\nоднозначным независимо от application валидации.",
+      "status": "PASS",
+      "duration_seconds": 0.17048141597479116,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[module-parent]",
+      "test_id": "tests/component/test_containers.py::test_parent_type_rank_is_strict[module-parent]",
+      "description": "Нарушение строгого parent rank отклоняется самой БД; причина дана в параметре.\n\nЭто исключает циклы/повтор типа при создании и делает typed object path\nоднозначным независимо от application валидации.",
+      "status": "PASS",
+      "duration_seconds": 0.16914470902702305,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_lifecycle_active_guards_child_first_purge_and_technical_cleanup",
+      "test_id": "tests/component/test_containers.py::test_lifecycle_active_guards_child_first_purge_and_technical_cleanup",
+      "description": "Container hard delete требует child-first и удалённых entities; tombstones/attrs/guards очищаются.\n\nАктивный subject не может быть физически удалён даже deployment записью.\nПосле soft delete его retained attrs purge вместе с holder; удаление модели\nи объекта чистит только собственные attrs, технический key guard не блокирует\nпустой holder и не сохраняет осиротевшие строки.",
+      "status": "PASS",
+      "duration_seconds": 0.2441090000065742,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_aggregate_cas_noop_case_rename_and_full_rollback",
+      "test_id": "tests/component/test_containers.py::test_aggregate_cas_noop_case_rename_and_full_rollback",
+      "description": "Container CAS охватывает attrs и key: no-op сохраняет revision, ошибка откатывает весь command.\n\nCase-only rename сохраняет ID и меняет оригинал/revision. Stale expected token\nне перезаписывает новую версию. При валидной первой attribute change и ошибке\nвторой change не остаётся ни нового instance, ни revision/key мутации.",
+      "status": "PASS",
+      "duration_seconds": 0.21458387598977424,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_protected_commands_require_serializable",
+      "test_id": "tests/component/test_containers.py::test_protected_commands_require_serializable",
+      "description": "Защищённый command отвергает READ COMMITTED до мутации; это не совет adapter.\n\nПроверка фиксирует DB boundary для административной transaction: приложение\nобязано запускать полную проверку/command в принятом SERIALIZABLE режиме.",
+      "status": "PASS",
+      "duration_seconds": 0.17636337397561874,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-parent]",
+      "test_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-parent]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.23509795700374525,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-type]",
+      "test_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-type]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.17296483399695717,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-id]",
+      "test_id": "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-id]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.16227533298661,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-empty]",
+      "test_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-empty]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.16848016598669346,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-length]",
+      "test_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-length]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.23360649999813177,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-ascii]",
+      "test_id": "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-ascii]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.17868029201054014,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[container]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[container]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.28606399898126256,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[subject]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[subject]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.2538299590087263,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[object]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[object]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.2374951259844238,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[model]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[model]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.3071099999942817,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[catalog]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[catalog]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.1731997919996502,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[reader]",
+      "test_id": "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[reader]",
+      "description": "Каждый LOGIN с единственным членством получает отказ DDL/TRUNCATE/прямой DML.\n\nПараметры описывают шесть ролей. Обход через SET ROLE не используется;\nсобственный test session не должен создавать даже временную таблицу.",
+      "status": "PASS",
+      "duration_seconds": 0.16754070699971635,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[container]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[container]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.26334274900727905,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[subject]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[subject]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.24395658299908973,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[object]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[object]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.16569695899670478,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[model]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[model]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.16938795901660342,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[catalog]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[catalog]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.17711716699704994,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[reader]",
+      "test_id": "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[reader]",
+      "description": "Вся доступная EXECUTE поверхность совпадает с явным allowlist выбранной роли.\n\nНеизвестные helpers/overloads и generic mutators запрещены. Четыре read-only\nисключения ASCII/digest/string/DN codec проверяются действительным вызовом.",
+      "status": "PASS",
+      "duration_seconds": 0.18460583401611075,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_public_execute_is_closed_and_all_definers_have_private_owner_and_fixed_path",
+      "test_id": "tests/component/test_database_roles.py::test_public_execute_is_closed_and_all_definers_have_private_owner_and_fixed_path",
+      "description": "PUBLIC не исполняет предметные функции, каждый SECURITY DEFINER защищён owner/path.\n\nПроверяются все функции мигрированной схемы, включая DN codec после0003;\nNOLOGIN owner и pg_catalog path исключают подмену через пользовательскую schema.",
+      "status": "PASS",
+      "duration_seconds": 0.16704641602700576,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_catalog_operator_cannot_change_entity_attributes",
+      "test_id": "tests/component/test_database_roles.py::test_catalog_operator_cannot_change_entity_attributes",
+      "description": "Оператор регистрирует общий attribute, но не меняет данные контейнера через SQL обход.\n\nОтказ narrow container command и generic helper оставляет integer value и\nowner revision прежними; глобальные catalog rights не означают владение данными.",
+      "status": "PASS",
+      "duration_seconds": 0.1954272909933934,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_database_roles.py::test_reader_views_keep_model_metadata_when_only_subject_is_tombstoned",
+      "test_id": "tests/component/test_database_roles.py::test_reader_views_keep_model_metadata_when_only_subject_is_tombstoned",
+      "description": "Reader видит model metadata и attrs при единственном tombstone субъекте держателя.\n\nActive subject/attribute views пусты, retained rows скрыты и недоступны напрямую;\nmetadata не превращается в empty из-за lifecycle чужой сущности.",
+      "status": "PASS",
+      "duration_seconds": 0.20201391600130592,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-printable]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-printable]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.16510454298986588,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-bmp]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-bmp]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008650208008475602,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-universal]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-universal]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008385084016481414,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-accent]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-accent]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008991873983177356,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-legacy-umlaut]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-legacy-umlaut]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.00876670797879342,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[historical-casefold]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[historical-casefold]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.010725582993472926,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[canonical-composition]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[canonical-composition]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.013259792001917958,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[compatibility-composition]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[compatibility-composition]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.01186250000318978,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[combining-order]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[combining-order]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.010512291992199607,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[hangul]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[hangul]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008334459009347484,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[mapped-to-nothing]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[mapped-to-nothing]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008856793006998487,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[nul-before-text]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[nul-before-text]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008854999992763624,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[insignificant-spaces]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[insignificant-spaces]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.00852391701482702,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[all-spaces]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[all-spaces]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.00791491600102745,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unicode32-correction]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unicode32-correction]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.007901166012743488,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[bidi-ignored]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[bidi-ignored]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.008122751009068452,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unknown-oid-string]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unknown-oid-string]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.007981123999343254,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[domain-component]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[domain-component]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.006651625997619703,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[empty-name]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[empty-name]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.005785040979390033,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[rdn-ava-order]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[rdn-ava-order]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.0079863330029184,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[opaque-der]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[opaque-der]",
+      "description": "Эквивалентные Name дают одинаковый DB key; русский смысл каждого вектора в параметре.\n\nПроверка нужна при поддержке разных ASN.1 encodings и исторических Unicode\nправил: строки нельзя сравнивать как произвольный RFC4514 текст или raw DER.",
+      "status": "PASS",
+      "duration_seconds": 0.006631001000641845,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[rdn-order]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[rdn-order]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.00786425000114832,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[ava-multiplicity]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[ava-multiplicity]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.007780791987897828,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[attribute-oid]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[attribute-oid]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.007872000001952983,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[space-before-mark]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[space-before-mark]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.008174082991899922,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[modern-correction-differs]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[modern-correction-differs]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.00788858300074935,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[domain-space]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[domain-space]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.007171041012043133,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-case]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-case]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.006669915994280018,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-versus-string]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-versus-string]",
+      "description": "Значимые различия Name сохраняют разные keys; каждый параметр поясняет инвариант.\n\nПроверка предотвращает ложное совпадение сертификатного DN и зарегистрированного\nзначения из-за потери порядка, OID, кратности либо иной версии Unicode.",
+      "status": "PASS",
+      "duration_seconds": 0.007649666993529536,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[empty-designation]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[empty-designation]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.0072992089844774455,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-g0]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-g0]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008397666999371722,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-locking]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-locking]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008569792000344023,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-right-half]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-right-half]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.00868837499001529,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-escape]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-escape]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.009083123979507945,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-control]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-control]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008693457988556474,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-escape]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-escape]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008805540986941196,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-control]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-control]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008812957006739452,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008514250002917834,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008397584009799175,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2r]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2r]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008226707999710925,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3r]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3r]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008029040996916592,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-eight-bit]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-eight-bit]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008294915984151885,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-seven-bit]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-seven-bit]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.00811191598768346,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-presentation]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-presentation]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008311999990837649,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[underline]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[underline]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008005457973922603,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-controls]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-controls]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008397415993385948,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-control-spaces]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-control-spaces]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.008612915000412613,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[control-designations]",
+      "test_id": "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[control-designations]",
+      "description": "Объявленные T61 состояния дают ожидаемый plain текст; случай описан по-русски.\n\nСопоставляется публичный DN key с UTF8, поэтому ISO2022 команды, CSI параметры\nи presentation markers не могут незаметно попасть в результат как символы.",
+      "status": "PASS",
+      "duration_seconds": 0.013569207018008456,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-input]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-input]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005856040996150114,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[indefinite-length]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[indefinite-length]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006033832993125543,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-length]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-length]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005585667022387497,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[trailing-data]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[trailing-data]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005641833005938679,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-rdn]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-rdn]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006057041988242418,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unsorted-set]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unsorted-set]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006979000012506731,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-oid]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-oid]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005730624994612299,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[truncated-oid]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[truncated-oid]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005847500011441298,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[extra-ava-field]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[extra-ava-field]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.005802790983580053,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-overlong]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-overlong]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.00652108401118312,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-surrogate]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-surrogate]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.00660441599029582,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-out-of-range]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-out-of-range]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.0063157909899018705,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-truncated]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-truncated]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006273874008911662,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[printable-alphabet]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[printable-alphabet]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006185626014485024,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-truncated]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-truncated]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006382291991030797,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-surrogate]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-surrogate]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006503915996290743,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-truncated]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-truncated]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.011523248991579749,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-out-of-range]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-out-of-range]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.0063677500147605315,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[private-use-prohibited]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[private-use-prohibited]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.007398833986371756,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unicode32-unassigned]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unicode32-unassigned]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.007380125010968186,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[replacement-prohibited]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[replacement-prohibited]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.007017165989964269,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-tag]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-tag]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.00640891601506155,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-ia5]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-ia5]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006635541983996518,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-integer]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-integer]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006200625008204952,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-boolean]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-boolean]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006339918021694757,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-bitstring]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-bitstring]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006278665998252109,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-escape]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-escape]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006439709002734162,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-accent]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-accent]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006724541992298327,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-double-accent]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-double-accent]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006791333013097756,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undefined-octet]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undefined-octet]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.00670183400507085,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-single-shift]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-single-shift]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006366042027366348,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undesignated]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undesignated]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006558541994309053,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-jis]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-jis]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.008297124979435466,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-mixed-jis-half]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-mixed-jis-half]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.0066214999969815835,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-csi]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-csi]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006389581991243176,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-invalid-csi]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-invalid-csi]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.0067809169995598495,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-unsupported-set]",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-unsupported-set]",
+      "description": "Повреждённый DER/encoding/preparation отвергается указанным SQLSTATE, без DER fallback.\n\nКаждый параметр задаёт русское объяснение конкретной ошибки. Такие отказы\nотличают некорректный сертификатный Name от корректного несовпадающего DN.",
+      "status": "PASS",
+      "duration_seconds": 0.006615709004108794,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_version_and_private_helpers_are_enforced",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_version_and_private_helpers_are_enforced",
+      "description": "Real fact reader вычисляет DN key через SECURITY DEFINER, без доступа к таблицам/helper.\n\nНеподдерживаемая версия отвергается, owner/search_path закреплены. SELECT ранее\nпоставленных views сохраняется после 0003; runtime не может подменить Unicode\nтаблицы или обойти единственный публичный codec entry point.",
+      "status": "PASS",
+      "duration_seconds": 0.024942918025772087,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_attribute_derivation_duplicate_guard_and_original_retention",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_attribute_derivation_duplicate_guard_and_original_retention",
+      "description": "Прямая DN value запись получает DB key; эквивалентный DER не создаёт второй set элемент.\n\nИсходный DER сохраняется, поддельный client key игнорируется. Неподдерживаемый\nDN rollback не оставляет value; один DN разрешено хранить в разных контейнерах.\nПроверка относится к настоящим constraints/triggers, а не Python comparator.",
+      "status": "PASS",
+      "duration_seconds": 0.017903915999340825,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_dn_codec.py::test_dn_disposable_downgrade_removes_data_and_closes_placeholder",
+      "test_id": "tests/component/test_dn_codec.py::test_dn_disposable_downgrade_removes_data_and_closes_placeholder",
+      "description": "Разрешённый disposable rollback 0003 удаляет DN данные и возвращает закрытый placeholder.\n\nОстальные 0002 views сохраняются; повторный upgrade вновь устанавливает codec\nи позволяет сравнивать DN. Используется своя БД, чтобы не менять vectors fixture.",
+      "status": "PASS",
+      "duration_seconds": 0.35685604200989474,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_upgrade_empty_disposable_database",
+      "test_id": "tests/component/test_migrations.py::test_upgrade_empty_disposable_database",
+      "description": "На пустой отдельной БД upgrade создаёт основу, stable BIGINT ID и закрытые ACL.\n\nПроверка применяется к первой поставке: migration head, все предметные\nсхемы/owner pairs и генерация идентичности должны существовать в настоящем\nPostgreSQL. Metadata модели не должна получать payload или reference columns.",
+      "status": "PASS",
+      "duration_seconds": 0.1815420820057625,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_repeated_upgrade_head_preserves_existing_rows",
+      "test_id": "tests/component/test_migrations.py::test_repeated_upgrade_head_preserves_existing_rows",
+      "description": "Повторный upgrade head не создаёт схемы заново и сохраняет существующий root.\n\nПри уже применённой revision повторная deployment-команда должна оставаться\nбезопасной: OID таблицы, ID/данные строки и единственный Alembic head прежние.",
+      "status": "PASS",
+      "duration_seconds": 0.17221945799246896,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_disposable_downgrade_and_upgrade_restore_closed_rights",
+      "test_id": "tests/component/test_migrations.py::test_disposable_downgrade_and_upgrade_restore_closed_rights",
+      "description": "Явный downgrade удаляет только foundation схемы; upgrade восстанавливает закрытые права.\n\nПроверка разрешена только для собственной одноразовой БД. Повторная поставка\nне должна открывать PUBLIC EXECUTE, runtime DML или менять NOLOGIN group roles.\nСохранение cluster roles позволяет не затронуть другую тестовую БД.",
+      "status": "PASS",
+      "duration_seconds": 0.3713281660020584,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_unknown_schema_is_rejected_without_losing_user_data",
+      "test_id": "tests/component/test_migrations.py::test_unknown_schema_is_rejected_without_losing_user_data",
+      "description": "Неизвестная пользовательская таблица блокирует baseline без потери её строки.\n\nСлучай защищает от случайной инициализации занятой БД: миграция должна\nоткатиться до создания предметных схем и не удалять чужие данные.",
+      "status": "PASS",
+      "duration_seconds": 0.053952291011228226,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_catalog_operator]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_catalog_operator]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.17511891601316165,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_container_service]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_container_service]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.18186079199949745,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_fact_reader]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_fact_reader]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.17876212499686517,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_object_service]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_object_service]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.1826272920006886,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_policy_service]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_policy_service]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.19118716700177174,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_subject_service]",
+      "test_id": "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_subject_service]",
+      "description": "Каждый отдельный runtime LOGIN получает отказ DDL/DML/EXECUTE в закрытой основе.\n\nПараметры: container_service — контейнеры, subject_service — субъекты,\nobject_service — объекты, policy_service — metadata моделей,\ncatalog_operator — каталоги, fact_reader — подготовленные факты.\nВо всех шести случаях LOGIN имеет только соответствующий group membership,\nбез deployment полномочий. Пока protected APIs не поставлены, даже каталоговая\nи reader роли не должны обходить закрытые ACL прямой записью или функцией.",
+      "status": "PASS",
+      "duration_seconds": 0.1816487090109149,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_downgrade_requires_explicit_disposable_safeguard",
+      "test_id": "tests/component/test_migrations.py::test_downgrade_requires_explicit_disposable_safeguard",
+      "description": "CLI и прямой Alembic downgrade без disposable safeguard сохраняют основу.\n\nПроверка предотвращает обход ограничения через Python Alembic API:\nотсутствие config flag должно отклоняться самой revision, а не только CLI.",
+      "status": "PASS",
+      "duration_seconds": 0.20817195900599472,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_shapes_upgrade_preserves_existing_catalog_and_values",
+      "test_id": "tests/component/test_migrations.py::test_shapes_upgrade_preserves_existing_catalog_and_values",
+      "description": "Заполненная 0003 переходит к shapes без изменения IDs/values/revisions/views/ACL и DN keys.\n\nСодержит все families и native types, empty sets и retained tombstone.\nПроверяются one-shape-per-definition map, точные структурные ссылки и\nнеизменность повторного head upgrade; новый fixture с одной head этого не доказывает.",
+      "status": "PASS",
+      "duration_seconds": 0.4105169590038713,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_shapes_upgrade_failure_rolls_back_schema_and_data",
+      "test_id": "tests/component/test_migrations.py::test_shapes_upgrade_failure_rolls_back_schema_and_data",
+      "description": "Ошибка после фактического создания shapes, но до commit возвращает целую заполненную 0003.\n\nTest-only SQLAlchemy callback прерывает настоящий migration execution после\nDDL; затем отдельный blocker воспроизводит lock_timeout. Исходные SQL/resources\nне меняются. Сверка включает данные, columns, constraints, routines,\nview ACL/OID и прежнюю Alembic revision после каждого отказа.",
+      "status": "PASS",
+      "duration_seconds": 0.511849375005113,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_shapes_disposable_downgrade_restores_previous_contract",
+      "test_id": "tests/component/test_migrations.py::test_shapes_disposable_downgrade_restores_previous_contract",
+      "description": "Filled new→0003→head сохраняет старые факты и DN, явно теряя shape key/id/sharing.\n\nСначала добавляются две definitions с общей именованной формой и values;\nreverse разрешён только disposable flag. После нового upgrade каждая\ndefinition получает собственный migrated shape без обещания восстановления UI metadata.",
+      "status": "PASS",
+      "duration_seconds": 0.527472999994643,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_migrations.py::test_shapes_downgrade_without_disposable_safeguard_preserves_state",
+      "test_id": "tests/component/test_migrations.py::test_shapes_downgrade_without_disposable_safeguard_preserves_state",
+      "description": "Прямой Alembic reverse без disposable flag отклоняется до изменения заполненной head.\n\nПроверяется bypass CLI: semantic snapshots, raw shape rows, pin-ссылки,\nschema signatures и revision после отказа должны полностью сохраниться.",
+      "status": "PASS",
+      "duration_seconds": 0.3847528749902267,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_metadata_view_survives_subject_tombstone_and_delete_keeps_other_entities",
+      "test_id": "tests/component/test_model_metadata.py::test_model_metadata_view_survives_subject_tombstone_and_delete_keeps_other_entities",
+      "description": "Модель хранит только metadata/attrs и видна независимо от tombstone другого subject.\n\nHard delete модели очищает собственные attrs и оставляет subjects/objects.\nПроверка не вводит отложенные privileges/actions/references или fake payload.",
+      "status": "PASS",
+      "duration_seconds": 0.1861871669825632,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_key_case_insensitive_uniqueness_is_holder_local",
+      "test_id": "tests/component/test_model_metadata.py::test_model_key_case_insensitive_uniqueness_is_holder_local",
+      "description": "Model key CI уникален у holder, сохраняет spelling и допускает512 ASCII characters.\n\nТот же key у другого holder разрешён; case-only duplicate в одном holder\nотклоняется. Проверка относится к metadata identity, без model internals.",
+      "status": "PASS",
+      "duration_seconds": 0.16904924999107607,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-holder]",
+      "test_id": "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-holder]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.17745041697344277,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-key]",
+      "test_id": "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-key]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.17488512601994444,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-length]",
+      "test_id": "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-length]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.17256087499845307,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-alphabet]",
+      "test_id": "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-alphabet]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.15884700101742055,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_unbounded_exact_keys_remain_collision_safe",
+      "test_id": "tests/component/test_objects.py::test_object_unbounded_exact_keys_remain_collision_safe",
+      "description": "Очень длинные object TEXT keys сохраняются, а hash collision не отвергает разные ключи.\n\nТолько в своей disposable БД trusted digest helper заменён постоянным hash:\nоба разных ключа обязаны сохраниться в одном bucket, точный duplicate обязан\nполучить unique violation. Это проверяет реальный guard, не вероятность SHA256.",
+      "status": "PASS",
+      "duration_seconds": 0.176876290992368,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+      "test_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+      "description": "Два независимых writer с заранее открытыми snapshots не создают duplicate object.\n\nBarrier открывает оба чтения до первого commit, второй INSERT идёт после него.\nRC обязан вернуть unique violation, RR/SERIALIZABLE — serialization failure:\nстарый snapshot не даёт обойти holder/bucket MVCC fencing.",
+      "status": "PASS",
+      "duration_seconds": 0.18421804100216832,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+      "test_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+      "description": "Два независимых writer с заранее открытыми snapshots не создают duplicate object.\n\nBarrier открывает оба чтения до первого commit, второй INSERT идёт после него.\nRC обязан вернуть unique violation, RR/SERIALIZABLE — serialization failure:\nстарый snapshot не даёт обойти holder/bucket MVCC fencing.",
+      "status": "PASS",
+      "duration_seconds": 0.17496624898922164,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+      "test_id": "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+      "description": "Два независимых writer с заранее открытыми snapshots не создают duplicate object.\n\nBarrier открывает оба чтения до первого commit, второй INSERT идёт после него.\nRC обязан вернуть unique violation, RR/SERIALIZABLE — serialization failure:\nстарый snapshot не даёт обойти holder/bucket MVCC fencing.",
+      "status": "PASS",
+      "duration_seconds": 0.1670860830199672,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-holder]",
+      "test_id": "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-holder]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.15627516600943636,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-key]",
+      "test_id": "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-key]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.15399779099971056,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-empty]",
+      "test_id": "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-empty]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.1629992499947548,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-control]",
+      "test_id": "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-control]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.153039249998983,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_exact_keys_type_scope_and_tombstone_restore",
+      "test_id": "tests/component/test_subjects.py::test_subject_exact_keys_type_scope_and_tombstone_restore",
+      "description": "Subject identity точна по Unicode, holder/type; tombstone резервирует ключ и восстанавливает ID.\n\nSoft delete удерживает attrs, скрывает active view и повышает aggregate revision.\nСоздание fresh ID запрещено; restore с исходным актуальным CAS возвращает тот\nже ID/type/key/holder, stale CAS не меняет состояние.",
+      "status": "PASS",
+      "duration_seconds": 0.18733616601093672,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[restore-first]",
+      "test_id": "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[restore-first]",
+      "description": "Restore и hard container delete из старых snapshot имеют единственного победителя.\n\nДва независимых SERIALIZABLE соединения читают до первого commit. Проигравший\nполучает40001, а повтор с новым snapshot сохраняет исходный CAS и возвращает\nактивный blocker либо NotFound. Нельзя восстановить уже purged tombstone.",
+      "status": "PASS",
+      "duration_seconds": 0.1915202080126619,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[purge-first]",
+      "test_id": "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[purge-first]",
+      "description": "Restore и hard container delete из старых snapshot имеют единственного победителя.\n\nДва независимых SERIALIZABLE соединения читают до первого commit. Проигравший\nполучает40001, а повтор с новым snapshot сохраняет исходный CAS и возвращает\nактивный blocker либо NotFound. Нельзя восстановить уже purged tombstone.",
+      "status": "PASS",
+      "duration_seconds": 0.1961697909864597,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-holder]",
+      "test_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-holder]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.18004608400224242,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-type]",
+      "test_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-type]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.16569258300296497,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-key]",
+      "test_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-key]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.16621070899418555,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-id]",
+      "test_id": "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-id]",
+      "description": "Прямая UPDATE попытка изменить identity получает отказ, даже с deployment соединением.\n\nКаждый параметр описывает защищённое поле. Проверка подтверждает DB enforcement,\nа не только отсутствие поля в публичном application DTO.",
+      "status": "PASS",
+      "duration_seconds": 0.17059912500553764,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-length]",
+      "test_id": "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-length]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.1921434579853667,
+      "error": null
+    },
+    {
+      "node_id": "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-control]",
+      "test_id": "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-control]",
+      "description": "Недопустимый key отклоняется DB CHECK; различия политики перечислены в параметрах.\n\nПрямая запись обходит adapters, поэтому отказ доказывает сохранение принятой\nidentity политики при любой будущей command implementation.",
+      "status": "PASS",
+      "duration_seconds": 0.17512966801587027,
+      "error": null
+    }
+  ],
+  "collected_node_ids": [
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[integer]",
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[decimal-scale]",
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[boolean]",
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[date]",
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[instant-offset]",
+    "tests/component/test_attribute_equality.py::test_native_set_equality_is_exact_and_not_hash_unique[large-decimal]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-canonical]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[exact-case]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-expansion]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-canonical]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-spaces]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[d145-not-nfkc]",
+    "tests/component/test_attribute_equality.py::test_string_set_profiles_preserve_declared_equality[long-text]",
+    "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+    "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+    "tests/component/test_attribute_equality.py::test_set_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+    "tests/component/test_attribute_shapes.py::test_shape_registration_contracts_and_keys",
+    "tests/component/test_attribute_shapes.py::test_unused_shape_whole_row_immutability",
+    "tests/component/test_attribute_shapes.py::test_shared_shape_whole_row_immutability",
+    "tests/component/test_attribute_shapes.py::test_instance_shape_composite_fks_all_owner_families",
+    "tests/component/test_attribute_shapes.py::test_instance_required_shape_references_all_owner_families",
+    "tests/component/test_attribute_shapes.py::test_value_fk_and_check_all_owner_families",
+    "tests/component/test_attribute_shapes.py::test_instance_identity_and_assignment_uniqueness_all_owner_families",
+    "tests/component/test_attribute_shapes.py::test_scalar_cardinality_all_owner_families",
+    "tests/component/test_attribute_shapes.py::test_instance_delete_cascades_values_preserving_shared_shape",
+    "tests/component/test_attribute_shapes.py::test_shape_is_only_physical_comparison_source",
+    "tests/component/test_attribute_shapes.py::test_legacy_catalog_wrappers",
+    "tests/component/test_attribute_shapes.py::test_dn_applicability_and_bind_share_definition_lock",
+    "tests/component/test_attribute_shapes.py::test_instance_create_and_bind_keep_exact_shape_under_both_orders",
+    "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[container]",
+    "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[subject]",
+    "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[object]",
+    "tests/component/test_attributes_schema.py::test_attribute_owner_fk_applicability_and_empty_set[model]",
+    "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[container]",
+    "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[subject]",
+    "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[object]",
+    "tests/component/test_attributes_schema.py::test_scalar_exactly_one_is_deferred_and_instance_delete_cascades[model]",
+    "tests/component/test_attributes_schema.py::test_attribute_type_null_profile_and_used_semantics_cannot_be_changed",
+    "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[container]",
+    "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[subject]",
+    "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[object]",
+    "tests/component/test_attributes_schema.py::test_protected_attribute_command_roundtrip_and_aggregate_revision[model]",
+    "tests/component/test_bootstrap.py::test_deployment_executor_can_provision_root_without_dn",
+    "tests/component/test_bootstrap.py::test_initial_root_and_trusted_dn_commit_as_one_aggregate",
+    "tests/component/test_bootstrap.py::test_invalid_dn_rolls_back_root_and_preceding_attribute_changes",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[container]",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[subject]",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[object]",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[model]",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[catalog]",
+    "tests/component/test_bootstrap.py::test_catalog_and_runtime_logins_cannot_provision_initial_root[reader]",
+    "tests/component/test_bootstrap.py::test_container_runtime_cannot_convert_create_child_to_root_creation",
+    "tests/component/test_containers.py::test_forest_typed_case_insensitive_uniqueness_and_root_scope",
+    "tests/component/test_containers.py::test_parent_type_rank_is_strict[inverted-rank]",
+    "tests/component/test_containers.py::test_parent_type_rank_is_strict[equal-rank]",
+    "tests/component/test_containers.py::test_parent_type_rank_is_strict[module-parent]",
+    "tests/component/test_containers.py::test_lifecycle_active_guards_child_first_purge_and_technical_cleanup",
+    "tests/component/test_containers.py::test_aggregate_cas_noop_case_rename_and_full_rollback",
+    "tests/component/test_containers.py::test_protected_commands_require_serializable",
+    "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-parent]",
+    "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-type]",
+    "tests/component/test_containers.py::test_container_identity_is_immutable_in_database[container-id]",
+    "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-empty]",
+    "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-length]",
+    "tests/component/test_containers.py::test_container_key_contracts_cannot_be_bypassed[container-ascii]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[container]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[subject]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[object]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[model]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[catalog]",
+    "tests/component/test_database_roles.py::test_each_native_login_cannot_execute_ddl_truncate_or_broad_dml[reader]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[container]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[subject]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[object]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[model]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[catalog]",
+    "tests/component/test_database_roles.py::test_execute_allowlist_closes_internal_mutators_and_exposes_safe_readonly_codecs[reader]",
+    "tests/component/test_database_roles.py::test_public_execute_is_closed_and_all_definers_have_private_owner_and_fixed_path",
+    "tests/component/test_database_roles.py::test_catalog_operator_cannot_change_entity_attributes",
+    "tests/component/test_database_roles.py::test_reader_views_keep_model_metadata_when_only_subject_is_tombstoned",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-printable]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-bmp]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[utf8-universal]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-accent]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[t61-legacy-umlaut]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[historical-casefold]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[canonical-composition]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[compatibility-composition]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[combining-order]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[hangul]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[mapped-to-nothing]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[nul-before-text]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[insignificant-spaces]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[all-spaces]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unicode32-correction]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[bidi-ignored]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[unknown-oid-string]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[domain-component]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[empty-name]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[rdn-ava-order]",
+    "tests/component/test_dn_codec.py::test_dn_matching_equivalent_vectors[opaque-der]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[rdn-order]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[ava-multiplicity]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[attribute-oid]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[space-before-mark]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[modern-correction-differs]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[domain-space]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-case]",
+    "tests/component/test_dn_codec.py::test_dn_matching_preserves_significant_distinctions[opaque-versus-string]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[empty-designation]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-g0]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-locking]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ir87-right-half]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-escape]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss2-control]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-escape]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ss3-control]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls2r]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[ls3r]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-eight-bit]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-sgr-seven-bit]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[csi-presentation]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[underline]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-controls]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[mapped-control-spaces]",
+    "tests/component/test_dn_codec.py::test_t61_stateful_transcode_vectors[control-designations]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-input]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[indefinite-length]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-length]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[trailing-data]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[empty-rdn]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unsorted-set]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[nonminimal-oid]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[truncated-oid]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[extra-ava-field]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-overlong]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-surrogate]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-out-of-range]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[utf8-truncated]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[printable-alphabet]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-truncated]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[bmp-surrogate]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-truncated]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[universal-out-of-range]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[private-use-prohibited]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[unicode32-unassigned]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[replacement-prohibited]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-tag]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[domain-ia5]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-integer]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-boolean]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[opaque-bitstring]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-escape]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-accent]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-double-accent]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undefined-octet]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-pending-single-shift]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-undesignated]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-jis]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-mixed-jis-half]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-truncated-csi]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-invalid-csi]",
+    "tests/component/test_dn_codec.py::test_dn_rejects_malformed_or_unpreparable_values[t61-unsupported-set]",
+    "tests/component/test_dn_codec.py::test_dn_version_and_private_helpers_are_enforced",
+    "tests/component/test_dn_codec.py::test_dn_attribute_derivation_duplicate_guard_and_original_retention",
+    "tests/component/test_dn_codec.py::test_dn_disposable_downgrade_removes_data_and_closes_placeholder",
+    "tests/component/test_migrations.py::test_upgrade_empty_disposable_database",
+    "tests/component/test_migrations.py::test_repeated_upgrade_head_preserves_existing_rows",
+    "tests/component/test_migrations.py::test_disposable_downgrade_and_upgrade_restore_closed_rights",
+    "tests/component/test_migrations.py::test_unknown_schema_is_rejected_without_losing_user_data",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_catalog_operator]",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_container_service]",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_fact_reader]",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_object_service]",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_policy_service]",
+    "tests/component/test_migrations.py::test_real_runtime_login_cannot_execute_ddl_or_broad_dml[tamarix_subject_service]",
+    "tests/component/test_migrations.py::test_downgrade_requires_explicit_disposable_safeguard",
+    "tests/component/test_migrations.py::test_shapes_upgrade_preserves_existing_catalog_and_values",
+    "tests/component/test_migrations.py::test_shapes_upgrade_failure_rolls_back_schema_and_data",
+    "tests/component/test_migrations.py::test_shapes_disposable_downgrade_restores_previous_contract",
+    "tests/component/test_migrations.py::test_shapes_downgrade_without_disposable_safeguard_preserves_state",
+    "tests/component/test_model_metadata.py::test_model_metadata_view_survives_subject_tombstone_and_delete_keeps_other_entities",
+    "tests/component/test_model_metadata.py::test_model_key_case_insensitive_uniqueness_is_holder_local",
+    "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-holder]",
+    "tests/component/test_model_metadata.py::test_model_identity_is_immutable_in_database[model-key]",
+    "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-length]",
+    "tests/component/test_model_metadata.py::test_model_key_contracts_cannot_be_bypassed[model-alphabet]",
+    "tests/component/test_objects.py::test_object_unbounded_exact_keys_remain_collision_safe",
+    "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[read-committed]",
+    "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[repeatable-read]",
+    "tests/component/test_objects.py::test_object_duplicate_prevention_with_old_concurrent_snapshot[serializable]",
+    "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-holder]",
+    "tests/component/test_objects.py::test_object_identity_is_immutable_in_database[object-key]",
+    "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-empty]",
+    "tests/component/test_objects.py::test_object_key_contracts_cannot_be_bypassed[object-control]",
+    "tests/component/test_subjects.py::test_subject_exact_keys_type_scope_and_tombstone_restore",
+    "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[restore-first]",
+    "tests/component/test_subjects.py::test_restore_and_container_purge_serialize_on_holder[purge-first]",
+    "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-holder]",
+    "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-type]",
+    "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-key]",
+    "tests/component/test_subjects.py::test_subject_identity_is_immutable_in_database[subject-id]",
+    "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-length]",
+    "tests/component/test_subjects.py::test_subject_key_contracts_cannot_be_bypassed[subject-control]"
+  ],
+  "errors": [],
+  "status": "PASS",
+  "complete": true,
+  "returncode": 0,
+  "provenance": {
+    "repository": "db-control",
+    "commit": "90e59d2caa23ebb684f4f9dbe5c45c882270a817",
+    "clean": true,
+    "source_hashes": {
+      "src/db_control/__init__.py": "6ec8eb1c9848a4218fc6ffab853b5cdb643abafd0cb7c7706a177933c0d232d5",
+      "src/db_control/__main__.py": "5b2213ab4b7b21b9621a81496bbba407573e635b57348419bb9816b3aa28f15e",
+      "src/db_control/cli.py": "b70e9d1d05b4acd08a695fc61ad871920afd01cc6ca1e6c076cc0db07351cc6c",
+      "src/db_control/contracts.py": "6cef10769a2a9c56ef065026574db5b632bdf51c5494db62b899c4ad08aec09f",
+      "src/db_control/migrations/env.py": "1d18834f36e748f3bc4b72b9965576906ff4efde123f05ac3b329f0bb5b7120e",
+      "src/db_control/migrations/versions/20261015_0001_foundation.py": "4e50a7999446846dc74f1447f36e1e6a46b84f2ce6d3799512628515ddb338fb",
+      "src/db_control/migrations/versions/20261015_0002_storage.py": "b6a957d596d902afb07e8c998719165e4d2dd9cd74bf3d3557a80979201848da",
+      "src/db_control/migrations/versions/20261015_0003_dn_codec.py": "c631ed91e009445a2091e47fab42a2825d3d5d23882770527075c7654501d912",
+      "src/db_control/migrations/versions/20261016_0004_attribute_shapes.py": "76bc87eadf458fec7686b1a4183c03dc3306e2eecb29f1f1ac14c2ed34eed3fe"
+    },
+    "resource_hashes": {
+      "src/db_control/sql/0001_foundation.sql": "b5fc361110784ef9a84be457fe9a62fb2ac8d37ac8e336445687a0e0991ed61a",
+      "src/db_control/sql/0002_storage.sql": "717cef4855902d33af562f3ffb1a68efd057eafe80c1545dccae9880180473e4",
+      "src/db_control/sql/0002_storage_down.sql": "18011e8f2b70c665e9c95df428ada5753dec7e5ea3a3b2df9ef28ae9a4dfd899",
+      "src/db_control/sql/0004_attribute_shapes.sql": "5a05336a24174b5371a9d47817bf58173c8ec49de1b999b0d3464653beacd618",
+      "src/db_control/sql/0004_attribute_shapes_down.sql": "f254552cc2816960824b1992dda1b17fdc295c89cce0d326b03a6364d1412c6d",
+      "src/db_control/sql/dn_codec.sql": "806fd926afb2612c3300f68e141c310b1259d4e9b380f7c5df41dfaed6894136",
+      "src/db_control/sql/dn_codec_down.sql": "ad09700726177093097422334b71650d0b461420a22436b7e9a5e464603e8914",
+      "src/db_control/sql/dn_tables.sql": "e8f5c258ae5e6b50275f38f83d0c9aca17429c117164d0a5664951d2da2d2524",
+      "src/db_control/sql/dn_unicode32_data.sql": "b88ef47244084576e04cfbaaf530c783628f07951243ee36fc180e7dede70ff1"
+    },
+    "test_hashes": {
+      "tests/component/__init__.py": "ee70496ead48ddfcb9fd1fd0ffa56c5b75ab70d53b610d8f328bd7f5e350ce88",
+      "tests/component/support.py": "a5fcef5997ec701b7172ab480edf39c4825469ea9a3e26e15795f005af518455",
+      "tests/component/test_attribute_equality.py": "1adf93c747ebc37953cdd15265ca895d4cd537692c7f58d69f36d55327806628",
+      "tests/component/test_attribute_shapes.py": "fad60f3092aa043ac6ace17769857cbef4c38771d1d940e22d33fdd07abfb4ff",
+      "tests/component/test_attributes_schema.py": "c4fe3b87a442e39d216f826055da7de82cbd568da49735057431b27232a9755a",
+      "tests/component/test_bootstrap.py": "abce3bdcf43d4a336e97c38297b9003c16745382816da4020d3cd31c488329a2",
+      "tests/component/test_containers.py": "83923b2fd330a56a77a003478c563b3d3ec4e066bc1dfe03a43fd31f097cdfc0",
+      "tests/component/test_database_roles.py": "c3a7aefdd9c2a8321c75bebbeeeed103b21b8826071c4ed88ea95ff107be6438",
+      "tests/component/test_dn_codec.py": "1bc381ecbd29ea76291b2a3c527590ccda1c44d7bfd16b7741b816ec382bde2e",
+      "tests/component/test_migrations.py": "59d188ed3d4563119b0ded0acc018756fba7085e064ff6fcfa12f8e6ff49f400",
+      "tests/component/test_model_metadata.py": "3e5b669757e6b614e75205bafe95fb25bab0c1f9ee14d1243f843391233ba07a",
+      "tests/component/test_objects.py": "98f14e09e29d3f6d6920dc8bbd25220ae167695a2e028ee53ae198e83168706a",
+      "tests/component/test_subjects.py": "1940566ef4fe093b3b7e805cb6d3aade16d2fc7a55ccb556b4a477a327d9565b",
+      "tests/test_contracts.py": "26b6106dac405575b66e10760d71300c748b2c0ac3da2c5d71b116c83d5bdff4",
+      "tests/test_deployment_cli.py": "f877c54d114cd18fe8521a87c66a479faeaa34962e69ca74f434332f74a55f36",
+      "tests/test_reporting.py": "2c5b20874d0181d80a637873fa92717057ffd979f492aff87d93dba53c64e4e9",
+      "tools/run_tests.py": "133c5a10492a04c0555a24dc4ea4ee60685fb5ea9624d20cabb1c98872fc124a"
+    }
+  }
+}

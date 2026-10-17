@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "run_id": "9aa7e003f633449cb4e04b92db79abd2",
+  "files": {
+    "results.json": "c0f932e61bd789bf401fbaa7bf5e5d00c116c0326a5f1bb6695e9c4a07d09425",
+    "summary.md": "24f29127270a7ad5eb93a975fac920f4311afecd661b89577f448293fcf0ef83",
+    "pytest.log": "87c4c84a722c22a7a053111150b54370a8b4638285e760f5105d38b318aea9af",
+    "junit.xml": "235feca0c9854afe718e092e2e68defcee063fb9e0e9f862051151f6ff679297"
+  }
+}

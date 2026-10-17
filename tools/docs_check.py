@@ -18,6 +18,7 @@ MERMAID_PAGES = {"docs/architecture.md", "docs/services.md", "docs/database.md"}
 GENERATED_FILES = {
     "docs-review.json", "docs-snapshot.json", "run-results.json", "run-manifest.json", "run-summary.md",
     "regression-registry.yaml", "regression-evidence.json", "archive-gate-check.json", "archive-completion.json",
+    "component-evidence.json", "component-results.json", "component-summary.md",
 }
 SOURCE_REPOS = {
     "container-adm-api", "entity-subject-adm-api", "entity-object-adm-api", "policy-adm-api",

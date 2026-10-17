@@ -6,6 +6,17 @@ review всех её разделов и предоставить готовый
 распространяются и на tooling/docs-only changes без предметных delta specs.
 Обёртка и CI проверяют предоставленные файлы; тесты и генерацию текста они не запускают.
 
+Для component-only критериев допускается дополнительный комплект в change:
+`component-evidence.json`, `component-results.json`, `component-summary.md`.
+Raw component PASS должен содержать снятые до collection commit/clean/source,
+resource и test hashes и подтверждение неизменности после выполнения. Commit,
+runtime source/resources и Python/package versions совпадают с integration
+manifest.db_control; evidence связывает точные THEN с реальными PASS node IDs,
+русскими описаниями и immutable test source snapshots. Это дополняет покрытие
+критериев, сохраняя обязательность полного integration/regression отчёта.
+Неполный, подменённый или устаревший bundle отклоняется; archive фиксирует
+его hashes и проверяет snapshots без обращения к изменившемуся checkout.
+
 ## Документация и review
 
 В `docs/` обязательны восемь страниц: `README.md`, `architecture.md`, `domains.md`,
@@ -66,7 +77,8 @@ python3 tools/docs_check.py prepare --change CHANGE --base-ref BASE_SHA
 Из хэшей change исключены только генерируемые gate-файлы: `docs-review.json`, `docs-snapshot.json`,
 `run-results.json`, `run-manifest.json`, `run-summary.md`,
 `regression-registry.yaml`, `regression-evidence.json`, `archive-gate-check.json`,
-`archive-completion.json`; `.DS_Store` игнорируется. Пути отсчитываются от change,
+`archive-completion.json`, а также `component-evidence.json`,
+`component-results.json`, `component-summary.md`; `.DS_Store` игнорируется. Пути отсчитываются от change,
 поэтому перенос в archive не меняет snapshot.
 
 Изменение любого исходного артефакта change или docs после review делает evidence
@@ -118,6 +130,51 @@ Wrapper сохраняет report/manifest/registry/русскую сводку 
 `.archive-operations/<id>.json` позволяет продолжить частичный delta merge или
 перенос без второго archive. Изменившиеся report/review требуют нового operation ID;
 изменившиеся test/service revisions требуют нового прогона.
+
+## Автоматическая доставка после archive
+
+После подтверждённого `state=complete` команда `archive` вызывает CD-owned
+[post_archive.py](../../../TamarixCD/ci/post_archive.py), если существует локальная
+конфигурация `../../TamarixCD/artifacts/post-archive.json` относительно store.
+Её подключение включает доставку для следующих вызовов archive CLI; файл находится
+в игнорируемых эксплуатационных artifacts. Для другого файла передайте
+`--post-archive-config /absolute/path/post-archive.json`. Отсутствующий файл по
+умолчанию даёт `deployment.status=NOT_CONFIGURED` без обращения к CD: store-only
+checkout сохраняет прежний workflow. Если путь задан явно и файл отсутствует,
+CLI возвращает ошибку после завершённого archive: запрошенная доставка не
+пропускается молча. Формат и подготовка конфигурации описаны в
+[TamarixCD](../../../TamarixCD/README.md).
+
+Hook получает путь `.archive-operations/<id>.json` и запускает CD через argv,
+без shell. Он вызывается после нового archive и после обеих веток продолжения
+той же операции. Команды `check`, `validate-archives` и Python-функция `archive()`
+доставку не запускают. Прямой `openspec archive` проектный CLI не вызывает,
+поэтому автоматической раскатки через этот обход нет.
+
+CD использует сохранённые commits архивного manifest: сначала готовит сборку,
+затем адресно останавливает пять сервисов, сохраняет backup и fingerprint прежних
+данных, применяет forward migrations через db-control, проверяет данные и
+readiness, запускает новые контейнеры и проверяет health. Тесты и новый regression
+report при этом не создаются. Успешный результат gate содержит отдельное поле
+`deployment` с подтверждённым CD `status=PASS`.
+
+Сбой CD, ненулевой exit или некорректный JSON возвращают ошибку CLI:
+«Archive завершён, post-archive rollout …». Завершённый archive record остаётся
+`complete`, а доставка сохраняет независимый status/journal и report каждой
+попытки в TamarixCD. В ошибке указывается существующий CD report; сырой stderr
+не пересылается. Повторите ту же archive команду с прежним operation ID:
+archive повторно не переносится, CD продолжает незавершённые шаги. Изменившиеся
+входы требуют новой операции; завершённая доставка проверяет live состояние
+без повторного рестарта. Автоматического downgrade или восстановления из dump
+нет: после сбоя forward migration используйте сохранённый backup и явное
+решение о recovery.
+
+Архивные report/manifest/review/snapshots не обновляются результатами доставки.
+Новые CD отчёты хранятся отдельно и связываются с исходной archive operation;
+исторический PASS подтверждает проверенные версии до archive, rollout report —
+фактически поставленные версии и состояние среды. Само изменение hook/CD кода
+меняет проверяемый CD commit и требует актуального regression evidence перед
+следующим archive.
 
 ## CI и исторические архивы
 

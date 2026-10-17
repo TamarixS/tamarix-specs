@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "change": "t-5-persistant-change-1",
+  "base_commit": "6882ec9b9af212dda8effb3017bfac0473bbc2a1",
+  "change_sha256": {
+    ".openspec.yaml": "9cfa2ab963a8c9b58eecdb9fd5b55544e988fee8de8b887226ffc32d27744459",
+    "design.md": "46036d90d42d813f6eebcb409532bf4cabd21a3d3e0cdb6f85883108fc37e187",
+    "proposal.md": "a5913db63a000dddaece081b9a63fc741904d41c6f408b7e3e80fb909f85df8f",
+    "requirements.md": "1843e5d16393ec12a40d78cae091fd374b424b8612c328ce8aa21e493982a4af",
+    "specs/attributes/spec.md": "59a704e5ad23d1a19172bc5929fd822bd853c6354994d809da6cf00e5f7e9099",
+    "tasks.md": "356eb5b1562903ed73316d0fe1fb2251de51df4781ee969f4acc71a052d8fc39",
+    "verification/integration-20261016T132240-925d0021ad54/junit.xml": "8e728fc3c4686ebc913714724cc67bc3d9a6dfe27e694ea1923d3ae7e2649cfb",
+    "verification/integration-20261016T132240-925d0021ad54/manifest.json": "797350024df83a807f79f73ca5b5a6b2da7d18cefed44d5e095e1293c6e27ac4",
+    "verification/integration-20261016T132240-925d0021ad54/pytest.log": "853e7c932ffbb51c98227b32fe725538b5048c1800a7a55f39802a656c3b9dcf",
+    "verification/integration-20261016T132240-925d0021ad54/results.json": "56e8f2ecb6be4c9217eb1887db2528e9b302676d08d0fdd01cbd26316849339f",
+    "verification/integration-20261016T132240-925d0021ad54/summary.md": "ea92f4e60deb97c1ceed5927ecb5bd553f0657f5ea2c2d070be707dcb45ec114",
+    "verification/tooling-20261016T131239-7fc0c344/junit.xml": "46b2c34f49cd3518f6500f71c468636c10bc9954a10f1bac7a87b6fc3b3fc4eb",
+    "verification/tooling-20261016T131239-7fc0c344/pytest.log": "dd36716303f374b40b1beac6c68fad4a8076d688e497d82d9afbfb2bcb57c9cf",
+    "verification/tooling-20261016T131239-7fc0c344/results.json": "af1ecf85087b2dd9d8d51c253f19806893376a967015d5e5d090f0855e50dfac",
+    "verification/tooling-20261016T131239-7fc0c344/summary.md": "0958f55c5a9d94b6cd89e7a2e98fb6bbf900086de9b07cf113d84605ecd7ff96",
+    "verification.md": "ce106040cbd9407b6f16fe615373010fb1ac4cf596fdd572fb9825a37c3a8936"
+  },
+  "docs_sha256": {
+    "docs/README.md": "7c737b96d038e0859b549fa3ae06e94b757f3f03291b66d26b253bcb3582e387",
+    "docs/api.md": "e353ec8082d98c07bb9875b862908424a3b7576241c09ffa41c456d78606ad4a",
+    "docs/architecture.md": "4707db2cc732715ac2cc5f217ffedad89a2ce673b37168b513a8f0c2c33a8b22",
+    "docs/database.md": "dbd7c8afbcfc9c1f388a3b862e57abc940002c3a525250f31cf45409a5dac65a",
+    "docs/development.md": "fd82607e98a6a89741b1eb29ccdbef1f97f9d3a19ded85fddf0d7dd1e49716c0",
+    "docs/domains.md": "dec01d5f468101499ee55e8dc360cdaf2d4eaa17e6cee243f6bba58d226bed76",
+    "docs/operations.md": "6de048d209e5373b274db228483ff8a046e81b7c112ce129d3e40f5b7e09bd17",
+    "docs/services.md": "b05a652a1e555a2ca9892bfb252e640105047cad263b53b01b924cd1c169eac9"
+  },
+  "snapshot_sha256": "cfaaac6d6a352e0f4accf97226d1f0a8ea3de8b80f131d80c35c48c1fde2b919",
+  "changed_pages": [
+    "docs/README.md",
+    "docs/api.md",
+    "docs/architecture.md",
+    "docs/database.md",
+    "docs/development.md",
+    "docs/domains.md",
+    "docs/operations.md",
+    "docs/services.md"
+  ],
+  "sections": {
+    "docs/README.md": {
+      "status": "updated",
+      "reason": "Обновлён реализованный срез T-5 и навигация к ADR 0005; исторические результаты T-3 отделены от новых доказательств проверки."
+    },
+    "docs/architecture.md": {
+      "status": "updated",
+      "reason": "Сверены границы catalog actor и runtime, общие shapes, точный pin definition и независимый CAS агрегатов; Mermaid сохраняет прежние доверенные слои."
+    },
+    "docs/domains.md": {
+      "status": "updated",
+      "reason": "Уточнены shape/definition и независимая применимость, неизменяемость форм и привязка использованного definition; правила DN, равенства и lifecycle сохранены."
+    },
+    "docs/services.md": {
+      "status": "updated",
+      "reason": "Описаны новые catalog routines и fact views с точными полномочиями читателей; общие формы не создают нового runtime-сервиса, взаимодействия сверены с кодом."
+    },
+    "docs/api.md": {
+      "status": "updated",
+      "reason": "Проверены реальные имена аргументов, defaults и возвращаемые данные новых SQL команд; явная версия string/DN, legacy no-op и примеры reuse соответствуют миграции 0004."
+    },
+    "docs/database.md": {
+      "status": "updated",
+      "reason": "Сверены все columns, CHECK, composite FK, индексы, guard и ACL; Mermaid отражает shared shape и точные pins. Описаны автоматические fingerprints, locks и ограничения reverse заполненной БД."
+    },
+    "docs/operations.md": {
+      "status": "updated",
+      "reason": "Runbook сверен с кодом: maintenance/drain, общий порядок locks, lock_timeout10s и override, precommit fingerprints, backup/fix-forward и disposable downgrade с потерей shape metadata."
+    },
+    "docs/development.md": {
+      "status": "updated",
+      "reason": "Описаны расширяемая схема без будущих validators, seeded upgrade/round-trip, проверка новых shapes и component evidence; сохранён принятый T-4 процесс docs review/archive."
+    }
+  }
+}

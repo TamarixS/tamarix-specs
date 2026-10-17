@@ -921,3 +921,207 @@ def test_ci_rejects_self_consistent_rewrite_of_historical_docs_evidence(workspac
     commit(workspace.store)
     with pytest.raises(gate.GateError, match="неизменяем"):
         gate.validate_archived(workspace.store, base)
+
+
+COMPONENT_SCENARIO = "Несовместимая структурная ссылка"
+COMPONENT_CRITERION = "БД SHALL отклонять несовместимую ссылку без частичной записи"
+COMPONENT_NODE = "tests/component/test_shape_fixture.py::test_shape_fk"
+COMPONENT_DESCRIPTION = "При чужой форме БД отклоняет запись; защищает декларативную ссылку от обхода."
+
+
+def prepare_component_evidence(workspace):
+    """Построить отдельный неизменный component artifact и полный integration fixture."""
+    checkout = workspace.store.parent / "db-control"
+    init_repo(checkout)
+    files = {
+        "src/db_control/core.py": "VALUE = 'component fixture'\n",
+        "src/db_control/shape.sql": "-- Изолированный SQL resource fixture.\n",
+        "tests/component/test_shape_fixture.py": 'def test_shape_fk():\n    """' + COMPONENT_DESCRIPTION + '"""\n    assert True\n',
+        "tools/run_tests.py": "# Одноразовый runner source snapshot.\n",
+    }
+    for relative, content in files.items():
+        path = checkout / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content)
+    revision = commit(checkout)
+    source_hashes = {path: gate.digest(content.encode()) for path, content in files.items() if path.startswith("src/") and path.endswith(".py")}
+    resource_hashes = {path: gate.digest(content.encode()) for path, content in files.items() if path.startswith("src/") and not path.endswith(".py")}
+    test_hashes = {path: gate.digest(content.encode()) for path, content in files.items() if not path.startswith("src/")}
+    provenance = dict(repository="db-control", commit=revision, clean=True, source_hashes=source_hashes,
+                      resource_hashes=resource_hashes, test_hashes=test_hashes)
+    delta = f"""## MODIFIED Requirements
+
+### Requirement: {REQUIREMENT}
+
+Система SHALL проверять опасный запрос и structural integrity.
+
+#### Scenario: {SCENARIO}
+
+- **WHEN** получен опасный запрос
+- **THEN** {CRITERION}
+
+#### Scenario: {COMPONENT_SCENARIO}
+
+- **WHEN** передана ссылка на несовместимую форму
+- **THEN** {COMPONENT_CRITERION}
+"""
+    prepare_delta(workspace, delta)
+    artifact = dict(version="0.1.0", python=platform.python_version(),
+                    packages={name: "fixture" for name in ("SQLAlchemy", "psycopg", "psycopg-binary", "alembic")})
+    workspace.report["manifest"]["db_control"] = dict(repo_root=str(checkout), commit=revision,
+        distribution="db-control", module="db_control", source_hashes=source_hashes, resource_hashes=resource_hashes,
+        artifact=artifact)
+    workspace.report["manifest"]["environment"]["scope"] = "postgresql-integration"
+    workspace.report["manifest"]["migrations"] = {"heads": ["fixture-head"]}
+    workspace.save_report()
+    report = dict(schema_version=1, report_type="component", complete=True, status="PASS", returncode=0,
+                  run_id="component-fixture-run", started_at="2026-10-14T09:00:00+00:00",
+                  finished_at="2026-10-14T09:00:01+00:00", duration_seconds=1.0,
+                  python=artifact["python"], versions={"db-control": artifact["version"], **artifact["packages"]},
+                  requested=["tests/component/test_shape_fixture.py"], collected_node_ids=[COMPONENT_NODE], errors=[],
+                  provenance=provenance, cases=[dict(node_id=COMPONENT_NODE, test_id=COMPONENT_NODE,
+                      description=COMPONENT_DESCRIPTION, status="PASS", duration_seconds=0.01, error=None)])
+    evidence = dict(schema_version=1, **provenance,
+                    test_sources={COMPONENT_NODE.split("::")[0]: files[COMPONENT_NODE.split("::")[0]]},
+                    cases=[dict(node_id=COMPONENT_NODE, description=COMPONENT_DESCRIPTION,
+                                links=[dict(spec=SPEC_PATH, requirement=REQUIREMENT,
+                                            scenario=COMPONENT_SCENARIO, criterion=COMPONENT_CRITERION)])])
+    (workspace.active / "component-summary.md").write_text("# Компонентный отчёт\n\nВсе обязательные проверки PostgreSQL прошли.\n")
+    save_component_fixture(workspace, evidence, report)
+    workspace.review_docs()
+    return checkout, evidence, report
+
+
+def save_component_fixture(workspace, evidence, report):
+    gate.atomic_json(workspace.active / "component-results.json", report)
+    evidence["report_sha256"] = gate.digest((workspace.active / "component-results.json").read_bytes())
+    evidence["summary_sha256"] = gate.digest((workspace.active / "component-summary.md").read_bytes())
+    gate.atomic_json(workspace.active / "component-evidence.json", evidence)
+
+
+def component_archive(workspace):
+    move = fake_archive(workspace)
+
+    def execute(command, **kwargs):
+        merged = gate.effective_spec(workspace.store, SPEC_PATH, CHANGE)
+        (workspace.store / SPEC_PATH).write_text("# access Specification\n\n## Requirements\n\n" + merged)
+        return move(command, **kwargs)
+    return execute
+
+
+def test_component_pass_completes_only_component_criterion_coverage(workspace):
+    """Полный db-control PASS дополняет один DB-only criterion при неизменном полном integration наборе.
+
+    Проверяет валидные source snapshots/provenance и точную связь с artifact;
+    component test не добавляется в integration registry или его счётчики.
+    """
+    prepare_component_evidence(workspace)
+    accepted = gate.check(workspace.store, workspace.tests, CHANGE, workspace.report_path)
+    assert len(accepted["cases"]) == 2
+    assert accepted["counts"] == {"PASS": 2, "total": 2}
+
+
+@pytest.mark.parametrize("mutation,description", [
+    pytest.param("missing", "Отсутствующий component report блокирует неполный bundle.", id="missing-report"),
+    pytest.param("tamper", "Изменённый байт отчёта блокируется его hash.", id="tampered-report"),
+    pytest.param("fail", "FAIL при самосогласованных внешних hashes не заменяет PASS.", id="failed-case"),
+    pytest.param("node", "Evidence не может ссылаться на node, которого нет в выполненном отчёте.", id="missing-node"),
+    pytest.param("collection", "Пустая коллекция не подтверждает строки PASS.", id="missing-collection"),
+    pytest.param("provenance", "Старый report без run-start provenance не получает новые hashes задним числом.", id="missing-run-start-provenance"),
+    pytest.param("commit", "Другой component commit не подтверждает integration artifact.", id="mismatched-commit"),
+    pytest.param("hashes", "Другие component resources не подтверждают integration artifact.", id="mismatched-resource"),
+    pytest.param("link", "Ссылка на отсутствующий criterion не закрывает traceability.", id="invalid-criterion-link"),
+    pytest.param("source", "Тест после прогона не может измениться даже при прежнем report hash.", id="stale-test-source"),
+])
+def test_invalid_component_evidence_blocks_gate(workspace, mutation, description):
+    """Портит дополнительное evidence согласно параметру и требует отказа gate без скрытого запуска тестов.
+
+    Кроме raw tamper/missing, пересчитывает внешние hashes: это доказывает
+    проверку смысла PASS, provenance, конкретного node и ссылки, а не одного SHA.
+    """
+    assert description
+    checkout, evidence, report = prepare_component_evidence(workspace)
+    if mutation == "missing":
+        (workspace.active / "component-results.json").unlink()
+    elif mutation == "tamper":
+        path = workspace.active / "component-results.json"
+        path.write_bytes(path.read_bytes() + b"\n")
+    else:
+        if mutation == "fail":
+            report["cases"][0]["status"] = "FAIL"
+        elif mutation == "node":
+            evidence["cases"][0]["node_id"] = "tests/component/test_shape_fixture.py::test_not_executed"
+        elif mutation == "collection":
+            report["collected_node_ids"] = []
+        elif mutation == "provenance":
+            del report["provenance"]
+        elif mutation == "commit":
+            report["provenance"]["commit"] = evidence["commit"] = "f" * 40
+        elif mutation == "hashes":
+            report["provenance"]["resource_hashes"] = evidence["resource_hashes"] = {"src/db_control/shape.sql": "f" * 64}
+        elif mutation == "link":
+            evidence["cases"][0]["links"][0]["criterion"] = "БД SHALL разрешать чужую форму"
+        elif mutation == "source":
+            (checkout / COMPONENT_NODE.split("::")[0]).write_text("def test_shape_fk():\n    assert False\n")
+        save_component_fixture(workspace, evidence, report)
+    with pytest.raises(gate.GateError):
+        gate.check(workspace.store, workspace.tests, CHANGE, workspace.report_path)
+
+
+def test_component_report_cannot_replace_missing_integration_case(workspace):
+    """Валидный component bundle не допускает неполный integration report; исходная защита полного регресса сохраняется."""
+    prepare_component_evidence(workspace)
+    workspace.report["cases"].pop()
+    workspace.save_report()
+    with pytest.raises(gate.GateError, match="полный обязательный набор"):
+        gate.check(workspace.store, workspace.tests, CHANGE, workspace.report_path)
+
+
+def test_archived_component_evidence_validates_without_source_checkouts(workspace):
+    """После archive удаляет db-control и tests checkout; CI принимает сохранённые sources и prospective archived delta.
+
+    Проверка доказывает независимость исторического component evidence от
+    локального пути manifest и доступности рабочей копии исходного runner.
+    """
+    checkout, _, _ = prepare_component_evidence(workspace)
+    base = git(workspace.store, "rev-parse", "HEAD")
+    gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "component-archive", execute=component_archive(workspace))
+    commit(workspace.store)
+    shutil.rmtree(checkout)
+    shutil.rmtree(workspace.tests)
+    assert gate.validate_archived(workspace.store, base)["archives_checked"] == 1
+
+
+@pytest.mark.parametrize("filename", gate.COMPONENT_FILES)
+def test_archived_component_snapshot_cannot_be_deleted(workspace, filename):
+    """Удаление любого из component evidence/report/summary отклоняется CI; каждое имя параметра — обязательный snapshot bundle."""
+    prepare_component_evidence(workspace)
+    outcome = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "component-delete", execute=component_archive(workspace))
+    base = commit(workspace.store)
+    (Path(outcome["archive_path"]) / filename).unlink()
+    commit(workspace.store)
+    with pytest.raises(gate.GateError):
+        gate.validate_archived(workspace.store, base)
+
+
+def test_archived_component_evidence_cannot_be_rewritten_self_consistently(workspace):
+    """Переписывает сохранённый component report и все внешние hashes; CI отклоняет изменение уже принятого immutable snapshot."""
+    prepare_component_evidence(workspace)
+    outcome = gate.archive(workspace.store, workspace.tests, CHANGE, workspace.report_path, "component-rewrite", execute=component_archive(workspace))
+    root = Path(outcome["archive_path"])
+    base = commit(workspace.store)
+    report_path = root / "component-results.json"
+    report = gate.read_json(report_path)
+    report["run_id"] = "rewritten-component-run"
+    gate.atomic_json(report_path, report)
+    evidence_path = root / "component-evidence.json"
+    evidence = gate.read_json(evidence_path)
+    evidence["report_sha256"] = gate.digest(report_path.read_bytes())
+    gate.atomic_json(evidence_path, evidence)
+    regression_path = root / "regression-evidence.json"
+    regression = gate.read_json(regression_path)
+    regression["component_sha256"] = gate.component_bundle(root)
+    gate.atomic_json(regression_path, regression)
+    commit(workspace.store)
+    with pytest.raises(gate.GateError, match="неизменяем"):
+        gate.validate_archived(workspace.store, base)
