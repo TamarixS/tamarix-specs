@@ -9,7 +9,7 @@ import hashlib
 import importlib.util
 import json
 import math
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import sys
@@ -496,12 +496,141 @@ def archive(store: Path, tests: Path, change: str, report_path: Path, operation_
     return value
 
 
+def _committed_bytes(store: Path, revision: str, relative: str) -> bytes | None:
+    result = subprocess.run(["git", "-C", str(store), "show", f"{revision}:{relative}"], capture_output=True)
+    return result.stdout if result.returncode == 0 else None
+
+
+def _archive_inventory_at(store: Path, revision: str, relative: str) -> dict[str, str] | None:
+    kind = subprocess.run(["git", "-C", str(store), "cat-file", "-t", f"{revision}:{relative}"], capture_output=True)
+    if kind.returncode or kind.stdout.strip() != b"tree":
+        return None
+    result = subprocess.run(["git", "-C", str(store), "ls-tree", "-r", "-z", revision, "--", relative], capture_output=True)
+    require(result.returncode == 0, "Не удалось прочитать исходный archive tree")
+    inventory = {}
+    for record in result.stdout.split(b"\0"):
+        if not record:
+            continue
+        metadata, raw_name = record.split(b"\t", 1)
+        mode, object_kind, object_id = metadata.decode().split()
+        name = raw_name.decode("utf-8")
+        require(mode in {"100644", "100755"} and object_kind == "blob" and name.startswith(relative + "/"),
+                "Исходный archive содержит symlink или неподдерживаемый объект")
+        blob = subprocess.run(["git", "-C", str(store), "cat-file", "blob", object_id], capture_output=True)
+        require(blob.returncode == 0, "Не удалось прочитать исходный archive blob")
+        inventory[name[len(relative) + 1:]] = digest(blob.stdout)
+    require(bool(inventory), "Исходный archive пуст")
+    return inventory
+
+
+def _archive_root_path(value: Any) -> str:
+    require(isinstance(value, str) and "\\" not in value, "Некорректный relocation path")
+    path = PurePosixPath(value)
+    require(path.as_posix() == value and len(path.parts) == 4
+            and path.parts[:3] == ("openspec", "changes", "archive")
+            and bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*", path.name)),
+            "Relocation path выходит за пределы archive root")
+    return value
+
+
+def _relocation_list(payload: Any) -> list[dict]:
+    require(isinstance(payload, dict) and payload.get("schema_version") == 1
+            and isinstance(payload.get("relocations"), list), "Некорректный archive relocation ledger")
+    require(all(isinstance(entry, dict) for entry in payload["relocations"]), "Некорректная relocation entry")
+    return payload["relocations"]
+
+
+def validate_archive_relocations(store: Path, base: str) -> dict[str, dict]:
+    """Проверить переименование относительно frozen Git trees, не переписывая их IDs."""
+    ledger_relative = "openspec/archive-relocations.json"
+    ledger_path = store / ledger_relative
+    require(not ledger_path.is_symlink(), "Relocation ledger не должен быть symlink")
+    prior_bytes = _committed_bytes(store, base, ledger_relative)
+    try:
+        previous = _relocation_list(json.loads(prior_bytes)) if prior_bytes is not None else []
+    except (ValueError, TypeError) as exc:
+        raise GateError("Некорректный предыдущий relocation ledger") from exc
+    require(ledger_path.is_file() or not previous, "Исторический relocation ledger нельзя удалить")
+    entries = _relocation_list(read_json(ledger_path)) if ledger_path.is_file() else []
+    require(all(isinstance(entry.get("from"), str) for entry in previous), "Некорректный предыдущий relocation path")
+    previous_by_original = {entry["from"]: entry for entry in previous}
+    seen = set()
+    result = {}
+    for entry in entries:
+        required = {"from", "to", "change", "display_change", "source_commit", "files_sha256"}
+        require(required <= entry.keys() and set(entry) <= required | {"compatibility_symlink"}, "Неполная relocation entry")
+        original, target = (_archive_root_path(entry[name]) for name in ("from", "to"))
+        require(original != target and not ({original, target} & seen), "Повтор, overlap или цепочка relocation paths")
+        seen.update((original, target))
+        require(isinstance(entry["change"], str) and bool(re.fullmatch(r"[a-z0-9][a-z0-9-]*", entry["change"]))
+                and original.endswith("-" + entry["change"]), "Исходная relocation identity не совпадает")
+        require(isinstance(entry["display_change"], str) and bool(re.fullmatch(r"[a-z0-9][a-z0-9-]*", entry["display_change"]))
+                and target.endswith("-" + entry["display_change"]), "Отображаемая relocation identity не совпадает")
+        require_sha(entry["source_commit"], "relocation source")
+        ancestry = subprocess.run(["git", "-C", str(store), "merge-base", "--is-ancestor", entry["source_commit"], base], capture_output=True)
+        require(ancestry.returncode == 0, "Relocation source_commit не является предком BASE")
+        if original not in previous_by_original:
+            target_exists = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{target}"], capture_output=True)
+            require(target_exists.returncode != 0, "Новая relocation target уже существует в BASE")
+        source = _archive_inventory_at(store, entry["source_commit"], original)
+        require(source is not None, "Исходный archive отсутствует в source_commit")
+        files = entry["files_sha256"]
+        require(isinstance(files, dict) and files == source, "Relocation inventory не соответствует исходному archive tree")
+        source_evidence = _committed_bytes(store, entry["source_commit"], original + "/regression-evidence.json")
+        try:
+            require(source_evidence is not None and json.loads(source_evidence).get("change") == entry["change"],
+                    "Relocation change не соответствует исходному regression evidence")
+        except (ValueError, AttributeError) as exc:
+            raise GateError("Некорректный исходный regression evidence relocation") from exc
+        historical = original if _archive_inventory_at(store, base, original) is not None else target
+        require(_archive_inventory_at(store, base, historical) == source,
+                "Archive в BASE не соответствует relocation source tree")
+        old_path, new_path = store / original, store / target
+        for parent in new_path.parents:
+            if parent == store:
+                break
+            require(not parent.is_symlink(), "Relocation parent не должен быть symlink")
+        require(new_path.is_dir() and not new_path.is_symlink(), "Relocation target должен быть физическим каталогом")
+        alias = entry.get("compatibility_symlink")
+        if alias is None:
+            require(not old_path.exists() and not old_path.is_symlink(), "Исходный relocation path должен отсутствовать")
+        else:
+            require(isinstance(alias, str) and alias == new_path.name and old_path.is_symlink()
+                    and str(old_path.readlink()) == alias and old_path.resolve() == new_path.resolve(),
+                    "Некорректный compatibility symlink relocation")
+        actual = {}
+        for path in new_path.rglob("*"):
+            require(not path.is_symlink(), "Relocation archive содержит symlink")
+            require(path.is_file() or path.is_dir(), "Relocation archive содержит неподдерживаемый объект")
+            if path.is_file():
+                actual[path.relative_to(new_path).as_posix()] = digest(path.read_bytes())
+        require(actual == files, "Relocation archive files изменены, добавлены или удалены")
+        result[target] = {"entry": entry, "historical": historical}
+    by_original = {value["entry"]["from"]: value["entry"] for value in result.values()}
+    require(all(entry.get("from") in by_original and by_original[entry["from"]] == entry for entry in previous),
+            "Исторические relocation entries неизменяемы и не могут удаляться")
+    archive_directory = store / "openspec/changes/archive"
+    if archive_directory.is_dir():
+        aliases = {value["entry"]["from"] for value in result.values() if "compatibility_symlink" in value["entry"]}
+        for path in archive_directory.iterdir():
+            if path.is_symlink():
+                require(path.relative_to(store).as_posix() in aliases, "Archive symlink не подтверждён relocation ledger")
+    return result
+
+
 def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
+    relocations = validate_archive_relocations(store, base)
+    relocated_roots = {source: target for target, item in relocations.items()
+                       for source in (item["entry"]["from"], target)}
     names = git(store, "diff", "--name-only", "--no-renames", "--diff-filter=AMD", base, head, "--", "openspec/changes/archive").splitlines()
     roots = sorted({str(Path(name).parent) for name in names if Path(name).name == "regression-evidence.json"})
     changed_roots = sorted({"/".join(Path(name).parts[:4]) for name in names if len(Path(name).parts) >= 5})
+    changed_roots = sorted({relocated_roots.get(relative, relative) for relative in changed_roots})
     new_docs_reviews = []
     for relative in changed_roots:
+        relocation = relocations.get(relative)
+        historical_relative = relocation["historical"] if relocation else relative
+        identity_relative = relocation["entry"]["from"] if relocation else relative
         root = safe_path(store, relative)
         require((root / "regression-evidence.json").is_file(), f"Прямой archive без evidence: {relative}")
         require(relative in roots or (root / "regression-evidence.json").is_file(), "Archive evidence отсутствует")
@@ -516,19 +645,19 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
         require(evidence.get("registry_sha256") == digest(data) == report.get("registry_sha256"), "Archived registry hash не совпадает")
         require(evidence.get("run_id") == report.get("run_id"), "Archived run ID не совпадает")
         change = evidence.get("change")
-        require(isinstance(change, str) and relative.endswith("-" + change), "Archive change ID не совпадает")
-        existed = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}"], capture_output=True).returncode == 0
+        require(isinstance(change, str) and identity_relative.endswith("-" + change), "Archive change ID не совпадает")
+        existed = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{historical_relative}"], capture_output=True).returncode == 0
         component_sha = component_bundle(root)
         require(evidence.get("component_sha256", {}) == component_sha, "Archived component bundle hash отсутствует/изменён")
-        had_component = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}/component-evidence.json"], capture_output=True).returncode == 0
+        had_component = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{historical_relative}/component-evidence.json"], capture_output=True).returncode == 0
         if had_component:
             for filename in COMPONENT_FILES:
-                previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{relative}/{filename}"], capture_output=True)
+                previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{historical_relative}/{filename}"], capture_output=True)
                 require(previous.returncode == 0 and (root / filename).is_file() and previous.stdout == (root / filename).read_bytes(),
                         "Исторический component evidence неизменяем: " + filename)
-            previous_evidence = json.loads(git_text(store, base, relative + "/regression-evidence.json"))
+            previous_evidence = json.loads(git_text(store, base, historical_relative + "/regression-evidence.json"))
             require(previous_evidence.get("component_sha256") == evidence.get("component_sha256"), "Исторический component bundle hash изменён")
-        had_docs_review = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{relative}/docs-review.json"], capture_output=True).returncode == 0
+        had_docs_review = subprocess.run(["git", "-C", str(store), "cat-file", "-e", f"{base}:{historical_relative}/docs-review.json"], capture_output=True).returncode == 0
         docs_review = root / "docs-review.json"
         if not existed or had_docs_review or docs_review.exists() or evidence.get("docs_review_sha256"):
             require(docs_review.is_file(), "Новый archive без docs-review.json")
@@ -537,10 +666,10 @@ def validate_archived(store: Path, base: str, head: str = "HEAD") -> dict:
             require(snapshot.is_file() and evidence.get("docs_snapshot_sha256") == digest(snapshot.read_bytes()), "Archived docs snapshot/hash отсутствует или изменён")
             if had_docs_review:
                 for filename in ("docs-review.json", "docs-snapshot.json"):
-                    previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{relative}/{filename}"], capture_output=True)
+                    previous = subprocess.run(["git", "-C", str(store), "show", f"{base}:{historical_relative}/{filename}"], capture_output=True)
                     require(previous.returncode == 0 and previous.stdout == (root / filename).read_bytes(),
                             f"Исторический docs evidence неизменяем: {filename}")
-                previous_evidence = json.loads(git_text(store, base, relative + "/regression-evidence.json"))
+                previous_evidence = json.loads(git_text(store, base, historical_relative + "/regression-evidence.json"))
                 for field in ("docs_review_sha256", "docs_snapshot_sha256"):
                     require(previous_evidence.get(field) == evidence.get(field), "Исторический docs evidence hash изменён")
             review = check_documentation(store, change, root, current_docs=False)

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "relocations": [
+    {
+      "from": "openspec/changes/archive/2026-10-17-post-archive-hook",
+      "to": "openspec/changes/archive/2026-10-17-t-cd-2-db-change",
+      "change": "post-archive-hook",
+      "display_change": "t-cd-2-db-change",
+      "source_commit": "bfe5ec91db44a6d638ab53a3e60bfdcecee314f8",
+      "compatibility_symlink": "2026-10-17-t-cd-2-db-change",
+      "files_sha256": {
+        ".openspec.yaml": "291cce2c4dd592c685b5a4ba44cd2bb26d5c9177ec67cba11537a34e073e06b2",
+        "archive-completion.json": "548a87de56cdb0593d706e37ee487530a7cfcc2e0a99554855caee1f84730417",
+        "design.md": "e955e5f26a7b3a224fe4f825ca2cc81b0eb3dc121e1cb94b726e1d72f76f3e35",
+        "docs-review.json": "7eef9e8e7beb3f0d18f163beb6f324a712464550e355ea4d2be86f74b1a0aa87",
+        "docs-snapshot.json": "0d5a0b8be30e9c4554e9affc007182cca1fc6b7051d29059cea203ec18f80043",
+        "evidence/central-tools/junit.xml": "235feca0c9854afe718e092e2e68defcee063fb9e0e9f862051151f6ff679297",
+        "evidence/central-tools/pytest.log": "87c4c84a722c22a7a053111150b54370a8b4638285e760f5105d38b318aea9af",
+        "evidence/central-tools/results.json": "c0f932e61bd789bf401fbaa7bf5e5d00c116c0326a5f1bb6695e9c4a07d09425",
+        "evidence/central-tools/sha256.json": "1d777accbb0562345444730549a35cea94c25761cda6d580f2d27c39335beabd",
+        "evidence/central-tools/summary.md": "24f29127270a7ad5eb93a975fac920f4311afecd661b89577f448293fcf0ef83",
+        "proposal.md": "b64b11ddf6781a8a1be04cb236de9f924de7c801631aba829f003f6626016225",
+        "regression-evidence.json": "4a3884527a05e464064ce5dd1472f5e0a53009efb258f6697f258a852cab6fb7",
+        "regression-registry.yaml": "e74b8c4baf01502574c39248b4deb2811ef8584f162b3e508f9ee576bab730e1",
+        "run-manifest.json": "a8685f88cf9586d91dc1e7bb1313f429a22f5abe814e5f5e49c9daa72a6a9c61",
+        "run-results.json": "ff13c64366bfb743f7a57b7fd62f273448bdbafee0a12dec481620f8a0853556",
+        "run-summary.md": "be61e51287979763a38be9603988b2b187ac8d9172dd43c092b37b2a9a4dcfb8",
+        "tasks.md": "15908e47fa983ccf1973b6f846fbc60e1d3f1b85ca5efb45168c6700a57a5f53",
+        "verification.md": "2c5e0b8c37b5f85be539c8c8ec96e1c96e09fd07b08d9c00fcb7d6944e44cdc0"
+      }
+    }
+  ]
+}

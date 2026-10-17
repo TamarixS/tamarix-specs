@@ -211,6 +211,46 @@ Git не задаёт порядок нескольких archives внутри 
 запрещена. Дополнительно проверяются snapshot change и целостность review. Проверки
 существующего regression evidence сохраняются. Исторические архивы не переписываются.
 
+### Переименование исторического каталога
+
+Побайтно неизменный archive можно перенести в новый физический каталог, сохранив
+исходный change ID в report, registry, review, snapshot и operation record.
+Например, отображаемому имени `T-CD-2-db-change` соответствует каталог
+`2026-10-17-t-cd-2-db-change`; исходный `post-archive-hook` остаётся исторической
+identity evidence. Такой перенос подтверждается файлом
+`openspec/archive-relocations.json`: объектом с `schema_version: 1` и массивом
+`relocations`. Каждая запись содержит следующие поля:
+
+| Поле | Проверяемое значение |
+| --- | --- |
+| `from`, `to` | Разные точные пути `openspec/changes/archive/YYYY-MM-DD-slug`; без traversal, пересечений и цепочек |
+| `change` | Исходный ID из `regression-evidence.json`, совпадающий с суффиксом `from` |
+| `display_change` | Новый slug, совпадающий с суффиксом `to` |
+| `source_commit` | Полный Git SHA из 40 символов, предок проверяемого BASE |
+| `files_sha256` | Полный словарь относительных файлов archive и SHA-256 их исходных bytes |
+| `compatibility_symlink` | Необязательный точный basename `to`, если прежний путь сохраняет совместимость |
+
+Gate независимо читает исходное дерево `source_commit:from`, сверяет полный
+состав и bytes с ledger, состоянием BASE и физическим target. Для новой записи
+`to` должен отсутствовать в BASE как любой Git object: перенос не заменяет другой
+исторический archive. После принятого переноса будущие проверки используют
+физическое дерево `BASE:to`. Записи ledger, уже существующие в BASE, нельзя
+менять или удалять. Пересчёт hashes после изменения содержимого не подтверждает
+перенос: source tree остаётся независимым anchor.
+
+Без `compatibility_symlink` старый путь должен отсутствовать. С этим полем
+разрешена только Git symlink по `from` с точным относительным basename нового
+физического каталога `to` (mode `120000`); произвольные, внешние и промежуточные
+ссылки запрещены. Внутри target и его родительских каталогов symlinks также
+запрещены. Alias сохраняет старые Markdown ссылки и повтор завершённой операции
+через неизменённый `.archive-operations/<id>.json`.
+
+Удалённые файлы `from` и добавленные файлы `to` проверяются как один прежний
+archive. Для чистого переноса не создаются новые review/snapshot, не изменяются
+архивные файлы и не требуются текущие docs hashes вместо исторических. Обычные
+проверки сохранённого evidence продолжают действовать; waiver не вводится.
+`validate-archives` остаётся проверкой файлов и Git, без запуска доставки и тестов.
+
 Для публичного `TamarixS/tamarix-specs` job `archive-evidence` установлен как
 required check main от GitHub Actions app 15368, strict/enforce_admins включены
 по [evidence T-2](../openspec/changes/archive/2026-10-15-t-2-e2e-tests/github-required-check-evidence.json).
